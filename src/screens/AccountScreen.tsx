@@ -1,6 +1,8 @@
 import { View, Text, FlatList, ListRenderItemInfo } from 'react-native';
 import React from 'react';
 import Transaction from '../components/Transaction';
+import { styles } from '../themes/WalletTheme';
+import useAccount from '../hooks/useAccount';
 
 interface Movement {
   id: string;
@@ -56,9 +58,15 @@ const AccountScreen = () => {
       income={item.income}
     />
   );
+
+  const { currencyFormat } = useAccount();
+
   return (
-    <View>
-      <Text>Home</Text>
+    <View styles={{ backgroundColor: 'white' }}>
+      <View style={styles.balanceContainer}>
+        <Text style={styles.balanceText}>{currencyFormat(180576070)}</Text>
+        <Text>Balance in your account</Text>
+      </View>
       <FlatList
         data={movements}
         renderItem={renderTransactions}
