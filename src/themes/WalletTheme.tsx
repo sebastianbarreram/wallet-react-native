@@ -42,4 +42,17 @@ export const styles = StyleSheet.create({
     color: 'red',
     fontWeight: 'bold',
   },
+  balanceText: {
+    fontSize: 60,
+    color: 'black',
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    padding: 20,
+    paddingBottom: 0,
+  },
+  balanceContainer: {
+    height: 150,
+    alignItems: 'stretch',
+    // backgroundColor: 'green',
+  },
 });
