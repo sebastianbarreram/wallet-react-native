@@ -9,19 +9,20 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   reason: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 'bold',
     color: 'black',
+    paddingRight: 5,
   },
   date: {
-    fontSize: 20,
+    fontSize: 18,
     // fontWeight: 'bold',
     color: '#666666',
   },
   image: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
   },
   textContainer: {
     flex: 1,
@@ -33,12 +34,12 @@ export const styles = StyleSheet.create({
     backgroundColor: 'green',
   },
   incomeAmount: {
-    fontSize: 20,
+    fontSize: 18,
     color: '#228922',
     fontWeight: 'bold',
   },
   outcomeAmount: {
-    fontSize: 20,
+    fontSize: 18,
     color: 'red',
     fontWeight: 'bold',
   },

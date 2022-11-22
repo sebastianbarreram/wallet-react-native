@@ -9,7 +9,6 @@ import Icon3MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import AccountScreen from '../screens/AccountScreen';
 import LoansScreen from '../screens/LoansScreen';
 import PaymentScreen from '../screens/PaymentScreen';
-import { styles } from '../themes/WalletTheme';
 
 const Tab = createBottomTabNavigator();
 

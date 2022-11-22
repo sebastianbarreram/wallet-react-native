@@ -38,7 +38,9 @@ const Transaction = ({
         />
       </View>
       <View style={styles.textContainer}>
-        <Text style={styles.reason}>{title}</Text>
+        <Text style={styles.reason} numberOfLines={1}>
+          {title}
+        </Text>
         <Text style={styles.date}>{date}</Text>
       </View>
 
