@@ -33,7 +33,7 @@ const Transaction = ({
       <View>
         <Image
           source={{ uri: image }}
-          // source={require('../assets/Pack 108 Pepsicards marvel/1F5.jpg')} donde ubico el archivo para que lo tome?
+          // source={require('../assets/images/9E2.jpg')}
           style={styles.image}
         />
       </View>

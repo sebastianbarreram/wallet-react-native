@@ -1,6 +1,5 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { NavigationContainer } from '@react-navigation/native';
 import IconIonicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Icon3MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -12,7 +11,7 @@ import PaymentScreen from '../screens/PaymentScreen';
 
 const Tab = createBottomTabNavigator();
 
-function MyTabs() {
+export const TabNavigator = () => {
   return (
     <Tab.Navigator
       initialRouteName="Home"
@@ -20,7 +19,9 @@ function MyTabs() {
         tabBarActiveTintColor: 'white',
         tabBarStyle: {
           backgroundColor: '#1554f7',
+          height: 52,
         },
+        headerShown: false,
       }}>
       <Tab.Screen
         name="My App"
@@ -50,6 +51,7 @@ function MyTabs() {
           tabBarLabelStyle: {
             fontSize: 15,
           },
+          headerShown: false,
         }}
       />
       <Tab.Screen
@@ -62,16 +64,9 @@ function MyTabs() {
           tabBarLabelStyle: {
             fontSize: 15,
           },
+          headerShown: false,
         }}
       />
     </Tab.Navigator>
   );
-}
-
-export default function TabNavigator() {
-  return (
-    <NavigationContainer>
-      <MyTabs />
-    </NavigationContainer>
-  );
-}
+};

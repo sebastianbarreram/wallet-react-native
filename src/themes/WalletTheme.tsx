@@ -56,4 +56,21 @@ export const styles = StyleSheet.create({
     alignItems: 'stretch',
     // backgroundColor: 'green',
   },
+  logo: {
+    width: 140,
+    height: 140,
+  },
+  containerLaunchScreen: {
+    backgroundColor: 'white',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  titleAppLaunchScreen: {
+    color: 'black',
+    fontSize: 30,
+    fontWeight: '400',
+    position: 'absolute',
+    bottom: '8.75%',
+  },
 });

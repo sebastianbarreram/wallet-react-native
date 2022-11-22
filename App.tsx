@@ -1,15 +1,23 @@
+import { TabNavigator } from './src/navigation/TabNavigator';
 import React from 'react';
+import 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native';
 import AccountScreen from './src/screens/AccountScreen';
-import TabNavigator from './src/navigation/TabNavigator';
+import { NavigationContainer } from '@react-navigation/native';
+import { LaunchScreen } from './src/screens/LaunchScreen';
+import DrawerNavigator from './src/navigation/DrawerNavigation';
 
 const App = () => {
   return (
     // <SafeAreaView style={styles.container}>
     // <SafeAreaView>
-    //   <AccountScreen />
+    // <AccountScreen />
+    // <LaunchScreen />
     // </SafeAreaView>
-    <TabNavigator />
+    <NavigationContainer>
+      {/* <TabNavigator /> */}
+      <DrawerNavigator />
+    </NavigationContainer>
   );
 };
 
