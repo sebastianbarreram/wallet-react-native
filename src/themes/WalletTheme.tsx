@@ -73,4 +73,10 @@ export const styles = StyleSheet.create({
     position: 'absolute',
     bottom: '8.75%',
   },
+  logoLogin: {
+    position: 'absolute',
+    top: '11%',
+    borderColor: 'blue',
+    flex: 1,
+  },
 });

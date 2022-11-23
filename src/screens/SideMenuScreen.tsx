@@ -1,86 +1,83 @@
-import { View, Text, Button, Image, TouchableOpacity } from 'react-native';
+import { View, Text, Button, Image, StyleSheet } from 'react-native';
 import React from 'react';
 import { MyDrawerScreenProps } from '../interfaces/MyDrawerScreenProps';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import SideMenuButton from '../components/SideMenuButton';
 
 export const SideMenuScreen = ({ navigation }: MyDrawerScreenProps) => {
   const avatarImage = 'https://reactjs.org/logo-og.png';
   const nombre = 'Sutanita Mejía';
   return (
-    <View>
+    <View style={styles.mainContainer}>
       <Image
         source={{ uri: avatarImage }}
         // source={require('../assets/images/9E2.jpg')}
-        style={{
-          width: 120,
-          height: 120,
-          borderRadius: 600,
-          alignSelf: 'center',
-          margin: 10,
-          marginTop: 30,
-        }}
+        style={styles.avatarImage}
       />
-      <Text
-        style={{
-          fontSize: 23,
-          alignSelf: 'center',
-          fontWeight: '500',
-          color: 'black',
-          marginBottom: 60,
-        }}>
-        {nombre}
-      </Text>
+      <Text style={styles.textAccountName}>{nombre}</Text>
       <Button
-        title="Ir a Pantalla 1"
+        title="Ir a Launch Screen"
+        onPress={() => navigation.navigate('Launch')}
+      />
+      <Button
+        title="Ir a Login User Screen"
+        onPress={() => navigation.navigate('LoginUser')}
+      />
+      <Button
+        title="Ir a Login Password Screen"
+        onPress={() => navigation.navigate('LoginPassword')}
+      />
+      <Button
+        title="Ir a Pantalla Home"
         onPress={() => navigation.navigate('Home')}
       />
-      <Button
-        title="Ir a Pantalla 2"
-        onPress={() => navigation.navigate('Loans')}
+      <SideMenuButton
+        iconName="settings"
+        text="Change password"
+        color="rgba(0, 0, 0, 0.6)"
       />
-      <Button
-        title="Ir a Pantalla 3"
-        onPress={() => navigation.navigate('Payment')}
+      <SideMenuButton
+        iconName="bookmark"
+        text="Theme options"
+        color="rgba(0, 0, 0, 0.6)"
       />
-      <TouchableOpacity onPress={() => {}} style={{ paddingVertical: 15 }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Icon name="settings" size={22} />
-          <Text
-            style={{
-              fontSize: 15,
-              fontFamily: 'Roboto-Medium',
-              marginLeft: 5,
-            }}>
-            Sign Out
-          </Text>
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => {}} style={{ paddingVertical: 15 }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Icon name="bookmark" size={22} />
-          <Text
-            style={{
-              fontSize: 15,
-              fontFamily: 'Roboto-Medium',
-              marginLeft: 5,
-            }}>
-            Sign Out
-          </Text>
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => {}} style={{ paddingVertical: 15 }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Icon name="logout" size={22} />
-          <Text
-            style={{
-              fontSize: 15,
-              fontFamily: 'Roboto-Medium',
-              marginLeft: 5,
-            }}>
-            Sign Out
-          </Text>
-        </View>
-      </TouchableOpacity>
+      <SideMenuButton
+        iconName="logout"
+        text="Logout"
+        color="rgba(0, 0, 0, 0.6)"
+      />
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  mainContainer: {
+    height: '100%',
+    flexDirection: 'column',
+    padding: 16,
+    backgroundColor: 'white',
+  },
+  avatarImage: {
+    width: 120,
+    height: 120,
+    borderRadius: 600,
+    alignSelf: 'center',
+    margin: 10,
+    marginTop: 30,
+  },
+  textAccountName: {
+    fontSize: 23,
+    alignSelf: 'center',
+    fontWeight: '500',
+    color: 'black',
+    marginBottom: 60,
+  },
+  buttonContainer: {
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: 'white',
+    height: 48,
+    textAlignVertical: 'center',
+    fontWeight: '500',
+  },
+});

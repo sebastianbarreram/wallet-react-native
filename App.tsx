@@ -6,16 +6,18 @@ import AccountScreen from './src/screens/AccountScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import { LaunchScreen } from './src/screens/LaunchScreen';
 import DrawerNavigator from './src/navigation/DrawerNavigation';
+import { LoginUserScreen } from './src/screens/LoginUserScreen';
+import { LoginPasswordScreen } from './src/screens/LoginPasswordScreen';
 
 const App = () => {
   return (
     // <SafeAreaView style={styles.container}>
     // <SafeAreaView>
-    // <AccountScreen />
-    // <LaunchScreen />
+    //   <LoginPasswordScreen />
     // </SafeAreaView>
+
+    //Este va a ser el final final...
     <NavigationContainer>
-      {/* <TabNavigator /> */}
       <DrawerNavigator />
     </NavigationContainer>
   );
