@@ -1,8 +1,8 @@
 import { View, Text, Button } from 'react-native';
 import React from 'react';
-import { MyDrawerScreenProps } from '../interfaces/MyDrawerScreenProps';
+import { MyStackScreenProps } from '../interfaces/MyStackScreenProps';
 
-const LoansScreen = ({ navigation }: MyDrawerScreenProps) => {
+const LoansScreen = ({ navigation }: MyStackScreenProps) => {
   return (
     <View>
       <Text>Loans</Text>
