@@ -1,15 +1,21 @@
 import {
+  Pressable,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import Logo from '../components/Logo';
 import { AuthButton } from '../components/AuthButton';
+import usePasswordVisibility from '../hooks/usePasswordVisibility';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export const LoginPasswordScreen = () => {
+  const { passwordVisibility, rightIcon, handlePasswordVisibility } =
+    usePasswordVisibility();
+  const [password, setPassword] = useState('');
   return (
     <View style={styles.mainContainer}>
       <View style={styles.logoContainer}>
@@ -23,7 +29,14 @@ export const LoginPasswordScreen = () => {
           style={styles.input}
           placeholder={'Password'}
           placeholderTextColor="rgba(0, 0, 0, 0.38)"
+          autoCapitalize="none"
+          secureTextEntry={passwordVisibility}
+          textContentType={'password'}
+          onChangeText={text => setPassword(text)}
         />
+        <Pressable onPress={handlePasswordVisibility}>
+          <Icon name={rightIcon} size={22} color="#232323" />
+        </Pressable>
       </View>
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.button}>
@@ -58,6 +71,9 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     borderStyle: 'solid',
     borderColor: 'rgba(0, 0, 0, 0.38)',
+    backgroundColor: 'white',
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   input: {
     textAlignVertical: 'center',
@@ -65,6 +81,7 @@ const styles = StyleSheet.create({
     marginLeft: 12,
     color: 'black',
     fontSize: 16,
+    width: '82dsa%',
   },
   line: {
     flex: 1,
