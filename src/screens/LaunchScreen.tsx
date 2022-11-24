@@ -1,9 +1,13 @@
 import { Text, View } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import Logo from '../components/Logo';
 import { styles } from '../themes/WalletTheme';
+import { MyStackScreenProps } from '../interfaces/MyStackScreenProps';
 
-export const LaunchScreen = () => {
+export const LaunchScreen = ({ navigation }: MyStackScreenProps) => {
+  useEffect(() => {
+    setTimeout(() => navigation.navigate('LoginUser'), 3000);
+  });
   return (
     <View style={styles.containerLaunchScreen}>
       <Logo />

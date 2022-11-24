@@ -8,9 +8,9 @@ import {
 import React from 'react';
 import Logo from '../components/Logo';
 import { AuthButton } from '../components/AuthButton';
-import { MyDrawerScreenProps } from '../interfaces/MyDrawerScreenProps';
+import { MyStackScreenProps } from '../interfaces/MyStackScreenProps';
 
-export const LoginUserScreen = ({ navigation }: MyDrawerScreenProps) => {
+export const LoginUserScreen = ({ navigation }: MyStackScreenProps) => {
   return (
     <View style={styles.mainContainer}>
       <View style={styles.logoContainer}>

@@ -11,9 +11,9 @@ import Logo from '../components/Logo';
 import { AuthButton } from '../components/AuthButton';
 import usePasswordVisibility from '../hooks/usePasswordVisibility';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { MyDrawerScreenProps } from '../interfaces/MyDrawerScreenProps';
+import { MyStackScreenProps } from '../interfaces/MyStackScreenProps';
 
-export const LoginPasswordScreen = ({ navigation }: MyDrawerScreenProps) => {
+export const LoginPasswordScreen = ({ navigation }: MyStackScreenProps) => {
   const { passwordVisibility, rightIcon, handlePasswordVisibility } =
     usePasswordVisibility();
   const [password, setPassword] = useState('');

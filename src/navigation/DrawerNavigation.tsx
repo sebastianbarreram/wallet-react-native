@@ -13,14 +13,38 @@ const Drawer = createDrawerNavigator();
 export default function DrawerNavigator() {
   return (
     <Drawer.Navigator
-      initialRouteName="Home"
+      initialRouteName="Launch"
       drawerContent={props => <SideMenuScreen {...props} />}>
       <Drawer.Screen name="Home" component={TabNavigator} />
       <Drawer.Screen name="Loans" component={LoansScreen} />
       <Drawer.Screen name="Payment" component={PaymentScreen} />
-      <Drawer.Screen name="LoginUser" component={LoginUserScreen} />
-      <Drawer.Screen name="LoginPassword" component={LoginPasswordScreen} />
-      <Drawer.Screen name="Launch" component={LaunchScreen} />
+      <Drawer.Screen
+        name="LoginUser"
+        component={LoginUserScreen}
+        options={{
+          drawerItemStyle: { display: 'none' },
+          headerShown: false,
+          swipeEnabled: false,
+        }}
+      />
+      <Drawer.Screen
+        name="LoginPassword"
+        component={LoginPasswordScreen}
+        options={{
+          drawerItemStyle: { display: 'none' },
+          headerShown: false,
+          swipeEnabled: false,
+        }}
+      />
+      <Drawer.Screen
+        name="Launch"
+        component={LaunchScreen}
+        options={{
+          drawerItemStyle: { display: 'none' },
+          headerShown: false,
+          swipeEnabled: false,
+        }}
+      />
     </Drawer.Navigator>
   );
 }
