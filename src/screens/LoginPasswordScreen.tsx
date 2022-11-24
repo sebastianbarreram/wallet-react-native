@@ -11,8 +11,9 @@ import Logo from '../components/Logo';
 import { AuthButton } from '../components/AuthButton';
 import usePasswordVisibility from '../hooks/usePasswordVisibility';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { MyDrawerScreenProps } from '../interfaces/MyDrawerScreenProps';
 
-export const LoginPasswordScreen = () => {
+export const LoginPasswordScreen = ({ navigation }: MyDrawerScreenProps) => {
   const { passwordVisibility, rightIcon, handlePasswordVisibility } =
     usePasswordVisibility();
   const [password, setPassword] = useState('');
@@ -39,7 +40,9 @@ export const LoginPasswordScreen = () => {
         </Pressable>
       </View>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate('Home')}>
           <Text style={styles.buttonText}>LOGIN</Text>
         </TouchableOpacity>
       </View>

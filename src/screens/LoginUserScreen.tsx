@@ -8,8 +8,9 @@ import {
 import React from 'react';
 import Logo from '../components/Logo';
 import { AuthButton } from '../components/AuthButton';
+import { MyDrawerScreenProps } from '../interfaces/MyDrawerScreenProps';
 
-export const LoginUserScreen = () => {
+export const LoginUserScreen = ({ navigation }: MyDrawerScreenProps) => {
   return (
     <View style={styles.mainContainer}>
       <View style={styles.logoContainer}>
@@ -26,7 +27,9 @@ export const LoginUserScreen = () => {
         />
       </View>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate('LoginPassword')}>
           <Text style={styles.buttonText}>CONTINUE</Text>
         </TouchableOpacity>
       </View>
