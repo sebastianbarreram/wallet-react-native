@@ -9,6 +9,7 @@ import React from 'react';
 import useAccount from '../hooks/useAccount';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { MyStackScreenProps } from '../interfaces/MyStackScreenProps';
+import InputTextContainer from '../components/InputTextContainer';
 
 const LoansScreen = ({ navigation }: MyStackScreenProps) => {
   const { currencyFormat } = useAccount();
@@ -24,7 +25,13 @@ const LoansScreen = ({ navigation }: MyStackScreenProps) => {
           <Text style={styles.balanceText}>{currencyFormat(50000000)}</Text>
         </View>
       </View>
-      <View style={styles.maxLoanAmountContainer}>
+
+      <InputTextContainer
+        style={styles.maxLoanAmountContainer}
+        iconName="credit-card"
+        placeHolder="Amount"
+      />
+      {/* <View style={styles.maxLoanAmountContainer}>
         <View style={styles.icon}>
           <Icon name="credit-card" size={24} color="rgba(0, 0, 0, 0.6)" />
         </View>
@@ -36,8 +43,13 @@ const LoansScreen = ({ navigation }: MyStackScreenProps) => {
             placeholderTextColor="#rgba(0, 0, 0, 0.6)"
           />
         </View>
-      </View>
-      <View style={{ ...styles.maxLoanAmountContainer, marginVertical: 15 }}>
+      </View> */}
+      <InputTextContainer
+        style={{ ...styles.maxLoanAmountContainer, marginVertical: 15 }}
+        iconName="comment"
+        placeHolder="Reason"
+      />
+      {/* <View style={{ ...styles.maxLoanAmountContainer, marginVertical: 15 }}>
         <View style={styles.icon}>
           <Icon name="comment" size={24} color="rgba(0, 0, 0, 0.6)" />
         </View>
@@ -49,7 +61,7 @@ const LoansScreen = ({ navigation }: MyStackScreenProps) => {
             placeholderTextColor="#rgba(0, 0, 0, 0.6)"
           />
         </View>
-      </View>
+      </View> */}
 
       <View>
         <TouchableOpacity

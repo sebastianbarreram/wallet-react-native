@@ -44,7 +44,7 @@ export const TabNavigator = () => {
         name="Loans"
         component={LoansScreen}
         options={{
-          tabBarLabel: 'Loan',
+          tabBarLabel: 'Loans',
           tabBarIcon: ({ color, size }) => (
             <FontAwesome5 name="hand-holding-usd" size={size} color={color} />
           ),
