@@ -14,7 +14,14 @@ export default function DrawerNavigator() {
   return (
     <Drawer.Navigator
       initialRouteName="Launch"
-      drawerContent={props => <SideMenuScreen {...props} />}>
+      drawerContent={props => <SideMenuScreen {...props} />}
+      screenOptions={{
+        drawerStyle: {
+          //backgroundColor: 'rgba(21, 84, 246, 1)',
+        },
+        headerTintColor: 'white',
+        headerStyle: { backgroundColor: 'rgba(21, 84, 246, 1)' },
+      }}>
       <Drawer.Screen name="Home" component={TabNavigator} />
       <Drawer.Screen name="Loans" component={LoansScreen} />
       <Drawer.Screen name="Payment" component={PaymentScreen} />

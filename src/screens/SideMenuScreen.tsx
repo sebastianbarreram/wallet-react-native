@@ -26,10 +26,7 @@ export const SideMenuScreen = ({ navigation }: MyDrawerScreenProps) => {
         title="Ir a Login Password Screen"
         onPress={() => navigation.navigate('LoginPassword')}
       />
-      <Button
-        title="Ir a Pantalla Home"
-        onPress={() => navigation.navigate('Home')}
-      />
+      <Button title="Ir a Loans" onPress={() => navigation.navigate('Loans')} />
       <SideMenuButton
         iconName="settings"
         text="Change password"
