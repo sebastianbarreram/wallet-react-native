@@ -7,6 +7,8 @@ import { SideMenuScreen } from '../screens/SideMenuScreen';
 import { LoginUserScreen } from '../screens/LoginUserScreen';
 import { LoginPasswordScreen } from '../screens/LoginPasswordScreen';
 import { LaunchScreen } from '../screens/LaunchScreen';
+import ChangePasswordScreen from '../screens/ChangePasswordScreen';
+import ThemeOptionsScreen from '../screens/ThemeOptionsScreen';
 
 const Drawer = createDrawerNavigator();
 
@@ -16,9 +18,7 @@ export default function DrawerNavigator() {
       initialRouteName="Launch"
       drawerContent={props => <SideMenuScreen {...props} />}
       screenOptions={{
-        drawerStyle: {
-          //backgroundColor: 'rgba(21, 84, 246, 1)',
-        },
+        unmountOnBlur: true,
         headerTintColor: 'white',
         headerStyle: { backgroundColor: 'rgba(21, 84, 246, 1)' },
       }}>
@@ -52,6 +52,8 @@ export default function DrawerNavigator() {
           swipeEnabled: false,
         }}
       />
+      <Drawer.Screen name="ChangePassword" component={ChangePasswordScreen} />
+      <Drawer.Screen name="ThemeOptions" component={ThemeOptionsScreen} />
     </Drawer.Navigator>
   );
 }

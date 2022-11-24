@@ -31,16 +31,19 @@ export const SideMenuScreen = ({ navigation }: MyDrawerScreenProps) => {
         iconName="settings"
         text="Change password"
         color="rgba(0, 0, 0, 0.6)"
+        action={() => navigation.navigate('ChangePassword')}
       />
       <SideMenuButton
         iconName="bookmark"
         text="Theme options"
         color="rgba(0, 0, 0, 0.6)"
+        action={() => navigation.navigate('ThemeOptions')}
       />
       <SideMenuButton
         iconName="logout"
         text="Logout"
         color="rgba(0, 0, 0, 0.6)"
+        action={() => navigation.navigate('LoginUser')}
       />
     </View>
   );

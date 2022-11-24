@@ -6,11 +6,12 @@ interface Props {
   iconName: string;
   text: string;
   color: string;
+  action: () => void;
 }
 
-const SideMenuButton = ({ iconName, text, color }: Props) => {
+const SideMenuButton = ({ iconName, text, color, action }: Props) => {
   return (
-    <TouchableOpacity onPress={() => {}} style={styles.buttonContainer}>
+    <TouchableOpacity onPress={action} style={styles.buttonContainer}>
       <Icon name={iconName} size={24} color={color} />
       <Text style={{ ...styles.text, color: color }}>{text}</Text>
     </TouchableOpacity>
