@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     marginLeft: 12,
     color: 'black',
     fontSize: 16,
-    width: '82dsa%',
+    width: '82%',
   },
   line: {
     flex: 1,
