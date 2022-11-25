@@ -1,9 +1,9 @@
-import { Image } from 'react-native';
+import { Image, StyleProp, ViewStyle } from 'react-native';
 import React from 'react';
 import { styles } from '../themes/WalletTheme';
 
 interface Props {
-  size?: string;
+  size?: number;
 }
 
 const Logo = ({ size }: Props) => {

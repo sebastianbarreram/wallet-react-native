@@ -1,87 +1,68 @@
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 import React from 'react';
 import InputTextContainer from '../components/InputTextContainer';
 import { MyStackScreenProps } from '../interfaces/MyStackScreenProps';
-import useAccount from '../hooks/useAccount';
 
-const PaymentScreen = ({ navigation }: MyStackScreenProps) => {
-  const { currencyFormat } = useAccount();
+const RegisterScreen = ({ navigation }: MyStackScreenProps) => {
   return (
     <View style={styles.mainContainer}>
-      <View style={styles.balanceContainer}>
-        <Text
-          style={styles.balanceText}
-          numberOfLines={1}
-          adjustsFontSizeToFit={true}>
-          {currencyFormat(180576070)}
-        </Text>
-        <Text
-          style={{
-            alignSelf: 'center',
-            fontSize: 23,
-            color: 'black',
-            fontWeight: '500',
-          }}>
-          Account balance
-        </Text>
-      </View>
-
       <InputTextContainer
         style={styles.maxLoanAmountContainer}
+        iconName="photo"
+        placeHolder="Photo"
+      />
+      <InputTextContainer
+        style={{ ...styles.maxLoanAmountContainer, marginVertical: 15 }}
         iconName="person"
-        placeHolder="User's email or phone number"
+        placeHolder="Name and lastname"
       />
       <InputTextContainer
         style={{ ...styles.maxLoanAmountContainer, marginVertical: 15 }}
-        iconName="euro"
-        placeHolder="Amount"
+        iconName="mail"
+        placeHolder="Email"
       />
       <InputTextContainer
         style={{ ...styles.maxLoanAmountContainer, marginVertical: 15 }}
-        iconName="comment"
-        placeHolder="Reason"
+        iconName="phone"
+        placeHolder="Phone"
       />
-      {/* <View style={{ ...styles.maxLoanAmountContainer, marginVertical: 15 }}>
-        <View style={styles.icon}>
-          <Icon name="comment" size={24} color="rgba(0, 0, 0, 0.6)" />
-        </View>
-
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.input}
-            placeholder={'Reason'}
-            placeholderTextColor="#rgba(0, 0, 0, 0.6)"
-          />
-        </View>
-      </View> */}
-
+      <InputTextContainer
+        style={{ ...styles.maxLoanAmountContainer, marginVertical: 15 }}
+        iconName="lock-open"
+        placeHolder="Password"
+        type="password"
+      />
+      <InputTextContainer
+        style={{ ...styles.maxLoanAmountContainer, marginVertical: 15 }}
+        iconName="lock"
+        placeHolder="Confirm password"
+        type="password"
+      />
       <View>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate('My App')}>
-          <Text style={styles.buttonText}>Send payment</Text>
+          onPress={() => navigation.navigate('Home')}>
+          <Text style={styles.buttonText}>Register</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
 };
 
-export default PaymentScreen;
+export default RegisterScreen;
 
 const styles = StyleSheet.create({
   mainContainer: {
     backgroundColor: 'white',
     padding: 12,
+    marginTop: 0,
     height: '100%',
   },
   maxLoanAmountContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     margin: 8,
-  },
-  maxLoanAmountText: {
-    fontSize: 12,
-    color: 'rgba(0, 0, 0, 0.6)',
   },
   icon: {
     height: 56,
@@ -116,7 +97,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     alignItems: 'center',
     backgroundColor: '#1554f6',
-    marginVertical: 17,
+    marginTop: 17,
     borderRadius: 4,
   },
   buttonText: {

@@ -1,87 +1,63 @@
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 import React from 'react';
 import InputTextContainer from '../components/InputTextContainer';
 import { MyStackScreenProps } from '../interfaces/MyStackScreenProps';
-import useAccount from '../hooks/useAccount';
 
-const PaymentScreen = ({ navigation }: MyStackScreenProps) => {
-  const { currencyFormat } = useAccount();
+const ChangePasswordScreen = ({ navigation }: MyStackScreenProps) => {
   return (
     <View style={styles.mainContainer}>
-      <View style={styles.balanceContainer}>
-        <Text
-          style={styles.balanceText}
-          numberOfLines={1}
-          adjustsFontSizeToFit={true}>
-          {currencyFormat(180576070)}
-        </Text>
-        <Text
-          style={{
-            alignSelf: 'center',
-            fontSize: 23,
-            color: 'black',
-            fontWeight: '500',
-          }}>
-          Account balance
-        </Text>
-      </View>
-
       <InputTextContainer
         style={styles.maxLoanAmountContainer}
         iconName="person"
-        placeHolder="User's email or phone number"
+        placeHolder="Current password"
+        type="password"
       />
       <InputTextContainer
         style={{ ...styles.maxLoanAmountContainer, marginVertical: 15 }}
-        iconName="euro"
-        placeHolder="Amount"
+        iconName="lock-open"
+        placeHolder="New password"
+        type="password"
       />
       <InputTextContainer
         style={{ ...styles.maxLoanAmountContainer, marginVertical: 15 }}
-        iconName="comment"
-        placeHolder="Reason"
+        iconName="lock"
+        placeHolder="Confirm new password"
+        type="password"
       />
-      {/* <View style={{ ...styles.maxLoanAmountContainer, marginVertical: 15 }}>
-        <View style={styles.icon}>
-          <Icon name="comment" size={24} color="rgba(0, 0, 0, 0.6)" />
-        </View>
-
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.input}
-            placeholder={'Reason'}
-            placeholderTextColor="#rgba(0, 0, 0, 0.6)"
-          />
-        </View>
-      </View> */}
-
       <View>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate('My App')}>
-          <Text style={styles.buttonText}>Send payment</Text>
+          onPress={() => navigation.navigate('Home')}>
+          <Text style={styles.buttonText}>Change password</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{
+            ...styles.button,
+            backgroundColor: 'white',
+            ...styles.cancelbutton,
+          }}
+          onPress={() => navigation.navigate('Home')}>
+          <Text style={{ ...styles.buttonText, color: 'black' }}>Cancel</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
 };
 
-export default PaymentScreen;
+export default ChangePasswordScreen;
 
 const styles = StyleSheet.create({
   mainContainer: {
     backgroundColor: 'white',
     padding: 12,
+    marginTop: 0,
     height: '100%',
   },
   maxLoanAmountContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     margin: 8,
-  },
-  maxLoanAmountText: {
-    fontSize: 12,
-    color: 'rgba(0, 0, 0, 0.6)',
   },
   icon: {
     height: 56,
@@ -116,8 +92,19 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     alignItems: 'center',
     backgroundColor: '#1554f6',
-    marginVertical: 17,
+    marginTop: 17,
     borderRadius: 4,
+  },
+  cancelbutton: {
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 5,
   },
   buttonText: {
     color: 'white',

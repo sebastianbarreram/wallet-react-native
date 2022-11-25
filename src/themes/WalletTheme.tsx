@@ -44,17 +44,17 @@ export const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   balanceText: {
-    fontSize: 60,
-    color: 'black',
+    fontSize: 50,
+    color: 'white',
     textAlign: 'center',
     textAlignVertical: 'center',
     padding: 20,
     paddingBottom: 0,
+    fontWeight: '400',
   },
   balanceContainer: {
-    height: 150,
+    height: 170,
     alignItems: 'stretch',
-    // backgroundColor: 'green',
   },
   logo: {
     width: 140,
@@ -72,5 +72,21 @@ export const styles = StyleSheet.create({
     fontWeight: '400',
     position: 'absolute',
     bottom: '8.75%',
+  },
+  logoLogin: {
+    position: 'absolute',
+    top: '11%',
+    borderColor: 'blue',
+    flex: 1,
+  },
+  circle: {
+    backgroundColor: '#1554f7',
+    borderRadius: 100000000,
+    // bottom: 420,
+    top: -1040,
+    height: 1200,
+    left: -350,
+    position: 'absolute',
+    width: 950,
   },
 });
