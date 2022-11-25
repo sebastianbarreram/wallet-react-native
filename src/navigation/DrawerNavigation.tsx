@@ -4,12 +4,9 @@ import LoansScreen from '../screens/LoansScreen';
 import PaymentScreen from '../screens/PaymentScreen';
 import { TabNavigator } from './TabNavigator';
 import { SideMenuScreen } from '../screens/SideMenuScreen';
-import { LoginUserScreen } from '../screens/LoginUserScreen';
-import { LoginPasswordScreen } from '../screens/LoginPasswordScreen';
 import { LaunchScreen } from '../screens/LaunchScreen';
 import ChangePasswordScreen from '../screens/ChangePasswordScreen';
 import ThemeOptionsScreen from '../screens/ThemeOptionsScreen';
-import RegisterScreen from '../screens/RegisterScreen';
 import { StackNavigation } from './StackNavigation';
 
 const Drawer = createDrawerNavigator();
@@ -22,7 +19,10 @@ export default function DrawerNavigator() {
       screenOptions={{
         unmountOnBlur: true,
         headerTintColor: 'white',
-        headerStyle: { backgroundColor: 'rgba(21, 84, 246, 1)' },
+        headerStyle: {
+          backgroundColor: 'rgba(21, 84, 246, 1)',
+          shadowColor: 'transparent',
+        },
       }}>
       <Drawer.Screen name="Home" component={TabNavigator} />
       <Drawer.Screen name="Loans" component={LoansScreen} />

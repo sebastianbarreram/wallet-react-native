@@ -1,14 +1,10 @@
 import { View, Text } from 'react-native';
 import { StyleSheet, TouchableOpacity } from 'react-native';
-import React, { useState } from 'react';
+import React from 'react';
 import InputTextContainer from '../components/InputTextContainer';
 import { MyStackScreenProps } from '../interfaces/MyStackScreenProps';
-import usePasswordVisibility from '../hooks/usePasswordVisibility';
 
 const RegisterScreen = ({ navigation }: MyStackScreenProps) => {
-  const { passwordVisibility, rightIcon, handlePasswordVisibility } =
-    usePasswordVisibility();
-  const [password, setPassword] = useState('');
   return (
     <View style={styles.mainContainer}>
       <InputTextContainer

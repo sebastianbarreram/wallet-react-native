@@ -137,6 +137,7 @@ const AccountScreen = () => {
 
   return (
     <View style={{ backgroundColor: 'white', marginBottom: 150 }}>
+      <View style={styles.circle} />
       <View style={styles.balanceContainer}>
         <Text
           style={styles.balanceText}
@@ -144,7 +145,12 @@ const AccountScreen = () => {
           adjustsFontSizeToFit={true}>
           {currencyFormat(180576070)}
         </Text>
-        <Text style={{ marginLeft: 20, fontSize: 16, color: '#666666' }}>
+        <Text
+          style={{
+            marginLeft: 55,
+            fontSize: 16,
+            color: 'rgba(255, 255, 255, 0.74)',
+          }}>
           Balance in your account
         </Text>
       </View>

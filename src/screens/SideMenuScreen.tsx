@@ -1,4 +1,4 @@
-import { View, Text, Button, Image, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet } from 'react-native';
 import React from 'react';
 import { MyDrawerScreenProps } from '../interfaces/MyDrawerScreenProps';
 import SideMenuButton from '../components/SideMenuButton';
