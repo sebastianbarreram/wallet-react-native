@@ -11,16 +11,19 @@ const ChangePasswordScreen = ({ navigation }: MyStackScreenProps) => {
         style={styles.maxLoanAmountContainer}
         iconName="person"
         placeHolder="Current password"
+        type="password"
       />
       <InputTextContainer
         style={{ ...styles.maxLoanAmountContainer, marginVertical: 15 }}
         iconName="lock-open"
         placeHolder="New password"
+        type="password"
       />
       <InputTextContainer
         style={{ ...styles.maxLoanAmountContainer, marginVertical: 15 }}
-        iconName="lock-outline"
-        placeHolder="Retype new password"
+        iconName="lock"
+        placeHolder="Confirm new password"
+        type="password"
       />
       <View>
         <TouchableOpacity

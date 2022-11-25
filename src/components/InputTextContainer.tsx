@@ -4,30 +4,64 @@ import {
   ViewStyle,
   StyleSheet,
   TextInput,
+  Pressable,
 } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import IconComunity from 'react-native-vector-icons/MaterialCommunityIcons';
+import usePasswordVisibility from '../hooks/usePasswordVisibility';
 
 interface Props {
   style?: StyleProp<ViewStyle>;
   placeHolder: string;
   iconName: string;
+  type?: string;
 }
 
-const InputTextContainer = ({ style, placeHolder, iconName }: Props) => {
+const InputTextContainer = ({
+  style,
+  placeHolder,
+  iconName,
+  type = 'text',
+}: Props) => {
+  const { passwordVisibility, rightIcon, handlePasswordVisibility } =
+    usePasswordVisibility();
+  const [password, setPassword] = useState('');
+  let textInput;
+  if (type === 'text') {
+    textInput = (
+      <TextInput
+        style={styles.input}
+        placeholder={placeHolder}
+        placeholderTextColor="#rgba(0, 0, 0, 0.6)"
+      />
+    );
+  } else if (type === 'password') {
+    textInput = (
+      <>
+        <TextInput
+          style={styles.input}
+          placeholder={placeHolder}
+          placeholderTextColor="#rgba(0, 0, 0, 0.6)"
+          autoCapitalize="none"
+          secureTextEntry={passwordVisibility}
+          textContentType={'password'}
+          onChangeText={text => setPassword(text)}
+        />
+        <Pressable onPress={handlePasswordVisibility}>
+          <IconComunity name={rightIcon} size={22} color="#232323" />
+        </Pressable>
+      </>
+    );
+  }
+
   return (
     <View style={style}>
       <View style={styles.icon}>
         <Icon name={iconName} size={24} color="rgba(0, 0, 0, 0.6)" />
       </View>
 
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder={placeHolder}
-          placeholderTextColor="#rgba(0, 0, 0, 0.6)"
-        />
-      </View>
+      <View style={styles.inputContainer}>{textInput}</View>
     </View>
   );
 };

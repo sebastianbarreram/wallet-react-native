@@ -1,16 +1,41 @@
 import {
+  Alert,
+  BackHandler,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import Logo from '../components/Logo';
 import { AuthButton } from '../components/AuthButton';
 import { MyStackScreenProps } from '../interfaces/MyStackScreenProps';
 
 export const LoginUserScreen = ({ navigation }: MyStackScreenProps) => {
+  useEffect(() => {
+    const backAction = () => {
+      if (navigation.isFocused()) {
+        Alert.alert('Hold on!', 'Are you sure you want exit?', [
+          {
+            text: 'Cancel',
+            onPress: () => null,
+            style: 'cancel',
+          },
+          { text: 'YES', onPress: () => BackHandler.exitApp() },
+        ]);
+        return true;
+      } else {
+        return false;
+      }
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+    return () => backHandler.remove();
+  }, [navigation]);
   return (
     <View style={styles.mainContainer}>
       <View style={styles.logoContainer}>
@@ -33,11 +58,13 @@ export const LoginUserScreen = ({ navigation }: MyStackScreenProps) => {
           <Text style={styles.buttonText}>CONTINUE</Text>
         </TouchableOpacity>
       </View>
-      <View style={styles.containerLine}>
-        <View style={styles.line} />
-        <Text style={styles.textLine}>register</Text>
-        <View style={styles.line} />
-      </View>
+      <TouchableOpacity onPress={() => navigation.navigate('Register')}>
+        <View style={styles.containerLine}>
+          <View style={styles.line} />
+          <Text style={styles.textLine}>register</Text>
+          <View style={styles.line} />
+        </View>
+      </TouchableOpacity>
       <AuthButton text={'Sign in with Google'} iconName="logo-google" />
       <AuthButton text={'Sign in with Apple'} iconName="logo-apple" />
     </View>

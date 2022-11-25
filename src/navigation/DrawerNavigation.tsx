@@ -9,6 +9,8 @@ import { LoginPasswordScreen } from '../screens/LoginPasswordScreen';
 import { LaunchScreen } from '../screens/LaunchScreen';
 import ChangePasswordScreen from '../screens/ChangePasswordScreen';
 import ThemeOptionsScreen from '../screens/ThemeOptionsScreen';
+import RegisterScreen from '../screens/RegisterScreen';
+import { StackNavigation } from './StackNavigation';
 
 const Drawer = createDrawerNavigator();
 
@@ -26,6 +28,24 @@ export default function DrawerNavigator() {
       <Drawer.Screen name="Loans" component={LoansScreen} />
       <Drawer.Screen name="Payment" component={PaymentScreen} />
       <Drawer.Screen
+        name="Launch"
+        component={LaunchScreen}
+        options={{
+          drawerItemStyle: { display: 'none' },
+          headerShown: false,
+          swipeEnabled: false,
+        }}
+      />
+      <Drawer.Screen
+        name="LoginStack"
+        component={StackNavigation}
+        options={{
+          drawerItemStyle: { display: 'none' },
+          headerShown: false,
+          swipeEnabled: false,
+        }}
+      />
+      {/* <Drawer.Screen
         name="LoginUser"
         component={LoginUserScreen}
         options={{
@@ -44,14 +64,14 @@ export default function DrawerNavigator() {
         }}
       />
       <Drawer.Screen
-        name="Launch"
-        component={LaunchScreen}
+        name="Register"
+        component={RegisterScreen}
         options={{
           drawerItemStyle: { display: 'none' },
           headerShown: false,
           swipeEnabled: false,
         }}
-      />
+      /> */}
       <Drawer.Screen name="ChangePassword" component={ChangePasswordScreen} />
       <Drawer.Screen name="ThemeOptions" component={ThemeOptionsScreen} />
     </Drawer.Navigator>

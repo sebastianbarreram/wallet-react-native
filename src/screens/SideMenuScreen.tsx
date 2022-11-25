@@ -14,7 +14,7 @@ export const SideMenuScreen = ({ navigation }: MyDrawerScreenProps) => {
         style={styles.avatarImage}
       />
       <Text style={styles.textAccountName}>{nombre}</Text>
-      <Button
+      {/* <Button
         title="Ir a Launch Screen"
         onPress={() => navigation.navigate('Launch')}
       />
@@ -26,7 +26,7 @@ export const SideMenuScreen = ({ navigation }: MyDrawerScreenProps) => {
         title="Ir a Login Password Screen"
         onPress={() => navigation.navigate('LoginPassword')}
       />
-      <Button title="Ir a Loans" onPress={() => navigation.navigate('Loans')} />
+      <Button title="Ir a Loans" onPress={() => navigation.navigate('Loans')} /> */}
       <SideMenuButton
         iconName="settings"
         text="Change password"
@@ -43,7 +43,7 @@ export const SideMenuScreen = ({ navigation }: MyDrawerScreenProps) => {
         iconName="logout"
         text="Logout"
         color="rgba(0, 0, 0, 0.6)"
-        action={() => navigation.navigate('LoginUser')}
+        action={() => navigation.navigate('LoginStack')}
       />
     </View>
   );
