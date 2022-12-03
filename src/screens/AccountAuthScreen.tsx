@@ -9,7 +9,7 @@ const AccountAuthScreen = ({ navigation }: any) => {
 
   useEffect(() => {
     if (loggedIn === false) {
-    //   navigation.dispatch(StackActions.replace('Login'));
+      //   navigation.dispatch(StackActions.replace('Login'));
     }
   }, [loggedIn, navigation]);
 

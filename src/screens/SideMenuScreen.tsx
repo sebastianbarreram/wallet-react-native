@@ -3,19 +3,23 @@ import React, { useContext } from 'react';
 import { MyDrawerScreenProps } from '../interfaces/MyDrawerScreenProps';
 import SideMenuButton from '../components/SideMenuButton';
 import { AuthContext } from '../context/AuthContext';
+import { useSelector } from 'react-redux';
 
 export const SideMenuScreen = ({ navigation }: MyDrawerScreenProps) => {
+  const { client } = useSelector((state: any) => state.client);
   const avatarImage = 'https://reactjs.org/logo-og.png';
   const nombre = 'Sutanita Mejía';
-  const { logout } = useContext(AuthContext);
+  const { logout, userData } = useContext(AuthContext);
   return (
     <View style={styles.mainContainer}>
       <Image
-        source={{ uri: avatarImage }}
+        source={{ uri: userData ? client.photo : null }}
         // source={require('../assets/images/9E2.jpg')}
         style={styles.avatarImage}
       />
-      <Text style={styles.textAccountName}>{nombre}</Text>
+      <Text style={styles.textAccountName}>
+        {userData ? client.fullName : null}
+      </Text>
       {/* <Button
         title="Ir a Launch Screen"
         onPress={() => navigation.navigate('Launch')}

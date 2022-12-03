@@ -20,38 +20,6 @@ const AuthContextProvider = (props: any) => {
     | undefined
   >();
 
-  const getUserData = async (id?: string) => {
-    // Saco el token del SInfo, algo que deberíamos cambiar por el Redux
-    const idToken = id ? id : await SInfo.getItem('idToken', {});
-    // Decodifico el token (JWT)
-    const { name, picture, exp } = jwtDecode<any>(idToken);
-    const data = jwtDecode<any>(idToken);
-    console.log('data JWT', JSON.stringify(data, null, 2));
-
-    if (exp < Date.now() / 1000) {
-      throw new Error('ID token expired!');
-    }
-
-    return {
-      name,
-      picture,
-    };
-  };
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const user_data = await getUserData();
-        if (user_data) {
-          setLoggedIn(true);
-          setUserData(user_data);
-        }
-      } catch (err) {
-        setLoggedIn(false);
-      }
-    })();
-  }, []);
-
   useEffect(() => {
     (async () => {
       try {
@@ -68,6 +36,73 @@ const AuthContextProvider = (props: any) => {
     })();
   }, [loggedIn]);
 
+  useEffect(() => {
+    (async () => {
+      try {
+        const user_data = await getUserData();
+        if (user_data) {
+          setLoggedIn(true);
+          setUserData(user_data);
+        }
+      } catch (err) {
+        setLoggedIn(false);
+      }
+    })();
+  }, []);
+
+  const getUserData = async (id?: string) => {
+    // Saco el token del SInfo, algo que deberíamos cambiar por el Redux
+    const idToken = id ? id : await SInfo.getItem('idToken', {});
+    // Decodifico el token (JWT)
+    const { name, picture, exp, email } = jwtDecode<any>(idToken);
+    const data = jwtDecode<any>(idToken);
+    console.log('data JWT', JSON.stringify(data, null, 2));
+    // postClient();
+
+    // getClient(data.email);
+    // console.log('body response', response);
+    // if (response && 'message' in response && response.statusCode === 404) {
+    //   // console.log('responseError', response);
+    //   postClient(data);
+    // }
+
+    if (exp < Date.now() / 1000) {
+      throw new Error('ID token expired!');
+    }
+    return {
+      name,
+      picture,
+      email,
+    };
+  };
+
+  const postClient = async (data: any) => {
+    const datos = {
+      fullName: data.name,
+      email: data.email,
+      phone: '1',
+      photo: data.picture,
+    };
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(datos),
+    };
+    try {
+      const responsePost = await fetch(
+        'http://192.168.1.13:3000/api/client/signup',
+        requestOptions,
+      );
+      const json = await responsePost.json();
+      const bodyResponsePost = await json;
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
+
   const login = async () => {
     try {
       const credentials = await auth0.webAuth.authorize({
@@ -80,7 +115,7 @@ const AuthContextProvider = (props: any) => {
       setLoggedIn(true);
       setUserData(user_data);
     } catch (err) {
-      Alert.alert('Error logging in');
+      Alert.alert('Error logging in: ' + err);
     }
   };
 
