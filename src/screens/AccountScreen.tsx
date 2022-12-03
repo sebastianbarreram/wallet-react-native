@@ -1,8 +1,9 @@
 import { View, Text, FlatList, ListRenderItemInfo } from 'react-native';
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import Transaction from '../components/Transaction';
 import { styles } from '../themes/WalletTheme';
 import useAccount from '../hooks/useAccount';
+import { AuthContext } from '../context/AuthContext';
 
 interface Movement {
   id: string;
@@ -121,7 +122,15 @@ const movements: Movement[] = [
   },
 ];
 
-const AccountScreen = () => {
+const AccountScreen = ({ navigation }: any) => {
+  const { loggedIn, userData } = useContext(AuthContext);
+
+  useEffect(() => {
+    if (loggedIn === false) {
+      //   navigation.dispatch(StackActions.replace('Login'));
+      navigation.navigate('Launch');
+    }
+  }, [loggedIn, navigation]);
   const renderTransactions = ({ item }: ListRenderItemInfo<Movement>) => (
     <Transaction
       title={item.title}

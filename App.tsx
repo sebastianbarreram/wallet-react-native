@@ -8,6 +8,7 @@ import { LaunchScreen } from './src/screens/LaunchScreen';
 import DrawerNavigator from './src/navigation/DrawerNavigation';
 import { LoginUserScreen } from './src/screens/LoginUserScreen';
 import { LoginPasswordScreen } from './src/screens/LoginPasswordScreen';
+import { AuthContextProvider } from './src/context/AuthContext';
 
 const App = () => {
   return (
@@ -17,9 +18,11 @@ const App = () => {
     // </SafeAreaView>
 
     //Este va a ser el final final...
-    <NavigationContainer>
-      <DrawerNavigator />
-    </NavigationContainer>
+    <AuthContextProvider>
+      <NavigationContainer>
+        <DrawerNavigator />
+      </NavigationContainer>
+    </AuthContextProvider>
   );
 };
 

@@ -1,11 +1,13 @@
 import { View, Text, Image, StyleSheet } from 'react-native';
-import React from 'react';
+import React, { useContext } from 'react';
 import { MyDrawerScreenProps } from '../interfaces/MyDrawerScreenProps';
 import SideMenuButton from '../components/SideMenuButton';
+import { AuthContext } from '../context/AuthContext';
 
 export const SideMenuScreen = ({ navigation }: MyDrawerScreenProps) => {
   const avatarImage = 'https://reactjs.org/logo-og.png';
   const nombre = 'Sutanita Mejía';
+  const { logout } = useContext(AuthContext);
   return (
     <View style={styles.mainContainer}>
       <Image
@@ -43,7 +45,10 @@ export const SideMenuScreen = ({ navigation }: MyDrawerScreenProps) => {
         iconName="logout"
         text="Logout"
         color="rgba(0, 0, 0, 0.6)"
-        action={() => navigation.navigate('LoginStack')}
+        action={() =>
+          // navigation.navigate('LoginStack')
+          logout()
+        }
       />
     </View>
   );
