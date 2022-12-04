@@ -15,15 +15,7 @@ const PaymentScreen = ({ navigation }: MyStackScreenProps) => {
           adjustsFontSizeToFit={true}>
           {currencyFormat(180576070)}
         </Text>
-        <Text
-          style={{
-            alignSelf: 'center',
-            fontSize: 23,
-            color: 'black',
-            fontWeight: '500',
-          }}>
-          Account balance
-        </Text>
+        <Text style={styles.commentBalance}>Account balance</Text>
       </View>
 
       <InputTextContainer
@@ -32,29 +24,15 @@ const PaymentScreen = ({ navigation }: MyStackScreenProps) => {
         placeHolder="User's email or phone number"
       />
       <InputTextContainer
-        style={{ ...styles.maxLoanAmountContainer, marginVertical: 15 }}
+        style={styles.inputTextAmount}
         iconName="euro"
         placeHolder="Amount"
       />
       <InputTextContainer
-        style={{ ...styles.maxLoanAmountContainer, marginVertical: 15 }}
+        style={styles.inputTextAmount}
         iconName="comment"
         placeHolder="Reason"
       />
-      {/* <View style={{ ...styles.maxLoanAmountContainer, marginVertical: 15 }}>
-        <View style={styles.icon}>
-          <Icon name="comment" size={24} color="rgba(0, 0, 0, 0.6)" />
-        </View>
-
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.input}
-            placeholder={'Reason'}
-            placeholderTextColor="#rgba(0, 0, 0, 0.6)"
-          />
-        </View>
-      </View> */}
-
       <View>
         <TouchableOpacity
           style={styles.button}
@@ -83,13 +61,24 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: 'rgba(0, 0, 0, 0.6)',
   },
+  inputTextAmount: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    margin: 8,
+    marginVertical: 15,
+  },
   icon: {
     height: 56,
     width: 48,
     justifyContent: 'flex-end',
     padding: 10,
   },
-
+  commentBalance: {
+    alignSelf: 'center',
+    fontSize: 23,
+    color: 'black',
+    fontWeight: '500',
+  },
   inputContainer: {
     height: 56,
     width: 330,
@@ -137,6 +126,5 @@ const styles = StyleSheet.create({
   balanceContainer: {
     height: 140,
     alignItems: 'stretch',
-    // backgroundColor: 'green',
   },
 });

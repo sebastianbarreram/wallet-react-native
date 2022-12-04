@@ -1,7 +1,13 @@
-import { View, Text, FlatList, ListRenderItemInfo } from 'react-native';
+import {
+  View,
+  Text,
+  FlatList,
+  ListRenderItemInfo,
+  StyleSheet,
+} from 'react-native';
 import React, { useContext, useEffect, useState } from 'react';
 import Transaction from '../components/Transaction';
-import { styles } from '../themes/WalletTheme';
+import { styles as globalStyles } from '../themes/WalletTheme';
 import useAccount from '../hooks/useAccount';
 import { AuthContext } from '../context/AuthContext';
 import { ClientInterface } from '../redux/interfaces/ClientInterface';
@@ -194,23 +200,16 @@ const AccountScreen = ({ navigation }: any) => {
   const { currencyFormat } = useAccount();
 
   return (
-    <View style={{ backgroundColor: 'white', marginBottom: 150 }}>
-      <View style={styles.circle} />
-      <View style={styles.balanceContainer}>
+    <View style={styles.container}>
+      <View style={globalStyles.circle} />
+      <View style={globalStyles.balanceContainer}>
         <Text
-          style={styles.balanceText}
+          style={globalStyles.balanceText}
           numberOfLines={1}
           adjustsFontSizeToFit={true}>
           {currencyFormat(180576070)}
         </Text>
-        <Text
-          style={{
-            marginLeft: 55,
-            fontSize: 16,
-            color: 'rgba(255, 255, 255, 0.74)',
-          }}>
-          Balance in your account
-        </Text>
+        <Text style={styles.balanceText}>Balance in your account</Text>
       </View>
       <FlatList
         data={movements}
@@ -222,3 +221,15 @@ const AccountScreen = ({ navigation }: any) => {
 };
 
 export default AccountScreen;
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: 'white',
+    marginBottom: 150,
+  },
+  balanceText: {
+    marginLeft: 55,
+    fontSize: 16,
+    color: 'rgba(255, 255, 255, 0.74)',
+  },
+});

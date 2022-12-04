@@ -14,7 +14,7 @@ const AccountAuthScreen = ({ navigation }: any) => {
   }, [loggedIn, navigation]);
 
   return (
-    <View style={[styles.container]}>
+    <View style={styles.container}>
       {userData && (
         <View style={styles.userContainer}>
           <Image

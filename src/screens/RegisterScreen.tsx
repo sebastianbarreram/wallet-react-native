@@ -13,28 +13,28 @@ const RegisterScreen = ({ navigation }: MyStackScreenProps) => {
         placeHolder="Photo"
       />
       <InputTextContainer
-        style={{ ...styles.maxLoanAmountContainer, marginVertical: 15 }}
+        style={styles.textContainer}
         iconName="person"
         placeHolder="Name and lastname"
       />
       <InputTextContainer
-        style={{ ...styles.maxLoanAmountContainer, marginVertical: 15 }}
+        style={styles.textContainer}
         iconName="mail"
         placeHolder="Email"
       />
       <InputTextContainer
-        style={{ ...styles.maxLoanAmountContainer, marginVertical: 15 }}
+        style={styles.textContainer}
         iconName="phone"
         placeHolder="Phone"
       />
       <InputTextContainer
-        style={{ ...styles.maxLoanAmountContainer, marginVertical: 15 }}
+        style={styles.textContainer}
         iconName="lock-open"
         placeHolder="Password"
         type="password"
       />
       <InputTextContainer
-        style={{ ...styles.maxLoanAmountContainer, marginVertical: 15 }}
+        style={styles.textContainer}
         iconName="lock"
         placeHolder="Confirm password"
         type="password"
@@ -63,6 +63,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     margin: 8,
+  },
+  textContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    margin: 8,
+    marginVertical: 15,
   },
   icon: {
     height: 56,
