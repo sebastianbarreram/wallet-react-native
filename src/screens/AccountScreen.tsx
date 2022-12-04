@@ -11,8 +11,8 @@ import { styles as globalStyles } from '../themes/WalletTheme';
 import useAccount from '../hooks/useAccount';
 import { AuthContext } from '../context/AuthContext';
 import { ClientInterface } from '../redux/interfaces/ClientInterface';
-import { useDispatch, useSelector } from 'react-redux';
-import { setClient } from '../redux/slices/ClientSlice';
+import { useSelector } from 'react-redux';
+import useData from '../hooks/useData';
 
 interface Movement {
   id: string;
@@ -137,8 +137,8 @@ interface getClientError {
 }
 
 const AccountScreen = ({ navigation }: any) => {
-  const dispatch = useDispatch();
   const { client } = useSelector((state: any) => state.client);
+  const { getClient, getAccount } = useData();
   const { loggedIn, userData } = useContext(AuthContext);
 
   const [response, setResponse] = useState<ClientInterface | getClientError>();
@@ -158,33 +158,6 @@ const AccountScreen = ({ navigation }: any) => {
   useEffect(() => {
     getAccount(client.id);
   }, [client.id]);
-
-  const getClient = async (search: string) => {
-    return await fetch(`http://192.168.1.13:3000/api/client/search/${search}`)
-      .then(res => {
-        // console.log('res', JSON.stringify(res, null, 2));
-        return res.json();
-      })
-      .then(json => {
-        console.log('json', json);
-        setResponse(json);
-        dispatch(setClient(json));
-      });
-  };
-
-  const getAccount = async (id: string) => {
-    console.log('id', id);
-    return await fetch(`http://192.168.1.13:3000/api/account/${id}`)
-      .then(res => {
-        // console.log('res', JSON.stringify(res, null, 2));
-        return res.json();
-      })
-      .then(json => {
-        console.log('account', json);
-        // setResponse(json);
-        // dispatch(setClient(json));
-      });
-  };
 
   const renderTransactions = ({ item }: ListRenderItemInfo<Movement>) => (
     <Transaction

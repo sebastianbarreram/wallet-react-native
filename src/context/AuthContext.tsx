@@ -3,6 +3,8 @@ import Auth0 from 'react-native-auth0';
 import SInfo from 'react-native-sensitive-info';
 import jwtDecode from 'jwt-decode';
 import { Alert } from 'react-native';
+import useData from '../hooks/useData';
+import { useSelector } from 'react-redux';
 
 const auth0 = new Auth0({
   domain: 'dev-ekzvwhhuz1fzlqp0.us.auth0.com',
@@ -19,6 +21,8 @@ const AuthContextProvider = (props: any) => {
       }
     | undefined
   >();
+  const { getClient, postClient } = useData();
+  const { client } = useSelector((state: any) => state.client);
 
   useEffect(() => {
     (async () => {
@@ -59,12 +63,18 @@ const AuthContextProvider = (props: any) => {
     console.log('data JWT', JSON.stringify(data, null, 2));
     // postClient();
 
-    // getClient(data.email);
-    // console.log('body response', response);
-    // if (response && 'message' in response && response.statusCode === 404) {
-    //   // console.log('responseError', response);
-    //   postClient(data);
-    // }
+    await getClient(data.email);
+    console.log('body response', client);
+    if (client && 'message' in client && client.statusCode === 404) {
+      console.log('responseError', client);
+
+      await postClient({
+        fullName: data.name,
+        email: data.email,
+        phone: '3',
+        photo: data.picture,
+      });
+    }
 
     if (exp < Date.now() / 1000) {
       throw new Error('ID token expired!');
@@ -74,33 +84,6 @@ const AuthContextProvider = (props: any) => {
       picture,
       email,
     };
-  };
-
-  const postClient = async (data: any) => {
-    const datos = {
-      fullName: data.name,
-      email: data.email,
-      phone: '1',
-      photo: data.picture,
-    };
-    const requestOptions = {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(datos),
-    };
-    try {
-      const responsePost = await fetch(
-        'http://192.168.1.13:3000/api/client/signup',
-        requestOptions,
-      );
-      const json = await responsePost.json();
-      const bodyResponsePost = await json;
-    } catch (error) {
-      console.log('error', error);
-    }
   };
 
   const login = async () => {
