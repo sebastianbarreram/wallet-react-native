@@ -8,8 +8,27 @@ const initialState: ClientInterface = {
   phone: '',
   photo: 'https://reactjs.org/logo-og.png',
   state: 1,
-  createdAt: new Date(),
+  createdAt: new Date('December 2, 2022 03:24:00'),
   updatedAt: null,
+  account: {
+    id: '',
+    idClient: '',
+    balance: '',
+    credit: '',
+    state: 0,
+    createdAt: new Date('December 7, 1995 03:24:00'),
+    updatedAt: null,
+    deletedAt: null,
+    movementsIncome: [],
+    movementsOutcome: [],
+  },
+  app: {
+    id: '',
+    idClient: '',
+    color: '',
+    createdAt: new Date('December 17, 1995 03:24:00'),
+    updatedAt: null,
+  },
 };
 
 const ClientSlice = createSlice({

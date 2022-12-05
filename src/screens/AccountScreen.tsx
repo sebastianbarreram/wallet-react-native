@@ -4,6 +4,8 @@ import {
   FlatList,
   ListRenderItemInfo,
   StyleSheet,
+  RefreshControl,
+  ActivityIndicator,
 } from 'react-native';
 import React, { useContext, useEffect, useState } from 'react';
 import Transaction from '../components/Transaction';
@@ -13,6 +15,7 @@ import { AuthContext } from '../context/AuthContext';
 import { ClientInterface } from '../redux/interfaces/ClientInterface';
 import { useSelector } from 'react-redux';
 import useData from '../hooks/useData';
+import { MovementInterface } from '../redux/interfaces/MovementInterface';
 
 interface Movement {
   id: string;
@@ -138,10 +141,11 @@ interface getClientError {
 
 const AccountScreen = ({ navigation }: any) => {
   const { client } = useSelector((state: any) => state.client);
+  const { account } = useSelector((state: any) => state.account);
   const { getClient, getAccount } = useData();
   const { loggedIn, userData } = useContext(AuthContext);
-
-  const [response, setResponse] = useState<ClientInterface | getClientError>();
+  const [refreshing, setRefreshing] = useState(false);
+  const image = 'https://reactjs.org/logo-og.png';
 
   useEffect(() => {
     if (loggedIn === false) {
@@ -152,21 +156,30 @@ const AccountScreen = ({ navigation }: any) => {
 
   useEffect(() => {
     getClient(userData.email);
-    console.log('hizo el get');
   }, [userData.email]);
 
   useEffect(() => {
     getAccount(client.id);
+    setRefreshing(false);
   }, [client.id]);
 
-  const renderTransactions = ({ item }: ListRenderItemInfo<Movement>) => (
+  const onRefresh = React.useCallback(async () => {
+    setRefreshing(true);
+    // wait(2000).then(() => setRefreshing(false));
+    await getAccount(client.id);
+    setRefreshing(false);
+  }, []);
+
+  const renderTransactions = ({
+    item,
+  }: ListRenderItemInfo<MovementInterface>) => (
     <Transaction
-      title={item.title}
+      title={item.reason}
       amount={item.amount}
       id={item.id}
-      image={item.image}
+      image={image}
       date={item.date}
-      income={item.income}
+      income={item.idIncome}
     />
   );
 
@@ -174,6 +187,7 @@ const AccountScreen = ({ navigation }: any) => {
 
   return (
     <View style={styles.container}>
+      {refreshing ? <ActivityIndicator /> : null}
       <View style={globalStyles.circle} />
       <View style={globalStyles.balanceContainer}>
         <Text
@@ -184,11 +198,29 @@ const AccountScreen = ({ navigation }: any) => {
         </Text>
         <Text style={styles.balanceText}>Balance in your account</Text>
       </View>
+
+      {/* <Transaction
+        title={account.movementsIncome[0].reason}
+        amount={account.movementsIncome[0].amount}
+        id={account.movementsIncome[0].id}
+        image={client.photo}
+        date={account.movementsIncome[0].date}
+        income={account.movementsIncome[0].idIncome}
+      /> */}
+
       <FlatList
+        data={account.movementsIncome}
+        renderItem={renderTransactions}
+        keyExtractor={movement => movement.id}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      />
+      {/* <FlatList
         data={movements}
         renderItem={renderTransactions}
         keyExtractor={movement => movement.id}
-      />
+      /> */}
     </View>
   );
 };

@@ -60,18 +60,13 @@ const AuthContextProvider = (props: any) => {
     // Decodifico el token (JWT)
     const { name, picture, exp, email } = jwtDecode<any>(idToken);
     const data = jwtDecode<any>(idToken);
-    console.log('data JWT', JSON.stringify(data, null, 2));
-    // postClient();
 
     await getClient(data.email);
-    console.log('body response', client);
     if (client && 'message' in client && client.statusCode === 404) {
-      console.log('responseError', client);
-
       await postClient({
         fullName: data.name,
         email: data.email,
-        phone: '3',
+        phone: '2',
         photo: data.picture,
       });
     }
@@ -111,7 +106,6 @@ const AuthContextProvider = (props: any) => {
       setLoggedIn(false);
       setUserData(undefined);
     } catch (err) {
-      console.log(err);
       Alert.alert('Error logging in');
     }
   };

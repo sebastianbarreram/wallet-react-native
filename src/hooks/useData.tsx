@@ -1,4 +1,5 @@
 import { useDispatch } from 'react-redux';
+import { setAccount } from '../redux/slices/AccountSlice';
 import { setClient } from '../redux/slices/ClientSlice';
 
 const useData = () => {
@@ -6,7 +7,6 @@ const useData = () => {
   const getClient = async (search: string) => {
     return await fetch(`http://192.168.1.13:3000/api/client/search/${search}`)
       .then(res => {
-        // console.log('res', JSON.stringify(res, null, 2));
         return res.json();
       })
       .then(json => {
@@ -16,16 +16,14 @@ const useData = () => {
   };
 
   const getAccount = async (id: string) => {
-    console.log('id', id);
+    // console.log('id', id);
     return await fetch(`http://192.168.1.13:3000/api/account/${id}`)
       .then(res => {
-        // console.log('res', JSON.stringify(res, null, 2));
         return res.json();
       })
       .then(json => {
         console.log('account', json);
-        // setResponse(json);
-        // dispatch(setClient(json));
+        dispatch(setAccount(json));
       });
   };
 
@@ -47,7 +45,7 @@ const useData = () => {
       const bodyResponsePost = await json;
       dispatch(setClient(bodyResponsePost));
     } catch (error) {
-      console.log('error', error);
+      // console.log('error', error);
     }
   };
 

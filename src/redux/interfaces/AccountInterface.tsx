@@ -5,7 +5,7 @@ export interface AccountInterface {
   balance: string;
   credit: string;
   state: number;
-  createdAt: Date;
+  createdAt: Date | null;
   updatedAt: Date | null;
   deletedAt: Date | null;
   movementsIncome: MovementInterface[];
