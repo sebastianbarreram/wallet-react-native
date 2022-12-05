@@ -12,132 +12,9 @@ import Transaction from '../components/Transaction';
 import { styles as globalStyles } from '../themes/WalletTheme';
 import useAccount from '../hooks/useAccount';
 import { AuthContext } from '../context/AuthContext';
-import { ClientInterface } from '../redux/interfaces/ClientInterface';
 import { useSelector } from 'react-redux';
 import useData from '../hooks/useData';
 import { MovementInterface } from '../redux/interfaces/MovementInterface';
-
-interface Movement {
-  id: string;
-  title: string;
-  amount: string;
-  image: string;
-  date: string;
-  income: string;
-  outcome: string;
-}
-
-const timeElapsed: number = Date.now();
-const today = new Date(timeElapsed);
-
-const movements: Movement[] = [
-  {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    title: 'First Item',
-    amount: '5000000',
-    image: 'https://reactjs.org/logo-og.png',
-    date: today.toUTCString(),
-    income: 'Sebas',
-    outcome: '',
-  },
-  {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-    title: 'Second Item',
-    amount: '10000',
-    image: 'https://reactjs.org/logo-og.png',
-    date: today.toUTCString(),
-    income: '',
-    outcome: 'Sebas',
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d72',
-    title: 'Third Item',
-    amount: '22000',
-    image: 'https://reactjs.org/logo-og.png',
-    date: today.toUTCString(),
-    income: 'Santi',
-    outcome: '',
-  },
-  {
-    id: '58656djf-3da1-471f-bd96-145571e29d72',
-    title:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem optio dolorum temporibus',
-    amount: '100000000',
-    image: 'https://reactjs.org/logo-og.png',
-    date: today.toUTCString(),
-    income: 'Santi',
-    outcome: '',
-  },
-  {
-    id: '3bd91aa97f63',
-    title:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem optio dolorum temporibus',
-    amount: '10000',
-    image: 'https://reactjs.org/logo-og.png',
-    date: today.toUTCString(),
-    income: '',
-    outcome: 'Sebas',
-  },
-  {
-    id: '3af8-fbd91aa97f63',
-    title: 'Second Item',
-    amount: '10000',
-    image: 'https://reactjs.org/logo-og.png',
-    date: today.toUTCString(),
-    income: '',
-    outcome: 'Sebas',
-  },
-  {
-    id: '3ac68afc-fbd91aa97f63',
-    title: 'Second Item',
-    amount: '960000',
-    image: 'https://reactjs.org/logo-og.png',
-    date: today.toUTCString(),
-    income: '',
-    outcome: 'Sebas',
-  },
-  {
-    id: '3ac68afcaa97f63',
-    title: 'Second Item',
-    amount: '198640',
-    image: 'https://reactjs.org/logo-og.png',
-    date: today.toUTCString(),
-    income: '',
-    outcome: 'Sebas',
-  },
-  {
-    id: 'bd7acbea-c1b1-46c3abb28ba',
-    title: 'First Item',
-    amount: '860000',
-    image: 'https://reactjs.org/logo-og.png',
-    date: today.toUTCString(),
-    income: 'Sebas',
-    outcome: '',
-  },
-  {
-    id: '3ac68afc91aa97f63',
-    title: 'Second Item',
-    amount: '50000',
-    image: 'https://reactjs.org/logo-og.png',
-    date: today.toUTCString(),
-    income: '',
-    outcome: 'Sebas',
-  },
-  {
-    id: '3ac68c91aa97f63',
-    title: 'Second Item',
-    amount: '50000',
-    image: 'https://reactjs.org/logo-og.png',
-    date: today.toUTCString(),
-    income: '',
-    outcome: 'Sebas',
-  },
-];
-
-interface getClientError {
-  message: string;
-  statusCode: number;
-}
 
 const AccountScreen = ({ navigation }: any) => {
   const { client } = useSelector((state: any) => state.client);
@@ -170,18 +47,39 @@ const AccountScreen = ({ navigation }: any) => {
     setRefreshing(false);
   }, []);
 
+  const joinArrays = (
+    array1: MovementInterface[],
+    array2: MovementInterface[],
+  ) => {
+    const ids = new Set(array1.map(element => element.id));
+    const transactions: MovementInterface[] = [
+      ...array1,
+      ...array2.filter(item => !ids.has(item.id)),
+    ];
+    return transactions;
+  };
+
   const renderTransactions = ({
     item,
-  }: ListRenderItemInfo<MovementInterface>) => (
-    <Transaction
-      title={item.reason}
-      amount={item.amount}
-      id={item.id}
-      image={image}
-      date={item.date}
-      income={item.idIncome}
-    />
-  );
+  }: ListRenderItemInfo<MovementInterface>) => {
+    var income: string = '';
+    if (item.idIncome !== item.idOutcome && account.id === item.idOutcome) {
+      income = '';
+    } else {
+      income = item.idIncome;
+    }
+
+    return (
+      <Transaction
+        title={item.reason}
+        amount={item.amount}
+        id={item.id}
+        image={image}
+        date={item.date}
+        income={income}
+      />
+    );
+  };
 
   const { currencyFormat } = useAccount();
 
@@ -194,7 +92,7 @@ const AccountScreen = ({ navigation }: any) => {
           style={globalStyles.balanceText}
           numberOfLines={1}
           adjustsFontSizeToFit={true}>
-          {currencyFormat(180576070)}
+          {currencyFormat(Number(account.balance))}
         </Text>
         <Text style={styles.balanceText}>Balance in your account</Text>
       </View>
@@ -209,18 +107,13 @@ const AccountScreen = ({ navigation }: any) => {
       /> */}
 
       <FlatList
-        data={account.movementsIncome}
+        data={joinArrays(account.movementsIncome, account.movementsOutcome)}
         renderItem={renderTransactions}
         keyExtractor={movement => movement.id}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       />
-      {/* <FlatList
-        data={movements}
-        renderItem={renderTransactions}
-        keyExtractor={movement => movement.id}
-      /> */}
     </View>
   );
 };
@@ -230,7 +123,7 @@ export default AccountScreen;
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
-    marginBottom: 150,
+    marginBottom: 170,
   },
   balanceText: {
     marginLeft: 55,

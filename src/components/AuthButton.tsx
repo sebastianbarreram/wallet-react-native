@@ -42,7 +42,8 @@ export const AuthButton = ({ iconName, text, action }: Props) => {
   return (
     <TouchableOpacity
       style={styles.button}
-      onPress={() => (action ? action() : null)}>
+      onPress={() => (action ? action() : null)}
+      disabled={true}>
       <View style={styles.iconContainer}>
         <Image style={styles.icon} source={iconRequire.imageRequiere} />
       </View>

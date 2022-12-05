@@ -10,7 +10,7 @@ const useData = () => {
         return res.json();
       })
       .then(json => {
-        console.log('json', json);
+        // console.log('json', json);
         dispatch(setClient(json));
       });
   };
@@ -22,7 +22,7 @@ const useData = () => {
         return res.json();
       })
       .then(json => {
-        console.log('account', json);
+        // console.log('account', json);
         dispatch(setAccount(json));
       });
   };
