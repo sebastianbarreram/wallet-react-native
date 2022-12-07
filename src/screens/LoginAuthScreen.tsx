@@ -1,10 +1,8 @@
 import {
   Alert,
   BackHandler,
-  Button,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -15,11 +13,11 @@ import { MyStackScreenProps } from '../interfaces/MyStackScreenProps';
 import { AuthContext } from '../context/AuthContext';
 
 export const LoginAuthScreen = ({ navigation }: MyStackScreenProps) => {
-  const { loggedIn } = useContext(AuthContext);
+  const { loggedIn, loading } = useContext(AuthContext);
 
   useEffect(() => {
     if (loggedIn) {
-      navigation.navigate('Home');
+      navigation.navigate('Loading');
     }
   }, [loggedIn, navigation]);
 
@@ -46,7 +44,7 @@ export const LoginAuthScreen = ({ navigation }: MyStackScreenProps) => {
     return () => backHandler.remove();
   }, [navigation]);
 
-  const { login } = useContext(AuthContext);
+  const { login, logout } = useContext(AuthContext);
   return (
     <View style={styles.mainContainer}>
       <View style={styles.logoContainer}>
@@ -58,6 +56,9 @@ export const LoginAuthScreen = ({ navigation }: MyStackScreenProps) => {
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.button} onPress={() => login()}>
           <Text style={styles.buttonText}>CONTINUE</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={() => logout()}>
+          <Text style={styles.buttonText}>logout</Text>
         </TouchableOpacity>
         <View style={styles.containerLine}>
           <View style={styles.line} />

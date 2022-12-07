@@ -1,7 +1,5 @@
 import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import LoansScreen from '../screens/LoansScreen';
-import PaymentScreen from '../screens/PaymentScreen';
 import { TabNavigator } from './TabNavigator';
 import { SideMenuScreen } from '../screens/SideMenuScreen';
 import { LaunchScreen } from '../screens/LaunchScreen';
@@ -25,8 +23,6 @@ export default function DrawerNavigator() {
         },
       }}>
       <Drawer.Screen name="Home" component={TabNavigator} />
-      <Drawer.Screen name="Loans" component={LoansScreen} />
-      <Drawer.Screen name="Payment" component={PaymentScreen} />
       <Drawer.Screen
         name="Launch"
         component={LaunchScreen}

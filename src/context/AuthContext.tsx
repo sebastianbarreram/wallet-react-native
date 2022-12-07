@@ -5,6 +5,7 @@ import jwtDecode from 'jwt-decode';
 import { Alert } from 'react-native';
 import useData from '../hooks/useData';
 import { useSelector } from 'react-redux';
+import { resetMovements } from '../redux/slices/MovementsSlice';
 
 const auth0 = new Auth0({
   domain: 'dev-ekzvwhhuz1fzlqp0.us.auth0.com',
@@ -12,7 +13,7 @@ const auth0 = new Auth0({
 });
 
 const AuthContextProvider = (props: any) => {
-  const [loading] = useState(true);
+  const [loading, setLoading] = useState(true);
   const [loggedIn, setLoggedIn] = useState<boolean>();
   const [userData, setUserData] = useState<
     | {
@@ -21,8 +22,10 @@ const AuthContextProvider = (props: any) => {
       }
     | undefined
   >();
-  const { getClient, postClient } = useData();
+  const { getClient, postClient, getAccount, getMovements, getClientImage } =
+    useData();
   const { client } = useSelector((state: any) => state.client);
+  const { account } = useSelector((state: any) => state.account);
 
   useEffect(() => {
     (async () => {
@@ -32,6 +35,7 @@ const AuthContextProvider = (props: any) => {
           if (user_data) {
             setLoggedIn(true);
             setUserData(user_data);
+            await getClientImage(account.id);
           }
         }
       } catch (err) {
@@ -47,6 +51,8 @@ const AuthContextProvider = (props: any) => {
         if (user_data) {
           setLoggedIn(true);
           setUserData(user_data);
+          setLoading(false);
+          await getClientImage(account.id);
         }
       } catch (err) {
         setLoggedIn(false);
@@ -66,11 +72,11 @@ const AuthContextProvider = (props: any) => {
       await postClient({
         fullName: data.name,
         email: data.email,
-        phone: '2',
+        phone: '5',
         photo: data.picture,
       });
     }
-
+    await getAccount(client.id);
     if (exp < Date.now() / 1000) {
       throw new Error('ID token expired!');
     }
@@ -90,6 +96,7 @@ const AuthContextProvider = (props: any) => {
       await SInfo.setItem('idToken', credentials.idToken, {});
       // Se obtiene la información del usuario
       const user_data = await getUserData(credentials.idToken);
+      setLoading(false);
       setLoggedIn(true);
       setUserData(user_data);
     } catch (err) {
@@ -103,6 +110,7 @@ const AuthContextProvider = (props: any) => {
       await auth0.webAuth.clearSession();
       // Limpiando la sesión. En nuestro caso sería en el Redux
       await SInfo.deleteItem('idToken', {});
+      resetMovements([]);
       setLoggedIn(false);
       setUserData(undefined);
     } catch (err) {

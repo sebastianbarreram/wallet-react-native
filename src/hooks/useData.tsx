@@ -1,11 +1,12 @@
 import { useDispatch } from 'react-redux';
 import { setAccount } from '../redux/slices/AccountSlice';
 import { setClient } from '../redux/slices/ClientSlice';
+import { setImage } from '../redux/slices/ImagesSlice';
 
 const useData = () => {
   const dispatch = useDispatch();
-  const getClient = async (search: string) => {
-    return await fetch(`http://192.168.1.13:3000/api/client/search/${search}`)
+  const getClient = (search: string) => {
+    return fetch(`http://192.168.1.13:3000/api/client/search/${search}`)
       .then(res => {
         return res.json();
       })
@@ -15,9 +16,9 @@ const useData = () => {
       });
   };
 
-  const getAccount = async (id: string) => {
+  const getAccount = (id: string) => {
     // console.log('id', id);
-    return await fetch(`http://192.168.1.13:3000/api/account/${id}`)
+    return fetch(`http://192.168.1.13:3000/api/account/${id}`)
       .then(res => {
         return res.json();
       })
@@ -49,10 +50,34 @@ const useData = () => {
     }
   };
 
+  const getMovements = (id: string) => {
+    return fetch(`http://192.168.1.13:3000/api/account/movements/${id}`)
+      .then(res => {
+        return res.json();
+      })
+      .then(json => {
+        // console.log('json', json);
+      });
+  };
+
+  const getClientImage = (id: string) => {
+    fetch(`http://192.168.1.13:3000/api/account/images/${id}`)
+      .then(res => {
+        return res.json();
+      })
+      .then(json => {
+        // console.log('json :>> ', json);
+        dispatch(setImage(json));
+      });
+    // console.log('image', image);
+  };
+
   return {
     getClient,
     getAccount,
     postClient,
+    getMovements,
+    getClientImage,
   };
 };
 
