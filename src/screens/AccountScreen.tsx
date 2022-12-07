@@ -50,8 +50,8 @@ const AccountScreen = ({ navigation }: any) => {
     // wait(2000).then(() => setRefreshing(false));
     if (account && client) {
       dispatch(fetchMovements(account.id));
-      await getAccount(client.id);
-      await getClientImage(account.id);
+      getAccount(client.id);
+      getClientImage(account.id);
     }
     setRefreshing(false);
   }, []);
@@ -60,7 +60,11 @@ const AccountScreen = ({ navigation }: any) => {
     item,
   }: ListRenderItemInfo<MovementInterface>) => {
     var income: string = '';
-    if (item.idIncome !== item.idOutcome && account.id === item.idOutcome) {
+    if (
+      item.idIncome !== item.idOutcome &&
+      account.id === item.idOutcome &&
+      images
+    ) {
       income = '';
       for (const element of images) {
         if (element.id === item.idIncome) {
@@ -74,7 +78,7 @@ const AccountScreen = ({ navigation }: any) => {
     } else {
       income = item.idIncome;
       for (const element of images) {
-        if (element.id === item.idOutcome) {
+        if (element.id === item.idOutcome && images) {
           image = element.photo;
         }
       }
@@ -91,9 +95,6 @@ const AccountScreen = ({ navigation }: any) => {
       />
     );
   };
-  useEffect(() => {
-    dispatch(fetchMovements(account.id));
-  }, [account.id, dispatch]);
 
   const { currencyFormat } = useAccount();
   const { movements, loading } = useSelector((state: any) => state.movements);

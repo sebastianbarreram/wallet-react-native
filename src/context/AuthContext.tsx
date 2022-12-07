@@ -4,8 +4,12 @@ import SInfo from 'react-native-sensitive-info';
 import jwtDecode from 'jwt-decode';
 import { Alert } from 'react-native';
 import useData from '../hooks/useData';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { resetMovements } from '../redux/slices/MovementsSlice';
+import { setClient } from '../redux/slices/ClientSlice';
+import { ClientInterface } from '../redux/interfaces/ClientInterface';
+import { setAccount } from '../redux/slices/AccountSlice';
+import { setImage } from '../redux/slices/ImagesSlice';
 
 const auth0 = new Auth0({
   domain: 'dev-ekzvwhhuz1fzlqp0.us.auth0.com',
@@ -26,6 +30,7 @@ const AuthContextProvider = (props: any) => {
     useData();
   const { client } = useSelector((state: any) => state.client);
   const { account } = useSelector((state: any) => state.account);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     (async () => {
@@ -33,9 +38,23 @@ const AuthContextProvider = (props: any) => {
         if (loggedIn) {
           const user_data = await getUserData();
           if (user_data) {
+            if (client !== null && client !== undefined) {
+              const responseAccount = await getAccount(client.id);
+              if (
+                responseAccount &&
+                responseAccount.id !== null &&
+                responseAccount.id !== undefined
+              ) {
+                dispatch(setAccount(responseAccount));
+                const responseImages = await getClientImage(responseAccount.id);
+                if (responseImages) {
+                  dispatch(setImage(responseImages));
+                }
+              }
+            }
+
             setLoggedIn(true);
             setUserData(user_data);
-            await getClientImage(account.id);
           }
         }
       } catch (err) {
@@ -49,10 +68,12 @@ const AuthContextProvider = (props: any) => {
       try {
         const user_data = await getUserData();
         if (user_data) {
+          if (client !== null && client !== undefined) {
+            await getAccount(client.id);
+          }
           setLoggedIn(true);
           setUserData(user_data);
           setLoading(false);
-          await getClientImage(account.id);
         }
       } catch (err) {
         setLoggedIn(false);
@@ -67,16 +88,25 @@ const AuthContextProvider = (props: any) => {
     const { name, picture, exp, email } = jwtDecode<any>(idToken);
     const data = jwtDecode<any>(idToken);
 
-    await getClient(data.email);
+    let getClientResponse = await getClient(data.email);
+    if (getClientResponse) {
+      dispatch(setClient(getClientResponse));
+    }
+    // console.log('getClientResponse :>> ', getClientResponse);
     if (client && 'message' in client && client.statusCode === 404) {
-      await postClient({
+      const postClientResponse: ClientInterface = await postClient({
         fullName: data.name,
         email: data.email,
         phone: '5',
         photo: data.picture,
       });
+      getClientResponse = await getClient(data.email);
+      if (getClientResponse) {
+        dispatch(setClient(getClientResponse));
+      }
     }
-    await getAccount(client.id);
+    // console.log('client', client);
+
     if (exp < Date.now() / 1000) {
       throw new Error('ID token expired!');
     }
@@ -100,6 +130,7 @@ const AuthContextProvider = (props: any) => {
       setLoggedIn(true);
       setUserData(user_data);
     } catch (err) {
+      console.log('err login :>> ', err);
       Alert.alert('Error logging in: ' + err);
     }
   };
@@ -110,11 +141,11 @@ const AuthContextProvider = (props: any) => {
       await auth0.webAuth.clearSession();
       // Limpiando la sesión. En nuestro caso sería en el Redux
       await SInfo.deleteItem('idToken', {});
-      resetMovements([]);
       setLoggedIn(false);
       setUserData(undefined);
     } catch (err) {
-      Alert.alert('Error logging in');
+      console.log('err', err);
+      Alert.alert('Error logging in ' + err);
     }
   };
   const value = {

@@ -10,9 +10,9 @@ const MovementsSlice = createSlice({
     loading: false,
   },
   reducers: {
-    resetMovements(state, action: PayloadAction<MovementInterface[]>) {
-      state.movements = action.payload;
-    },
+    // resetMovements(state, action: PayloadAction<MovementInterface[]>) {
+    //   state.movements = action.payload;
+    // },
   },
   extraReducers: builder => {
     builder.addCase(fetchMovements.pending, state => {
@@ -29,13 +29,13 @@ const MovementsSlice = createSlice({
 });
 
 export default MovementsSlice.reducer;
-export const { resetMovements } = MovementsSlice.actions;
+// export const { resetMovements } = MovementsSlice.actions;
 
 export const fetchMovements = createAsyncThunk(
   'users/fetchMovements',
   async (id: string) => {
     const response = await fetch(
-      `http://192.168.1.13:3000/api/account/movements/${id}`,
+      `http://192.168.1.3:3000/api/account/movements/${id}`,
     );
     return (await response.json()) as MovementInterface[];
   },

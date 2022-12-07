@@ -41,33 +41,6 @@ export default function DrawerNavigator() {
           swipeEnabled: false,
         }}
       />
-      {/* <Drawer.Screen
-        name="LoginUser"
-        component={LoginUserScreen}
-        options={{
-          drawerItemStyle: { display: 'none' },
-          headerShown: false,
-          swipeEnabled: false,
-        }}
-      />
-      <Drawer.Screen
-        name="LoginPassword"
-        component={LoginPasswordScreen}
-        options={{
-          drawerItemStyle: { display: 'none' },
-          headerShown: false,
-          swipeEnabled: false,
-        }}
-      />
-      <Drawer.Screen
-        name="Register"
-        component={RegisterScreen}
-        options={{
-          drawerItemStyle: { display: 'none' },
-          headerShown: false,
-          swipeEnabled: false,
-        }}
-      /> */}
       <Drawer.Screen name="ChangePassword" component={ChangePasswordScreen} />
       <Drawer.Screen name="ThemeOptions" component={ThemeOptionsScreen} />
     </Drawer.Navigator>

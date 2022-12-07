@@ -11,7 +11,7 @@ const Stack = createStackNavigator();
 export const StackNavigation = () => {
   return (
     <Stack.Navigator
-      initialRouteName="Loading"
+      initialRouteName="Login"
       screenOptions={{
         gestureEnabled: true,
         headerShown: false,

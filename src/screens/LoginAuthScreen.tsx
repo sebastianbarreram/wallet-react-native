@@ -17,7 +17,7 @@ export const LoginAuthScreen = ({ navigation }: MyStackScreenProps) => {
 
   useEffect(() => {
     if (loggedIn) {
-      navigation.navigate('Loading');
+      navigation.navigate('Home');
     }
   }, [loggedIn, navigation]);
 
