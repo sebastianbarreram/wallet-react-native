@@ -1,3 +1,5 @@
+import { AccountInterface } from './AccountInterface';
+import { AppInterface } from './AppInterface';
 export interface ClientInterface {
   id: string;
   fullName: string;
@@ -7,4 +9,6 @@ export interface ClientInterface {
   state: number;
   createdAt: Date;
   updatedAt: Date | null;
+  account: AccountInterface;
+  app: AppInterface;
 }

@@ -1,10 +1,4 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import React from 'react';
 import useAccount from '../hooks/useAccount';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -15,7 +9,7 @@ const LoansScreen = ({ navigation }: MyStackScreenProps) => {
   const { currencyFormat } = useAccount();
   return (
     <View style={styles.mainContainer}>
-      <View style={{ ...styles.maxLoanAmountContainer, marginTop: 0 }}>
+      <View style={styles.containerLoan}>
         <View style={styles.icon}>
           <Icon name="euro" size={24} color="rgba(0, 0, 0, 0.6)" />
         </View>
@@ -31,37 +25,11 @@ const LoansScreen = ({ navigation }: MyStackScreenProps) => {
         iconName="credit-card"
         placeHolder="Amount"
       />
-      {/* <View style={styles.maxLoanAmountContainer}>
-        <View style={styles.icon}>
-          <Icon name="credit-card" size={24} color="rgba(0, 0, 0, 0.6)" />
-        </View>
-
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.input}
-            placeholder={'Amount'}
-            placeholderTextColor="#rgba(0, 0, 0, 0.6)"
-          />
-        </View>
-      </View> */}
       <InputTextContainer
-        style={{ ...styles.maxLoanAmountContainer, marginVertical: 15 }}
+        style={styles.lastInput}
         iconName="comment"
         placeHolder="Reason"
       />
-      {/* <View style={{ ...styles.maxLoanAmountContainer, marginVertical: 15 }}>
-        <View style={styles.icon}>
-          <Icon name="comment" size={24} color="rgba(0, 0, 0, 0.6)" />
-        </View>
-
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.input}
-            placeholder={'Reason'}
-            placeholderTextColor="#rgba(0, 0, 0, 0.6)"
-          />
-        </View>
-      </View> */}
 
       <View>
         <TouchableOpacity
@@ -82,6 +50,18 @@ const styles = StyleSheet.create({
     marginBottom: 150,
     padding: 12,
     height: '100%',
+  },
+  containerLoan: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    margin: 8,
+    marginTop: 0,
+  },
+  lastInput: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    margin: 8,
+    marginVertical: 15,
   },
   balanceText: {
     fontSize: 16,

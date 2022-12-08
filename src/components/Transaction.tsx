@@ -1,13 +1,14 @@
 import { View, Text, Image } from 'react-native';
 import React from 'react';
 import { styles } from '../themes/WalletTheme';
+import useAccount from '../hooks/useAccount';
 
 interface Props {
   id: string;
   title: string;
   amount: string;
   image: string;
-  date: string;
+  date: Date;
   income?: string;
   outcome?: string;
 }
@@ -20,14 +21,7 @@ const Transaction = ({
   income,
   outcome,
 }: Props) => {
-  const currencyFormat = (number: string) => {
-    return (
-      '$' +
-      Number(number)
-        .toFixed(0)
-        .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
-    );
-  };
+  const { currencyFormat, dateFormat } = useAccount();
   return (
     <View style={styles.transaction}>
       <View>
@@ -41,14 +35,14 @@ const Transaction = ({
         <Text style={styles.reason} numberOfLines={1}>
           {title}
         </Text>
-        <Text style={styles.date}>{date}</Text>
+        <Text style={styles.date}>{dateFormat(date)}</Text>
       </View>
 
       <Text
         style={{
           ...(income === '' ? styles.outcomeAmount : styles.incomeAmount),
         }}>
-        {currencyFormat(amount)}
+        {currencyFormat(Number(amount))}
       </Text>
     </View>
   );

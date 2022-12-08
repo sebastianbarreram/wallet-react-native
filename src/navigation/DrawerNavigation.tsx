@@ -1,7 +1,5 @@
 import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import LoansScreen from '../screens/LoansScreen';
-import PaymentScreen from '../screens/PaymentScreen';
 import { TabNavigator } from './TabNavigator';
 import { SideMenuScreen } from '../screens/SideMenuScreen';
 import { LaunchScreen } from '../screens/LaunchScreen';
@@ -25,8 +23,6 @@ export default function DrawerNavigator() {
         },
       }}>
       <Drawer.Screen name="Home" component={TabNavigator} />
-      <Drawer.Screen name="Loans" component={LoansScreen} />
-      <Drawer.Screen name="Payment" component={PaymentScreen} />
       <Drawer.Screen
         name="Launch"
         component={LaunchScreen}
@@ -45,33 +41,6 @@ export default function DrawerNavigator() {
           swipeEnabled: false,
         }}
       />
-      {/* <Drawer.Screen
-        name="LoginUser"
-        component={LoginUserScreen}
-        options={{
-          drawerItemStyle: { display: 'none' },
-          headerShown: false,
-          swipeEnabled: false,
-        }}
-      />
-      <Drawer.Screen
-        name="LoginPassword"
-        component={LoginPasswordScreen}
-        options={{
-          drawerItemStyle: { display: 'none' },
-          headerShown: false,
-          swipeEnabled: false,
-        }}
-      />
-      <Drawer.Screen
-        name="Register"
-        component={RegisterScreen}
-        options={{
-          drawerItemStyle: { display: 'none' },
-          headerShown: false,
-          swipeEnabled: false,
-        }}
-      /> */}
       <Drawer.Screen name="ChangePassword" component={ChangePasswordScreen} />
       <Drawer.Screen name="ThemeOptions" component={ThemeOptionsScreen} />
     </Drawer.Navigator>

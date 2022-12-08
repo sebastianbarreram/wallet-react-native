@@ -3,6 +3,13 @@ import Auth0 from 'react-native-auth0';
 import SInfo from 'react-native-sensitive-info';
 import jwtDecode from 'jwt-decode';
 import { Alert } from 'react-native';
+import useData from '../hooks/useData';
+import { useDispatch, useSelector } from 'react-redux';
+import { setClient } from '../redux/slices/ClientSlice';
+import { ClientInterface } from '../redux/interfaces/ClientInterface';
+import { setAccount } from '../redux/slices/AccountSlice';
+import { setImage } from '../redux/slices/ImagesSlice';
+import { setMovements } from '../redux/slices/MovementsSlice';
 
 const auth0 = new Auth0({
   domain: 'dev-ekzvwhhuz1fzlqp0.us.auth0.com',
@@ -10,7 +17,7 @@ const auth0 = new Auth0({
 });
 
 const AuthContextProvider = (props: any) => {
-  const [loading] = useState(true);
+  const [loading, setLoading] = useState(true);
   const [loggedIn, setLoggedIn] = useState<boolean>();
   const [userData, setUserData] = useState<
     | {
@@ -19,6 +26,9 @@ const AuthContextProvider = (props: any) => {
       }
     | undefined
   >();
+  const { getClient, getFullAccount } = useData();
+  const { client } = useSelector((state: any) => state.client);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     (async () => {
@@ -26,6 +36,25 @@ const AuthContextProvider = (props: any) => {
         if (loggedIn) {
           const user_data = await getUserData();
           if (user_data) {
+            if (
+              client.id !== '' &&
+              client.id !== null &&
+              client.id !== undefined
+            ) {
+              const responseAccountFull = await getFullAccount(client.id);
+              console.log('responseAccount1', responseAccountFull);
+              if (
+                responseAccountFull &&
+                responseAccountFull.account.id !== null &&
+                responseAccountFull.account.id !== undefined &&
+                responseAccountFull.account.id !== ''
+              ) {
+                dispatch(setAccount(responseAccountFull.account));
+                dispatch(setImage(responseAccountFull.images));
+                dispatch(setMovements(responseAccountFull.movements));
+              }
+            }
+            setLoading(true);
             setLoggedIn(true);
             setUserData(user_data);
           }
@@ -43,6 +72,7 @@ const AuthContextProvider = (props: any) => {
         if (user_data) {
           setLoggedIn(true);
           setUserData(user_data);
+          setLoading(false);
         }
       } catch (err) {
         setLoggedIn(false);
@@ -56,15 +86,13 @@ const AuthContextProvider = (props: any) => {
     // Decodifico el token (JWT)
     const { name, picture, exp, email } = jwtDecode<any>(idToken);
     const data = jwtDecode<any>(idToken);
-    console.log('data JWT', JSON.stringify(data, null, 2));
-    // postClient();
 
-    // getClient(data.email);
-    // console.log('body response', response);
-    // if (response && 'message' in response && response.statusCode === 404) {
-    //   // console.log('responseError', response);
-    //   postClient(data);
-    // }
+    let getClientResponse: ClientInterface | undefined = await getClient(
+      data.email,
+    );
+    if (getClientResponse) {
+      dispatch(setClient(getClientResponse));
+    }
 
     if (exp < Date.now() / 1000) {
       throw new Error('ID token expired!');
@@ -76,33 +104,6 @@ const AuthContextProvider = (props: any) => {
     };
   };
 
-  const postClient = async (data: any) => {
-    const datos = {
-      fullName: data.name,
-      email: data.email,
-      phone: '1',
-      photo: data.picture,
-    };
-    const requestOptions = {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(datos),
-    };
-    try {
-      const responsePost = await fetch(
-        'http://192.168.1.13:3000/api/client/signup',
-        requestOptions,
-      );
-      const json = await responsePost.json();
-      const bodyResponsePost = await json;
-    } catch (error) {
-      console.log('error', error);
-    }
-  };
-
   const login = async () => {
     try {
       const credentials = await auth0.webAuth.authorize({
@@ -112,9 +113,11 @@ const AuthContextProvider = (props: any) => {
       await SInfo.setItem('idToken', credentials.idToken, {});
       // Se obtiene la información del usuario
       const user_data = await getUserData(credentials.idToken);
+      setLoading(false);
       setLoggedIn(true);
       setUserData(user_data);
     } catch (err) {
+      console.log('err login :>> ', err);
       Alert.alert('Error logging in: ' + err);
     }
   };
@@ -127,11 +130,54 @@ const AuthContextProvider = (props: any) => {
       await SInfo.deleteItem('idToken', {});
       setLoggedIn(false);
       setUserData(undefined);
+      setAccount({
+        id: '',
+        idClient: '',
+        balance: '',
+        credit: '',
+        state: 0,
+        createdAt: null,
+        updatedAt: null,
+        deletedAt: null,
+        movementsIncome: [],
+        movementsOutcome: [],
+      });
+      setImage([]);
+      setClient({
+        id: '',
+        fullName: '',
+        email: '',
+        phone: '',
+        photo: 'https://reactjs.org/logo-og.png',
+        state: 1,
+        createdAt: new Date('December 2, 2022 03:24:00'),
+        updatedAt: null,
+        account: {
+          id: '',
+          idClient: '',
+          balance: '',
+          credit: '',
+          state: 0,
+          createdAt: new Date('December 7, 1995 03:24:00'),
+          updatedAt: null,
+          deletedAt: null,
+          movementsIncome: [],
+          movementsOutcome: [],
+        },
+        app: {
+          id: '',
+          idClient: '',
+          color: '',
+          createdAt: new Date('December 17, 1995 03:24:00'),
+          updatedAt: null,
+        },
+      });
     } catch (err) {
-      console.log(err);
-      Alert.alert('Error logging in');
+      console.log('err', err);
+      Alert.alert('Error logging in ' + err);
     }
   };
+
   const value = {
     loading,
     loggedIn,

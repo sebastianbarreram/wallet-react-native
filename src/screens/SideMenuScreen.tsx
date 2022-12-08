@@ -20,19 +20,6 @@ export const SideMenuScreen = ({ navigation }: MyDrawerScreenProps) => {
       <Text style={styles.textAccountName}>
         {userData ? client.fullName : null}
       </Text>
-      {/* <Button
-        title="Ir a Launch Screen"
-        onPress={() => navigation.navigate('Launch')}
-      />
-      <Button
-        title="Ir a Login User Screen"
-        onPress={() => navigation.navigate('LoginUser')}
-      />
-      <Button
-        title="Ir a Login Password Screen"
-        onPress={() => navigation.navigate('LoginPassword')}
-      />
-      <Button title="Ir a Loans" onPress={() => navigation.navigate('Loans')} /> */}
       <SideMenuButton
         iconName="settings"
         text="Change password"
@@ -79,14 +66,5 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     color: 'black',
     marginBottom: 60,
-  },
-  buttonContainer: {
-    alignItems: 'center',
-  },
-  buttonText: {
-    color: 'white',
-    height: 48,
-    textAlignVertical: 'center',
-    fontWeight: '500',
   },
 });

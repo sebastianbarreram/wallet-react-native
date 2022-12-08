@@ -1,224 +1,167 @@
-import { View, Text, FlatList, ListRenderItemInfo } from 'react-native';
+import {
+  View,
+  Text,
+  FlatList,
+  ListRenderItemInfo,
+  StyleSheet,
+  RefreshControl,
+  ActivityIndicator,
+  ScrollView,
+} from 'react-native';
 import React, { useContext, useEffect, useState } from 'react';
 import Transaction from '../components/Transaction';
-import { styles } from '../themes/WalletTheme';
+import { styles as globalStyles } from '../themes/WalletTheme';
 import useAccount from '../hooks/useAccount';
 import { AuthContext } from '../context/AuthContext';
-import { ClientInterface } from '../redux/interfaces/ClientInterface';
 import { useDispatch, useSelector } from 'react-redux';
-import { setClient } from '../redux/slices/ClientSlice';
-
-interface Movement {
-  id: string;
-  title: string;
-  amount: string;
-  image: string;
-  date: string;
-  income: string;
-  outcome: string;
-}
-
-const timeElapsed: number = Date.now();
-const today = new Date(timeElapsed);
-
-const movements: Movement[] = [
-  {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    title: 'First Item',
-    amount: '5000000',
-    image: 'https://reactjs.org/logo-og.png',
-    date: today.toUTCString(),
-    income: 'Sebas',
-    outcome: '',
-  },
-  {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-    title: 'Second Item',
-    amount: '10000',
-    image: 'https://reactjs.org/logo-og.png',
-    date: today.toUTCString(),
-    income: '',
-    outcome: 'Sebas',
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d72',
-    title: 'Third Item',
-    amount: '22000',
-    image: 'https://reactjs.org/logo-og.png',
-    date: today.toUTCString(),
-    income: 'Santi',
-    outcome: '',
-  },
-  {
-    id: '58656djf-3da1-471f-bd96-145571e29d72',
-    title:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem optio dolorum temporibus',
-    amount: '100000000',
-    image: 'https://reactjs.org/logo-og.png',
-    date: today.toUTCString(),
-    income: 'Santi',
-    outcome: '',
-  },
-  {
-    id: '3bd91aa97f63',
-    title:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem optio dolorum temporibus',
-    amount: '10000',
-    image: 'https://reactjs.org/logo-og.png',
-    date: today.toUTCString(),
-    income: '',
-    outcome: 'Sebas',
-  },
-  {
-    id: '3af8-fbd91aa97f63',
-    title: 'Second Item',
-    amount: '10000',
-    image: 'https://reactjs.org/logo-og.png',
-    date: today.toUTCString(),
-    income: '',
-    outcome: 'Sebas',
-  },
-  {
-    id: '3ac68afc-fbd91aa97f63',
-    title: 'Second Item',
-    amount: '960000',
-    image: 'https://reactjs.org/logo-og.png',
-    date: today.toUTCString(),
-    income: '',
-    outcome: 'Sebas',
-  },
-  {
-    id: '3ac68afcaa97f63',
-    title: 'Second Item',
-    amount: '198640',
-    image: 'https://reactjs.org/logo-og.png',
-    date: today.toUTCString(),
-    income: '',
-    outcome: 'Sebas',
-  },
-  {
-    id: 'bd7acbea-c1b1-46c3abb28ba',
-    title: 'First Item',
-    amount: '860000',
-    image: 'https://reactjs.org/logo-og.png',
-    date: today.toUTCString(),
-    income: 'Sebas',
-    outcome: '',
-  },
-  {
-    id: '3ac68afc91aa97f63',
-    title: 'Second Item',
-    amount: '50000',
-    image: 'https://reactjs.org/logo-og.png',
-    date: today.toUTCString(),
-    income: '',
-    outcome: 'Sebas',
-  },
-  {
-    id: '3ac68c91aa97f63',
-    title: 'Second Item',
-    amount: '50000',
-    image: 'https://reactjs.org/logo-og.png',
-    date: today.toUTCString(),
-    income: '',
-    outcome: 'Sebas',
-  },
-];
-
-interface getClientError {
-  message: string;
-  statusCode: number;
-}
+import useData from '../hooks/useData';
+import { MovementInterface } from '../redux/interfaces/MovementInterface';
+import { fetchMovements } from '../redux/slices/MovementsSlice';
+import { AppDispatch } from '../redux/storage/configStore';
+import { setAccount } from '../redux/slices/AccountSlice';
+import { setImage } from '../redux/slices/ImagesSlice';
 
 const AccountScreen = ({ navigation }: any) => {
-  const dispatch = useDispatch();
-  const { client } = useSelector((state: any) => state.client);
-  const { loggedIn, userData } = useContext(AuthContext);
+  const dispatch = useDispatch<AppDispatch>();
 
-  const [response, setResponse] = useState<ClientInterface | getClientError>();
+  const { client } = useSelector((state: any) => state.client);
+  const { account } = useSelector((state: any) => state.account);
+  const { images } = useSelector((state: any) => state.images);
+  const { getAccount, getClientImage } = useData();
+  const { loggedIn } = useContext(AuthContext);
+  const [refreshing, setRefreshing] = useState(false);
+  let image = 'https://reactjs.org/logo-og.png';
+  console.log('client', client);
 
   useEffect(() => {
     if (loggedIn === false) {
-      //   navigation.dispatch(StackActions.replace('Login'));
       navigation.navigate('Launch');
     }
   }, [loggedIn, navigation]);
 
-  useEffect(() => {
-    getClient(userData.email);
-    console.log('hizo el get');
-  }, [userData.email]);
+  // useEffect(() => {
+  //   getAccount(client.id);
+  //   setRefreshing(false);
+  // }, [client.id]);
 
   useEffect(() => {
-    getAccount(client.id);
-  }, [client.id]);
+    console.log('images 1', images);
+    dispatch(fetchMovements(account.id));
+  }, [account.id, dispatch]);
 
-  const getClient = async (search: string) => {
-    return await fetch(`http://192.168.1.13:3000/api/client/search/${search}`)
-      .then(res => {
-        // console.log('res', JSON.stringify(res, null, 2));
-        return res.json();
-      })
-      .then(json => {
-        console.log('json', json);
-        setResponse(json);
-        dispatch(setClient(json));
-      });
+  const onRefresh = React.useCallback(async () => {
+    setRefreshing(true);
+    // wait(2000).then(() => setRefreshing(false));
+    // console.log('account :>> ', account);
+    if (account.id !== '' && client.id !== '') {
+      dispatch(fetchMovements(account.id));
+      const responseAccount = await getAccount(client.id);
+      // console.log('responseAccount2', responseAccount);
+      if (responseAccount && responseAccount.id !== '') {
+        dispatch(setAccount(responseAccount));
+        const responseClientImage = await getClientImage(account.id);
+        if (responseClientImage && responseClientImage.length > 0) {
+          dispatch(setImage(responseClientImage));
+        }
+      }
+    }
+    setRefreshing(false);
+  }, []);
+
+  const renderTransactions = ({
+    item,
+  }: ListRenderItemInfo<MovementInterface>) => {
+    var income: string = '';
+    if (
+      item.idIncome !== item.idOutcome &&
+      account.id === item.idOutcome &&
+      images
+    ) {
+      income = '';
+      // console.log('images2', images);
+      for (const element of images) {
+        if (element.id === item.idIncome) {
+          image = element.photo;
+        }
+      }
+      // image = images.get(item.idIncome);
+    } else if (item.idIncome === item.idOutcome) {
+      income = item.idIncome;
+      image = 'https://reactjs.org/logo-og.png';
+    } else {
+      income = item.idIncome;
+      for (const element of images) {
+        if (element.id === item.idOutcome && images) {
+          image = element.photo;
+        }
+      }
+    }
+
+    return (
+      <Transaction
+        title={item.reason}
+        amount={item.amount}
+        id={item.id}
+        image={image}
+        date={item.date}
+        income={income}
+      />
+    );
   };
-
-  const getAccount = async (id: string) => {
-    console.log('id', id);
-    return await fetch(`http://192.168.1.13:3000/api/account/${id}`)
-      .then(res => {
-        // console.log('res', JSON.stringify(res, null, 2));
-        return res.json();
-      })
-      .then(json => {
-        console.log('account', json);
-        // setResponse(json);
-        // dispatch(setClient(json));
-      });
-  };
-
-  const renderTransactions = ({ item }: ListRenderItemInfo<Movement>) => (
-    <Transaction
-      title={item.title}
-      amount={item.amount}
-      id={item.id}
-      image={item.image}
-      date={item.date}
-      income={item.income}
-    />
-  );
 
   const { currencyFormat } = useAccount();
+  const { movements, loading } = useSelector((state: any) => state.movements);
+  if (loading && account.id === '' && client) {
+    return <ActivityIndicator size="large" />;
+  }
 
   return (
-    <View style={{ backgroundColor: 'white', marginBottom: 150 }}>
-      <View style={styles.circle} />
-      <View style={styles.balanceContainer}>
+    <View style={styles.container}>
+      {/* <ScrollView
+        contentContainerStyle={{ ...styles.container, marginBottom: 70 }}
+        refreshControl={
+          <RefreshControl refreshing={refreshing2} onRefresh={onRefresh} />
+        }> */}
+      {refreshing ? <ActivityIndicator /> : null}
+      <View style={globalStyles.circle} />
+      <View style={globalStyles.balanceContainer}>
         <Text
-          style={styles.balanceText}
+          style={globalStyles.balanceText}
           numberOfLines={1}
           adjustsFontSizeToFit={true}>
-          {currencyFormat(180576070)}
+          {currencyFormat(Number(account.balance))}
         </Text>
-        <Text
-          style={{
-            marginLeft: 55,
-            fontSize: 16,
-            color: 'rgba(255, 255, 255, 0.74)',
-          }}>
-          Balance in your account
-        </Text>
+        <Text style={styles.balanceText}>Balance in your account</Text>
       </View>
-      <FlatList
-        data={movements}
-        renderItem={renderTransactions}
-        keyExtractor={movement => movement.id}
-      />
+      {/* </ScrollView> */}
+      <View style={styles.containerMovements}>
+        <FlatList
+          data={movements}
+          renderItem={renderTransactions}
+          keyExtractor={movement => movement.id}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+        />
+      </View>
     </View>
   );
 };
 
 export default AccountScreen;
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: 'white',
+    marginBottom: 170,
+  },
+  balanceText: {
+    marginLeft: 55,
+    fontSize: 16,
+    color: 'rgba(255, 255, 255, 0.74)',
+  },
+  containerMovements: {
+    height: '80%',
+    backgroundColor: 'white',
+  },
+});
