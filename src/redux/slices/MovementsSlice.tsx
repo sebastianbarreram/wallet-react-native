@@ -10,9 +10,9 @@ const MovementsSlice = createSlice({
     loading: false,
   },
   reducers: {
-    // resetMovements(state, action: PayloadAction<MovementInterface[]>) {
-    //   state.movements = action.payload;
-    // },
+    setMovements(state, action: PayloadAction<MovementInterface[]>) {
+      state.movements = action.payload;
+    },
   },
   extraReducers: builder => {
     builder.addCase(fetchMovements.pending, state => {
@@ -29,7 +29,7 @@ const MovementsSlice = createSlice({
 });
 
 export default MovementsSlice.reducer;
-// export const { resetMovements } = MovementsSlice.actions;
+export const { setMovements } = MovementsSlice.actions;
 
 export const fetchMovements = createAsyncThunk(
   'users/fetchMovements',

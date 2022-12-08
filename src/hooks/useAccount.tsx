@@ -5,7 +5,7 @@ const useAccount = () => {
   const dateFormat = (date: Date) => {
     const getDate = new Date(date);
     const day = getDate.getDate();
-    const month = getDate.getMonth();
+    const month = getDate.getMonth() + 1;
     const year = getDate.getUTCFullYear();
     var hours = getDate.getHours();
     var minutes = getDate.getMinutes();

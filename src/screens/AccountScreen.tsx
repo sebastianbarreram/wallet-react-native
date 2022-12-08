@@ -18,6 +18,8 @@ import useData from '../hooks/useData';
 import { MovementInterface } from '../redux/interfaces/MovementInterface';
 import { fetchMovements } from '../redux/slices/MovementsSlice';
 import { AppDispatch } from '../redux/storage/configStore';
+import { setAccount } from '../redux/slices/AccountSlice';
+import { setImage } from '../redux/slices/ImagesSlice';
 
 const AccountScreen = ({ navigation }: any) => {
   const dispatch = useDispatch<AppDispatch>();
@@ -29,6 +31,7 @@ const AccountScreen = ({ navigation }: any) => {
   const { loggedIn } = useContext(AuthContext);
   const [refreshing, setRefreshing] = useState(false);
   let image = 'https://reactjs.org/logo-og.png';
+  console.log('client', client);
 
   useEffect(() => {
     if (loggedIn === false) {
@@ -42,16 +45,25 @@ const AccountScreen = ({ navigation }: any) => {
   // }, [client.id]);
 
   useEffect(() => {
+    console.log('images 1', images);
     dispatch(fetchMovements(account.id));
   }, [account.id, dispatch]);
 
   const onRefresh = React.useCallback(async () => {
     setRefreshing(true);
     // wait(2000).then(() => setRefreshing(false));
-    if (account && client) {
+    // console.log('account :>> ', account);
+    if (account.id !== '' && client.id !== '') {
       dispatch(fetchMovements(account.id));
-      getAccount(client.id);
-      getClientImage(account.id);
+      const responseAccount = await getAccount(client.id);
+      // console.log('responseAccount2', responseAccount);
+      if (responseAccount && responseAccount.id !== '') {
+        dispatch(setAccount(responseAccount));
+        const responseClientImage = await getClientImage(account.id);
+        if (responseClientImage && responseClientImage.length > 0) {
+          dispatch(setImage(responseClientImage));
+        }
+      }
     }
     setRefreshing(false);
   }, []);
@@ -66,6 +78,7 @@ const AccountScreen = ({ navigation }: any) => {
       images
     ) {
       income = '';
+      // console.log('images2', images);
       for (const element of images) {
         if (element.id === item.idIncome) {
           image = element.photo;
@@ -98,7 +111,7 @@ const AccountScreen = ({ navigation }: any) => {
 
   const { currencyFormat } = useAccount();
   const { movements, loading } = useSelector((state: any) => state.movements);
-  if (loading && account && client) {
+  if (loading && account.id === '' && client) {
     return <ActivityIndicator size="large" />;
   }
 

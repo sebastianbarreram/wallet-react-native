@@ -16,6 +16,8 @@ interface Props {
   placeHolder: string;
   iconName: string;
   type?: string;
+  handleOnChange: (value: string) => void;
+  value: string;
 }
 
 const InputTextContainer = ({
@@ -23,6 +25,8 @@ const InputTextContainer = ({
   placeHolder,
   iconName,
   type = 'text',
+  handleOnChange,
+  value,
 }: Props) => {
   const { passwordVisibility, rightIcon, handlePasswordVisibility } =
     usePasswordVisibility();
@@ -34,6 +38,8 @@ const InputTextContainer = ({
         style={styles.input}
         placeholder={placeHolder}
         placeholderTextColor="#rgba(0, 0, 0, 0.6)"
+        onChangeText={handleOnChange}
+        value={value}
       />
     );
   } else if (type === 'password') {

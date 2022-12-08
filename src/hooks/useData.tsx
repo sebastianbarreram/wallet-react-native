@@ -1,8 +1,8 @@
 import { ClientInterface } from '../redux/interfaces/ClientInterface';
-import { setImage } from '../redux/slices/ImagesSlice';
 import { AccountInterface } from '../redux/interfaces/AccountInterface';
 import { MovementInterface } from '../redux/interfaces/MovementInterface';
 import { AccountGetByIdInterface } from './interfaces/accountGetByIdInterface';
+import { AccountFullInterface } from './interfaces/accountFullInterface';
 
 const useData = () => {
   const getClient = async (
@@ -14,7 +14,7 @@ const useData = () => {
         `http://192.168.1.3:3000/api/client/search/${search}`,
       );
       const client: ClientInterface = await response.json();
-      // dispatch(setClient(json));
+      console.log('client :>> ', client);
       return client;
     } catch (error) {
       console.log('error', error);
@@ -24,7 +24,6 @@ const useData = () => {
   const getAccount = async (
     id: string,
   ): Promise<AccountInterface | undefined> => {
-    console.log('id getAccount', id);
     try {
       const response: Response = await fetch(
         `http://192.168.1.3:3000/api/account/${id}`,
@@ -62,7 +61,6 @@ const useData = () => {
   const getMovements = async (
     id: string,
   ): Promise<MovementInterface | undefined> => {
-    console.log('id getMovements', id);
     try {
       const response: Response = await fetch(
         `http://192.168.1.3:3000/api/account/movements/${id}`,
@@ -75,10 +73,21 @@ const useData = () => {
   const getClientImage = async (
     id: string,
   ): Promise<AccountGetByIdInterface[] | undefined> => {
-    console.log('id getClientImage', id);
     try {
       const response: Response = await fetch(
         `http://192.168.1.3:3000/api/account/images/${id}`,
+      );
+      const clientImages = await response.json();
+      return clientImages;
+    } catch (error) {}
+  };
+
+  const getFullAccount = async (
+    id: string,
+  ): Promise<AccountFullInterface | undefined> => {
+    try {
+      const response: Response = await fetch(
+        `http://192.168.1.3:3000/api/account/full/${id}`,
       );
       const clientImages = await response.json();
       return clientImages;
@@ -91,6 +100,7 @@ const useData = () => {
     postClient,
     getMovements,
     getClientImage,
+    getFullAccount,
   };
 };
 

@@ -5,11 +5,11 @@ import jwtDecode from 'jwt-decode';
 import { Alert } from 'react-native';
 import useData from '../hooks/useData';
 import { useDispatch, useSelector } from 'react-redux';
-import { resetMovements } from '../redux/slices/MovementsSlice';
 import { setClient } from '../redux/slices/ClientSlice';
 import { ClientInterface } from '../redux/interfaces/ClientInterface';
 import { setAccount } from '../redux/slices/AccountSlice';
 import { setImage } from '../redux/slices/ImagesSlice';
+import { setMovements } from '../redux/slices/MovementsSlice';
 
 const auth0 = new Auth0({
   domain: 'dev-ekzvwhhuz1fzlqp0.us.auth0.com',
@@ -26,10 +26,8 @@ const AuthContextProvider = (props: any) => {
       }
     | undefined
   >();
-  const { getClient, postClient, getAccount, getMovements, getClientImage } =
-    useData();
+  const { getClient, getFullAccount } = useData();
   const { client } = useSelector((state: any) => state.client);
-  const { account } = useSelector((state: any) => state.account);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -38,21 +36,25 @@ const AuthContextProvider = (props: any) => {
         if (loggedIn) {
           const user_data = await getUserData();
           if (user_data) {
-            if (client !== null && client !== undefined) {
-              const responseAccount = await getAccount(client.id);
+            if (
+              client.id !== '' &&
+              client.id !== null &&
+              client.id !== undefined
+            ) {
+              const responseAccountFull = await getFullAccount(client.id);
+              console.log('responseAccount1', responseAccountFull);
               if (
-                responseAccount &&
-                responseAccount.id !== null &&
-                responseAccount.id !== undefined
+                responseAccountFull &&
+                responseAccountFull.account.id !== null &&
+                responseAccountFull.account.id !== undefined &&
+                responseAccountFull.account.id !== ''
               ) {
-                dispatch(setAccount(responseAccount));
-                const responseImages = await getClientImage(responseAccount.id);
-                if (responseImages) {
-                  dispatch(setImage(responseImages));
-                }
+                dispatch(setAccount(responseAccountFull.account));
+                dispatch(setImage(responseAccountFull.images));
+                dispatch(setMovements(responseAccountFull.movements));
               }
             }
-
+            setLoading(true);
             setLoggedIn(true);
             setUserData(user_data);
           }
@@ -68,9 +70,6 @@ const AuthContextProvider = (props: any) => {
       try {
         const user_data = await getUserData();
         if (user_data) {
-          if (client !== null && client !== undefined) {
-            await getAccount(client.id);
-          }
           setLoggedIn(true);
           setUserData(user_data);
           setLoading(false);
@@ -88,24 +87,12 @@ const AuthContextProvider = (props: any) => {
     const { name, picture, exp, email } = jwtDecode<any>(idToken);
     const data = jwtDecode<any>(idToken);
 
-    let getClientResponse = await getClient(data.email);
+    let getClientResponse: ClientInterface | undefined = await getClient(
+      data.email,
+    );
     if (getClientResponse) {
       dispatch(setClient(getClientResponse));
     }
-    // console.log('getClientResponse :>> ', getClientResponse);
-    if (client && 'message' in client && client.statusCode === 404) {
-      const postClientResponse: ClientInterface = await postClient({
-        fullName: data.name,
-        email: data.email,
-        phone: '5',
-        photo: data.picture,
-      });
-      getClientResponse = await getClient(data.email);
-      if (getClientResponse) {
-        dispatch(setClient(getClientResponse));
-      }
-    }
-    // console.log('client', client);
 
     if (exp < Date.now() / 1000) {
       throw new Error('ID token expired!');
@@ -143,11 +130,54 @@ const AuthContextProvider = (props: any) => {
       await SInfo.deleteItem('idToken', {});
       setLoggedIn(false);
       setUserData(undefined);
+      setAccount({
+        id: '',
+        idClient: '',
+        balance: '',
+        credit: '',
+        state: 0,
+        createdAt: null,
+        updatedAt: null,
+        deletedAt: null,
+        movementsIncome: [],
+        movementsOutcome: [],
+      });
+      setImage([]);
+      setClient({
+        id: '',
+        fullName: '',
+        email: '',
+        phone: '',
+        photo: 'https://reactjs.org/logo-og.png',
+        state: 1,
+        createdAt: new Date('December 2, 2022 03:24:00'),
+        updatedAt: null,
+        account: {
+          id: '',
+          idClient: '',
+          balance: '',
+          credit: '',
+          state: 0,
+          createdAt: new Date('December 7, 1995 03:24:00'),
+          updatedAt: null,
+          deletedAt: null,
+          movementsIncome: [],
+          movementsOutcome: [],
+        },
+        app: {
+          id: '',
+          idClient: '',
+          color: '',
+          createdAt: new Date('December 17, 1995 03:24:00'),
+          updatedAt: null,
+        },
+      });
     } catch (err) {
       console.log('err', err);
       Alert.alert('Error logging in ' + err);
     }
   };
+
   const value = {
     loading,
     loggedIn,
