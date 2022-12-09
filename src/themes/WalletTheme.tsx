@@ -82,7 +82,6 @@ export const styles = StyleSheet.create({
   circle: {
     backgroundColor: '#1554f7',
     borderRadius: 100000000,
-    // bottom: 420,
     top: -1040,
     height: 1200,
     left: -350,

@@ -3,8 +3,6 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import IconIonicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Icon3MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-
-//screens
 import AccountScreen from '../screens/AccountScreen';
 import LoansScreen from '../screens/LoansScreen';
 import PaymentScreen from '../screens/PaymentScreen';

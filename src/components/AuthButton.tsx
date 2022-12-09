@@ -33,11 +33,6 @@ export const AuthButton = ({ iconName, text, action }: Props) => {
       };
       break;
   }
-  // if (iconName === 'logo-google') {
-  //   iconRequire = { imageRequiere: require('../assets/images/LogoGoogle.png') };
-  // } else if (iconName === 'logo-apple') {
-  //   iconRequire = { imageRequiere: require('../assets/images/LogoGoogle.png') };
-  // }
 
   return (
     <TouchableOpacity

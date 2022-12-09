@@ -36,10 +36,7 @@ export const SideMenuScreen = ({ navigation }: MyDrawerScreenProps) => {
         iconName="logout"
         text="Logout"
         color="rgba(0, 0, 0, 0.6)"
-        action={() =>
-          // navigation.navigate('LoginStack')
-          logout()
-        }
+        action={() => logout()}
       />
     </View>
   );

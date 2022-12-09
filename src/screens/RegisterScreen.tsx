@@ -124,6 +124,5 @@ const styles = StyleSheet.create({
   balanceContainer: {
     height: 140,
     alignItems: 'stretch',
-    // backgroundColor: 'green',
   },
 });

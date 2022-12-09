@@ -5,6 +5,8 @@ import {
   StyleSheet,
   TextInput,
   Pressable,
+  NativeSyntheticEvent,
+  TextInputEndEditingEventData,
 } from 'react-native';
 import React, { useState } from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -17,6 +19,9 @@ interface Props {
   iconName: string;
   type?: string;
   handleOnChange: (value: string) => void;
+  validateInput?: (
+    e: NativeSyntheticEvent<TextInputEndEditingEventData>,
+  ) => void;
   value: string;
 }
 
@@ -26,6 +31,7 @@ const InputTextContainer = ({
   iconName,
   type = 'text',
   handleOnChange,
+  validateInput,
   value,
 }: Props) => {
   const { passwordVisibility, rightIcon, handlePasswordVisibility } =
@@ -40,6 +46,7 @@ const InputTextContainer = ({
         placeholderTextColor="#rgba(0, 0, 0, 0.6)"
         onChangeText={handleOnChange}
         value={value}
+        onEndEditing={validateInput}
       />
     );
   } else if (type === 'password') {

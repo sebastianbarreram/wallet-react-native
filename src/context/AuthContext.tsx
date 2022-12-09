@@ -42,7 +42,6 @@ const AuthContextProvider = (props: any) => {
               client.id !== undefined
             ) {
               const responseAccountFull = await getFullAccount(client.id);
-              console.log('responseAccount1', responseAccountFull);
               if (
                 responseAccountFull &&
                 responseAccountFull.account.id !== null &&

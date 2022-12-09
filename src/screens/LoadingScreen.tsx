@@ -40,11 +40,8 @@ export const LoadingScreen = ({ navigation }: MyStackScreenProps) => {
   }, [loggedIn, navigation]);
 
   useEffect(() => {
-    console.log('register :>> ', register);
     if (!register) {
-      console.log('cargará los datos y se va');
       if (dataOk && client.id !== undefined) {
-        console.log('client.id', client.id);
         getFullAccount(client.id).then(
           (accountFull: AccountFullInterface | undefined) => {
             if (
@@ -69,22 +66,16 @@ export const LoadingScreen = ({ navigation }: MyStackScreenProps) => {
       const validEmail =
         /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
       if (validEmail.test(userData.name)) {
-        console.log('userData.name :>> ', userData.name);
         setNameForm(true);
       }
       setRegister(true);
-      console.log('nohayclient solo :>> ', client);
     } else {
-      console.log('dataOk', dataOk);
       setDataOk(true);
     }
   }, [client, userData.name]);
 
   const handleRegister = () => {
     setRegister(false);
-    console.log('register');
-    console.log('phoneInput', phoneInput);
-
     postClient({
       fullName: nameInput !== '' ? nameInput : userData.name,
       email: userData.email,
@@ -93,13 +84,11 @@ export const LoadingScreen = ({ navigation }: MyStackScreenProps) => {
     })
       .then(clientResponse => {
         if (clientResponse) {
-          console.log('clientResponse then :>> ', clientResponse);
           setDataOk(true);
           return dispatch(setClient(clientResponse));
         }
       })
       .catch((error: unknown) => {
-        console.log('error', error);
         Alert.alert('We have problems with the registration form');
       });
   };

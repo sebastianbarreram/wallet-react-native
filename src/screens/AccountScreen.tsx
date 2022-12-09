@@ -6,7 +6,6 @@ import {
   StyleSheet,
   RefreshControl,
   ActivityIndicator,
-  ScrollView,
 } from 'react-native';
 import React, { useContext, useEffect, useState } from 'react';
 import Transaction from '../components/Transaction';
@@ -16,10 +15,11 @@ import { AuthContext } from '../context/AuthContext';
 import { useDispatch, useSelector } from 'react-redux';
 import useData from '../hooks/useData';
 import { MovementInterface } from '../redux/interfaces/MovementInterface';
-import { fetchMovements } from '../redux/slices/MovementsSlice';
+import { fetchMovements, setMovements } from '../redux/slices/MovementsSlice';
 import { AppDispatch } from '../redux/storage/configStore';
 import { setAccount } from '../redux/slices/AccountSlice';
 import { setImage } from '../redux/slices/ImagesSlice';
+import { AccountFullInterface } from '../hooks/interfaces/accountFullInterface';
 
 const AccountScreen = ({ navigation }: any) => {
   const dispatch = useDispatch<AppDispatch>();
@@ -27,11 +27,10 @@ const AccountScreen = ({ navigation }: any) => {
   const { client } = useSelector((state: any) => state.client);
   const { account } = useSelector((state: any) => state.account);
   const { images } = useSelector((state: any) => state.images);
-  const { getAccount, getClientImage } = useData();
+  const { getFullAccount } = useData();
   const { loggedIn } = useContext(AuthContext);
   const [refreshing, setRefreshing] = useState(false);
   let image = 'https://reactjs.org/logo-og.png';
-  console.log('client', client);
 
   useEffect(() => {
     if (loggedIn === false) {
@@ -39,34 +38,32 @@ const AccountScreen = ({ navigation }: any) => {
     }
   }, [loggedIn, navigation]);
 
-  // useEffect(() => {
-  //   getAccount(client.id);
-  //   setRefreshing(false);
-  // }, [client.id]);
-
   useEffect(() => {
-    console.log('images 1', images);
     dispatch(fetchMovements(account.id));
   }, [account.id, dispatch]);
 
   const onRefresh = React.useCallback(async () => {
     setRefreshing(true);
-    // wait(2000).then(() => setRefreshing(false));
-    // console.log('account :>> ', account);
-    if (account.id !== '' && client.id !== '') {
-      dispatch(fetchMovements(account.id));
-      const responseAccount = await getAccount(client.id);
-      // console.log('responseAccount2', responseAccount);
-      if (responseAccount && responseAccount.id !== '') {
-        dispatch(setAccount(responseAccount));
-        const responseClientImage = await getClientImage(account.id);
-        if (responseClientImage && responseClientImage.length > 0) {
-          dispatch(setImage(responseClientImage));
-        }
-      }
+    if (client.id !== '') {
+      getFullAccount(client.id).then(
+        (accountFull: AccountFullInterface | undefined) => {
+          if (
+            accountFull &&
+            accountFull.account.id !== null &&
+            accountFull.account.id !== undefined &&
+            accountFull.account.id !== ''
+          ) {
+            dispatch(setAccount(accountFull.account));
+            dispatch(setImage(accountFull.images));
+            dispatch(setMovements(accountFull.movements));
+          }
+        },
+      );
     }
     setRefreshing(false);
   }, []);
+
+  const getData = () => {};
 
   const renderTransactions = ({
     item,
@@ -78,13 +75,11 @@ const AccountScreen = ({ navigation }: any) => {
       images
     ) {
       income = '';
-      // console.log('images2', images);
       for (const element of images) {
         if (element.id === item.idIncome) {
           image = element.photo;
         }
       }
-      // image = images.get(item.idIncome);
     } else if (item.idIncome === item.idOutcome) {
       income = item.idIncome;
       image = 'https://reactjs.org/logo-og.png';
@@ -117,11 +112,6 @@ const AccountScreen = ({ navigation }: any) => {
 
   return (
     <View style={styles.container}>
-      {/* <ScrollView
-        contentContainerStyle={{ ...styles.container, marginBottom: 70 }}
-        refreshControl={
-          <RefreshControl refreshing={refreshing2} onRefresh={onRefresh} />
-        }> */}
       {refreshing ? <ActivityIndicator /> : null}
       <View style={globalStyles.circle} />
       <View style={globalStyles.balanceContainer}>
@@ -133,7 +123,6 @@ const AccountScreen = ({ navigation }: any) => {
         </Text>
         <Text style={styles.balanceText}>Balance in your account</Text>
       </View>
-      {/* </ScrollView> */}
       <View style={styles.containerMovements}>
         <FlatList
           data={movements}
