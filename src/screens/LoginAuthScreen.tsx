@@ -22,7 +22,6 @@ export const LoginAuthScreen = ({ navigation }: MyStackScreenProps) => {
 
   useEffect(() => {
     if (loggedIn && loading) {
-      console.log('loading :>> ', loading);
       navigation.navigate('Loading');
     }
   }, [dispatch, loading, loggedIn, navigation]);
