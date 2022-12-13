@@ -11,14 +11,12 @@ import Logo from '../components/Logo';
 import { AuthButton } from '../components/AuthButton';
 import { MyStackScreenProps } from '../interfaces/MyStackScreenProps';
 import { AuthContext } from '../context/AuthContext';
-import { fetchMovements } from '../redux/slices/MovementsSlice';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../redux/storage/configStore';
 
 export const LoginAuthScreen = ({ navigation }: MyStackScreenProps) => {
   const { loggedIn, loading } = useContext(AuthContext);
   const dispatch = useDispatch<AppDispatch>();
-  const { account } = useSelector((state: any) => state.account);
 
   useEffect(() => {
     if (loggedIn && loading) {

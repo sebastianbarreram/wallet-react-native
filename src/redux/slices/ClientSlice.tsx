@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ClientInterface } from '../interfaces/ClientInterface';
+import { ClientNotFoundInterface } from '../interfaces/ClientNotFoundInterface';
 
-const initialState: ClientInterface = {
+const initialState: ClientInterface | ClientNotFoundInterface = {
   id: '',
   fullName: '',
   email: '',

@@ -14,3 +14,4 @@ export const ConfigStorage = configureStore({
 });
 
 export type AppDispatch = typeof ConfigStorage.dispatch;
+export type RootState = ReturnType<typeof ConfigStorage.getState>;

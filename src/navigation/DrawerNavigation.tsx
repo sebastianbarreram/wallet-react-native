@@ -3,9 +3,9 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { TabNavigator } from './TabNavigator';
 import { SideMenuScreen } from '../screens/SideMenuScreen';
 import { LaunchScreen } from '../screens/LaunchScreen';
-import ChangePasswordScreen from '../screens/ChangePasswordScreen';
 import ThemeOptionsScreen from '../screens/ThemeOptionsScreen';
 import { StackNavigation } from './StackNavigation';
+import ChangePasswordScreen from '../screens/ChangePasswordScreen';
 
 const Drawer = createDrawerNavigator();
 

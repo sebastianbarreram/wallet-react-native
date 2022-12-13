@@ -1,14 +1,19 @@
 import { ClientInterface } from '../redux/interfaces/ClientInterface';
 import { MovementInterface } from '../redux/interfaces/MovementInterface';
 import { AccountFullInterface } from './interfaces/accountFullInterface';
+import { ClientPostInterface } from './interfaces/clientPostInterface';
+import { MovementPostInterface } from './interfaces/movementPostInterface';
 
 const useData = () => {
+  const localhost = '192.168.102.223'; //sofka
+  // const localhost = '192.168.1.3'; //casa
+
   const getClient = async (
     search: string,
   ): Promise<ClientInterface | undefined> => {
     try {
       const response: Response = await fetch(
-        `http://192.168.1.3:3000/api/client/search/${search}`,
+        `http://${localhost}:3000/api/client/search/${search}`,
       );
       const client: ClientInterface = await response.json();
       return client;
@@ -17,22 +22,8 @@ const useData = () => {
     }
   };
 
-  // const getAccount = async (
-  //   id: string,
-  // ): Promise<AccountInterface | undefined> => {
-  //   try {
-  //     const response: Response = await fetch(
-  //       `http://192.168.1.3:3000/api/account/${id}`,
-  //     );
-  //     const account: AccountInterface = await response.json();
-  //     return account;
-  //   } catch (error) {
-  //     console.log('error', error);
-  //   }
-  // };
-
   const postClient = async (
-    data: any,
+    data: ClientPostInterface,
   ): Promise<ClientInterface | undefined> => {
     const requestOptions = {
       method: 'POST',
@@ -44,7 +35,7 @@ const useData = () => {
     };
     try {
       const responsePost: Response = await fetch(
-        'http://192.168.1.3:3000/api/client/signup',
+        `http://${localhost}:3000/api/client/signup`,
         requestOptions,
       );
       const bodyResponsePost: ClientInterface = await responsePost.json();
@@ -54,43 +45,19 @@ const useData = () => {
     }
   };
 
-  // const getMovements = async (
-  //   id: string,
-  // ): Promise<MovementInterface | undefined> => {
-  //   try {
-  //     const response: Response = await fetch(
-  //       `http://192.168.1.3:3000/api/account/movements/${id}`,
-  //     );
-  //     const movements: MovementInterface = await response.json();
-  //     return movements;
-  //   } catch (error) {}
-  // };
-
-  // const getClientImage = async (
-  //   id: string,
-  // ): Promise<AccountGetByIdInterface[] | undefined> => {
-  //   try {
-  //     const response: Response = await fetch(
-  //       `http://192.168.1.3:3000/api/account/images/${id}`,
-  //     );
-  //     const clientImages = await response.json();
-  //     return clientImages;
-  //   } catch (error) {}
-  // };
-
   const getFullAccount = async (
     id: string,
   ): Promise<AccountFullInterface | undefined> => {
     try {
       const response: Response = await fetch(
-        `http://192.168.1.3:3000/api/account/full/${id}`,
+        `http://${localhost}:3000/api/account/full/${id}`,
       );
       const clientImages = await response.json();
       return clientImages;
     } catch (error) {}
   };
 
-  const createMovement = async (data: any) => {
+  const createMovement = async (data: MovementPostInterface) => {
     const requestOptions = {
       method: 'POST',
       headers: {
@@ -101,7 +68,7 @@ const useData = () => {
     };
     try {
       const responsePost: Response = await fetch(
-        'http://192.168.1.3:3000/api/movement',
+        `http://${localhost}:3000/api/movement`,
         requestOptions,
       );
       const bodyResponseCreateMovement: MovementInterface =
@@ -117,7 +84,7 @@ const useData = () => {
   ): Promise<ClientInterface | undefined> => {
     try {
       const response: Response = await fetch(
-        `http://192.168.1.3:3000/api/client/search/${search}`,
+        `http://${localhost}:3000/api/client/search/${search}`,
       );
       const client: ClientInterface = await response.json();
       return client;

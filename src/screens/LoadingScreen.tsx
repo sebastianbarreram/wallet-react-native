@@ -19,11 +19,12 @@ import { setAccount } from '../redux/slices/AccountSlice';
 import { setImage } from '../redux/slices/ImagesSlice';
 import { AccountFullInterface } from '../hooks/interfaces/accountFullInterface';
 import { setMovements } from '../redux/slices/MovementsSlice';
+import { RootState } from '../redux/storage/configStore';
 
 export const LoadingScreen = ({ navigation }: MyStackScreenProps) => {
   const { loading, loggedIn, logout, userData } = useContext(AuthContext);
   const { postClient, getFullAccount } = useData();
-  const { client } = useSelector((state: any) => state.client);
+  const { client } = useSelector((state: RootState) => state.client);
   const [register, setRegister] = useState(false);
   const [nameForm, setNameForm] = useState(false);
   const [dataOk, setDataOk] = useState(false);
@@ -62,7 +63,7 @@ export const LoadingScreen = ({ navigation }: MyStackScreenProps) => {
   }, [client.id, dataOk, dispatch, getFullAccount, navigation, register]);
 
   useEffect(() => {
-    if (client && 'message' in client && client.statusCode === 404) {
+    if (client && 'message' in client) {
       const validEmail =
         /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
       if (validEmail.test(userData.name)) {
@@ -88,7 +89,8 @@ export const LoadingScreen = ({ navigation }: MyStackScreenProps) => {
           return dispatch(setClient(clientResponse));
         }
       })
-      .catch((error: unknown) => {
+      .catch(error => {
+        console.log('error', error);
         Alert.alert('We have problems with the registration form');
       });
   };
@@ -170,5 +172,6 @@ const styles = StyleSheet.create({
   titleText: {
     fontSize: 30,
     fontWeight: 'bold',
+    color: 'rgba(0, 0, 0, 0.87)',
   },
 });

@@ -6,7 +6,7 @@ import { MyStackScreenProps } from '../interfaces/MyStackScreenProps';
 import InputTextContainer from '../components/InputTextContainer';
 import { useDispatch, useSelector } from 'react-redux';
 import useData from '../hooks/useData';
-import { AppDispatch } from '../redux/storage/configStore';
+import { AppDispatch, RootState } from '../redux/storage/configStore';
 import { AccountFullInterface } from '../hooks/interfaces/accountFullInterface';
 import { setMovements } from '../redux/slices/MovementsSlice';
 import { setAccount } from '../redux/slices/AccountSlice';
@@ -14,7 +14,7 @@ import { setImage } from '../redux/slices/ImagesSlice';
 
 const LoansScreen = ({ navigation }: MyStackScreenProps) => {
   const { currencyFormat } = useAccount();
-  const { account } = useSelector((state: any) => state.account);
+  const { account } = useSelector((state: RootState) => state.account);
   const { createMovement, getFullAccount } = useData();
   const [amountInput, setAmountInput] = useState('');
   const [reasonInput, setReasonInput] = useState('');

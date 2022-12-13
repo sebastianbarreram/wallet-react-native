@@ -1,4 +1,4 @@
-import { Image, StyleProp, ViewStyle } from 'react-native';
+import { Image } from 'react-native';
 import React from 'react';
 import { styles } from '../themes/WalletTheme';
 

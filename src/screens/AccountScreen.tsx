@@ -16,17 +16,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import useData from '../hooks/useData';
 import { MovementInterface } from '../redux/interfaces/MovementInterface';
 import { fetchMovements, setMovements } from '../redux/slices/MovementsSlice';
-import { AppDispatch } from '../redux/storage/configStore';
+import { AppDispatch, RootState } from '../redux/storage/configStore';
 import { setAccount } from '../redux/slices/AccountSlice';
 import { setImage } from '../redux/slices/ImagesSlice';
 import { AccountFullInterface } from '../hooks/interfaces/accountFullInterface';
+import { MyStackScreenProps } from '../interfaces/MyStackScreenProps';
 
-const AccountScreen = ({ navigation }: any) => {
+const AccountScreen = ({ navigation }: MyStackScreenProps) => {
   const dispatch = useDispatch<AppDispatch>();
 
-  const { client } = useSelector((state: any) => state.client);
-  const { account } = useSelector((state: any) => state.account);
-  const { images } = useSelector((state: any) => state.images);
+  const { client } = useSelector((state: RootState) => state.client);
+  const { account } = useSelector((state: RootState) => state.account);
+  const { images } = useSelector((state: RootState) => state.images);
   const { getFullAccount } = useData();
   const { loggedIn } = useContext(AuthContext);
   const [refreshing, setRefreshing] = useState(false);
@@ -62,8 +63,6 @@ const AccountScreen = ({ navigation }: any) => {
     }
     setRefreshing(false);
   }, []);
-
-  const getData = () => {};
 
   const renderTransactions = ({
     item,
@@ -105,7 +104,9 @@ const AccountScreen = ({ navigation }: any) => {
   };
 
   const { currencyFormat } = useAccount();
-  const { movements, loading } = useSelector((state: any) => state.movements);
+  const { movements, loading } = useSelector(
+    (state: RootState) => state.movements,
+  );
   if (loading && account.id === '' && client) {
     return <ActivityIndicator size="large" />;
   }

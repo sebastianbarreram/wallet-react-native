@@ -10,6 +10,7 @@ import { ClientInterface } from '../redux/interfaces/ClientInterface';
 import { setAccount } from '../redux/slices/AccountSlice';
 import { setImage } from '../redux/slices/ImagesSlice';
 import { setMovements } from '../redux/slices/MovementsSlice';
+import { RootState } from '../redux/storage/configStore';
 
 const auth0 = new Auth0({
   domain: 'dev-ekzvwhhuz1fzlqp0.us.auth0.com',
@@ -27,7 +28,7 @@ const AuthContextProvider = (props: any) => {
     | undefined
   >();
   const { getClient, getFullAccount } = useData();
-  const { client } = useSelector((state: any) => state.client);
+  const { client } = useSelector((state: RootState) => state.client);
   const dispatch = useDispatch();
 
   useEffect(() => {

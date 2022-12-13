@@ -8,15 +8,15 @@ import useData from '../hooks/useData';
 import { setMovements } from '../redux/slices/MovementsSlice';
 import { setAccount } from '../redux/slices/AccountSlice';
 import { setImage } from '../redux/slices/ImagesSlice';
-import { AppDispatch } from '../redux/storage/configStore';
+import { AppDispatch, RootState } from '../redux/storage/configStore';
 import { AccountFullInterface } from '../hooks/interfaces/accountFullInterface';
 
 const PaymentScreen = ({ navigation }: MyStackScreenProps) => {
   const dispatch = useDispatch<AppDispatch>();
   const { createMovement, getFullAccount } = useData();
   const { currencyFormat } = useAccount();
-  const { account } = useSelector((state: any) => state.account);
-  const { client } = useSelector((state: any) => state.client);
+  const { account } = useSelector((state: RootState) => state.account);
+  const { client } = useSelector((state: RootState) => state.client);
   const { getClientBySearch } = useData();
   const [searchInput, setSearchInput] = useState('');
   const [amountInput, setAmountInput] = useState('');
