@@ -29,11 +29,7 @@ const Transaction = ({
   return (
     <View style={styles({}).transaction}>
       <View>
-        <Image
-          source={{ uri: image }}
-          // source={require('../assets/images/9E2.jpg')}
-          style={styles({}).image}
-        />
+        <Image source={{ uri: image }} style={styles({}).image} />
       </View>
       <View
         style={

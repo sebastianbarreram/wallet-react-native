@@ -15,7 +15,7 @@ import { AuthContext } from '../context/AuthContext';
 import { useDispatch, useSelector } from 'react-redux';
 import useData from '../hooks/useData';
 import { MovementInterface } from '../redux/interfaces/MovementInterface';
-import { fetchMovements, setMovements } from '../redux/slices/MovementsSlice';
+import { setMovements } from '../redux/slices/MovementsSlice';
 import { AppDispatch, RootState } from '../redux/storage/configStore';
 import { setAccount } from '../redux/slices/AccountSlice';
 import { setImage } from '../redux/slices/ImagesSlice';
@@ -78,7 +78,8 @@ const AccountScreen = ({ navigation }: MyStackScreenProps) => {
       }
     } else if (item.idIncome === item.idOutcome) {
       income = item.idIncome;
-      image = 'https://reactjs.org/logo-og.png';
+      // image = 'https://reactjs.org/logo-og.png';
+      image = 'https://i.postimg.cc/ryPFBkm1/Logo-Wallet.jpg';
     } else {
       income = item.idIncome;
       for (const element of images) {

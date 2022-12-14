@@ -52,7 +52,6 @@ const useData = () => {
     id: string,
     token: string,
   ): Promise<AccountFullInterface | undefined> => {
-    console.log('token', token);
     try {
       const response: Response = await fetch(
         `http://${localhost}:3000/api/account/full/${id}`,
