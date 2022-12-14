@@ -16,6 +16,7 @@ const LoansScreen = ({ navigation }: MyStackScreenProps) => {
   const { currencyFormat } = useAccount();
   const { account } = useSelector((state: RootState) => state.account);
   const { client } = useSelector((state: RootState) => state.client);
+  const { token } = useSelector((state: RootState) => state.token);
   const { createMovement, getFullAccount } = useData();
   const [amountInput, setAmountInput] = useState('');
   const [reasonInput, setReasonInput] = useState('');
@@ -50,16 +51,19 @@ const LoansScreen = ({ navigation }: MyStackScreenProps) => {
   };
 
   const handleLoan = () => {
-    createMovement({
-      idIncome: account.id,
-      idOutcome: account.id,
-      reason: reasonInput,
-      amount: Number(amountInput),
-      fees: 60,
-    })
+    createMovement(
+      {
+        idIncome: account.id,
+        idOutcome: account.id,
+        reason: reasonInput,
+        amount: Number(amountInput),
+        fees: 60,
+      },
+      token,
+    )
       .then(movementResponse => {
         if (movementResponse) {
-          getFullAccount(account.idClient).then(
+          getFullAccount(account.idClient, token).then(
             (accountFull: AccountFullInterface | undefined) => {
               if (
                 accountFull &&

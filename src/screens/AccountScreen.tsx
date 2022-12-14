@@ -28,6 +28,7 @@ const AccountScreen = ({ navigation }: MyStackScreenProps) => {
   const { client } = useSelector((state: RootState) => state.client);
   const { account } = useSelector((state: RootState) => state.account);
   const { images } = useSelector((state: RootState) => state.images);
+  const { token } = useSelector((state: RootState) => state.token);
   const { getFullAccount } = useData();
   const { loggedIn } = useContext(AuthContext);
   const [refreshing, setRefreshing] = useState(false);
@@ -39,14 +40,10 @@ const AccountScreen = ({ navigation }: MyStackScreenProps) => {
     }
   }, [loggedIn, navigation]);
 
-  useEffect(() => {
-    dispatch(fetchMovements(account.id));
-  }, [account.id, dispatch]);
-
   const onRefresh = React.useCallback(async () => {
     setRefreshing(true);
-    if (client.id !== '') {
-      getFullAccount(client.id).then(
+    if (client.id !== '' && movements) {
+      getFullAccount(client.id, token).then(
         (accountFull: AccountFullInterface | undefined) => {
           if (
             accountFull &&
@@ -179,8 +176,8 @@ export default AccountScreen;
 
 const styles = StyleSheet.create({
   container: {
+    height: '100%',
     backgroundColor: 'white',
-    marginBottom: 170,
   },
   balanceText: {
     marginLeft: 55,
@@ -188,7 +185,7 @@ const styles = StyleSheet.create({
     color: 'rgba(255, 255, 255, 0.74)',
   },
   containerMovements: {
-    height: '80%',
+    flex: 1,
     backgroundColor: 'white',
   },
 });

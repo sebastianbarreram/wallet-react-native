@@ -11,10 +11,12 @@ const useData = () => {
 
   const getClient = async (
     search: string,
+    token: string,
   ): Promise<ClientInterface | undefined> => {
     try {
       const response: Response = await fetch(
         `http://${localhost}:3000/api/client/search/${search}`,
+        { headers: { Authorization: `Bearer ${token}` } },
       );
       const client: ClientInterface = await response.json();
       return client;
@@ -48,22 +50,26 @@ const useData = () => {
 
   const getFullAccount = async (
     id: string,
+    token: string,
   ): Promise<AccountFullInterface | undefined> => {
+    console.log('token', token);
     try {
       const response: Response = await fetch(
         `http://${localhost}:3000/api/account/full/${id}`,
+        { headers: { Authorization: `Bearer ${token}` } },
       );
       const clientImages = await response.json();
       return clientImages;
     } catch (error) {}
   };
 
-  const createMovement = async (data: MovementPostInterface) => {
+  const createMovement = async (data: MovementPostInterface, token: string) => {
     const requestOptions = {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(data),
     };
@@ -82,10 +88,12 @@ const useData = () => {
 
   const getClientBySearch = async (
     search: string,
+    token: string,
   ): Promise<ClientInterface | undefined> => {
     try {
       const response: Response = await fetch(
         `http://${localhost}:3000/api/client/search/${search}`,
+        { headers: { Authorization: `Bearer ${token}` } },
       );
       const client: ClientInterface = await response.json();
       return client;

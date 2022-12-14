@@ -25,6 +25,7 @@ export const LoadingScreen = ({ navigation }: MyStackScreenProps) => {
   const { loading, loggedIn, logout, userData } = useContext(AuthContext);
   const { postClient, getFullAccount } = useData();
   const { client } = useSelector((state: RootState) => state.client);
+  const { token } = useSelector((state: RootState) => state.token);
   const [register, setRegister] = useState(false);
   const [nameForm, setNameForm] = useState(false);
   const [dataOk, setDataOk] = useState(false);
@@ -43,7 +44,7 @@ export const LoadingScreen = ({ navigation }: MyStackScreenProps) => {
   useEffect(() => {
     if (!register) {
       if (dataOk && client.id !== undefined) {
-        getFullAccount(client.id).then(
+        getFullAccount(client.id, token).then(
           (accountFull: AccountFullInterface | undefined) => {
             if (
               accountFull &&

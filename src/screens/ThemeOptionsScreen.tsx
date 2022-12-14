@@ -98,6 +98,7 @@ const ThemeOptionsScreen = ({ navigation }: MyStackScreenProps) => {
     const response = await updateApp(client.id, app, token);
     const getClientResponse: ClientInterface | undefined = await getClient(
       client.email,
+      token,
     );
     if (getClientResponse) {
       dispatch(setClient(getClientResponse));

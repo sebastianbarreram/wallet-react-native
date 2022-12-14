@@ -30,6 +30,7 @@ const AuthContextProvider = (props: any) => {
   >();
   const { getClient, getFullAccount } = useData();
   const { client } = useSelector((state: RootState) => state.client);
+  const { token } = useSelector((state: RootState) => state.token);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -43,7 +44,10 @@ const AuthContextProvider = (props: any) => {
               client.id !== null &&
               client.id !== undefined
             ) {
-              const responseAccountFull = await getFullAccount(client.id);
+              const responseAccountFull = await getFullAccount(
+                client.id,
+                token,
+              );
               if (
                 responseAccountFull &&
                 responseAccountFull.account.id !== null &&
@@ -91,6 +95,7 @@ const AuthContextProvider = (props: any) => {
 
     let getClientResponse: ClientInterface | undefined = await getClient(
       data.email,
+      idToken,
     );
     if (getClientResponse) {
       dispatch(setClient(getClientResponse));

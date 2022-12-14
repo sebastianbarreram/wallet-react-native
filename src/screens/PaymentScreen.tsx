@@ -17,6 +17,7 @@ const PaymentScreen = ({ navigation }: MyStackScreenProps) => {
   const { currencyFormat } = useAccount();
   const { account } = useSelector((state: RootState) => state.account);
   const { client } = useSelector((state: RootState) => state.client);
+  const { token } = useSelector((state: RootState) => state.token);
   const { getClientBySearch } = useData();
   const [searchInput, setSearchInput] = useState('');
   const [amountInput, setAmountInput] = useState('');
@@ -29,7 +30,7 @@ const PaymentScreen = ({ navigation }: MyStackScreenProps) => {
   const [isValidReason, setIsValidReason] = useState(true);
 
   const handleValidClientBySearch = async (search: string) => {
-    const clientResponse = await getClientBySearch(search);
+    const clientResponse = await getClientBySearch(search, token);
     if (
       clientResponse &&
       (clientResponse.email === search || clientResponse.phone === search)
@@ -73,16 +74,19 @@ const PaymentScreen = ({ navigation }: MyStackScreenProps) => {
   };
 
   const handlePayment = (): void => {
-    createMovement({
-      idIncome: incomeAccountId,
-      idOutcome: account.id,
-      reason: reasonInput,
-      amount: Number(amountInput),
-      fees: 1,
-    })
+    createMovement(
+      {
+        idIncome: incomeAccountId,
+        idOutcome: account.id,
+        reason: reasonInput,
+        amount: Number(amountInput),
+        fees: 1,
+      },
+      token,
+    )
       .then(movementResponse => {
         if (movementResponse) {
-          getFullAccount(account.idClient).then(
+          getFullAccount(account.idClient, token).then(
             (accountFull: AccountFullInterface | undefined) => {
               if (
                 accountFull &&
