@@ -11,6 +11,7 @@ import { setAccount } from '../redux/slices/AccountSlice';
 import { setImage } from '../redux/slices/ImagesSlice';
 import { setMovements } from '../redux/slices/MovementsSlice';
 import { RootState } from '../redux/storage/configStore';
+import { setToken } from '../redux/slices/TokenSlice';
 
 const auth0 = new Auth0({
   domain: 'dev-ekzvwhhuz1fzlqp0.us.auth0.com',
@@ -86,6 +87,7 @@ const AuthContextProvider = (props: any) => {
     // Decodifico el token (JWT)
     const { name, picture, exp, email } = jwtDecode<any>(idToken);
     const data = jwtDecode<any>(idToken);
+    dispatch(setToken(idToken));
 
     let getClientResponse: ClientInterface | undefined = await getClient(
       data.email,

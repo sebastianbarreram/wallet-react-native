@@ -10,11 +10,12 @@ import React from 'react';
 interface Props {
   text: string;
   image: string;
+  action: () => void;
 }
 interface ImageProps {
   imageRequire: ImageSourcePropType;
 }
-const ThemeButton = ({ text, image }: Props) => {
+const ThemeButton = ({ text, image, action }: Props) => {
   let iconRequire: ImageProps = {
     imageRequire: require('../assets/images/arts&culture.png'),
   };
@@ -66,11 +67,8 @@ const ThemeButton = ({ text, image }: Props) => {
       break;
   }
   return (
-    <TouchableOpacity style={styles.container}>
-      <Image
-        style={{ width: 40, height: 40 }}
-        source={iconRequire.imageRequire}
-      />
+    <TouchableOpacity style={styles.container} onPress={action}>
+      <Image style={styles.image} source={iconRequire.imageRequire} />
       <Text style={styles.text}>{text}</Text>
     </TouchableOpacity>
   );
@@ -92,5 +90,9 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     color: 'rgba(0, 0, 0, 0.6)',
     marginTop: 8,
+  },
+  image: {
+    width: 40,
+    height: 40,
   },
 });

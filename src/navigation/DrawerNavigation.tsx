@@ -6,10 +6,14 @@ import { LaunchScreen } from '../screens/LaunchScreen';
 import ThemeOptionsScreen from '../screens/ThemeOptionsScreen';
 import { StackNavigation } from './StackNavigation';
 import ChangePasswordScreen from '../screens/ChangePasswordScreen';
+import { useSelector } from 'react-redux';
+import { RootState } from '../redux/storage/configStore';
 
 const Drawer = createDrawerNavigator();
 
 export default function DrawerNavigator() {
+  const { client } = useSelector((state: RootState) => state.client);
+
   return (
     <Drawer.Navigator
       initialRouteName="Launch"
@@ -18,7 +22,7 @@ export default function DrawerNavigator() {
         unmountOnBlur: true,
         headerTintColor: 'white',
         headerStyle: {
-          backgroundColor: 'rgba(21, 84, 246, 1)',
+          backgroundColor: client.app.color,
           shadowColor: 'transparent',
         },
       }}>

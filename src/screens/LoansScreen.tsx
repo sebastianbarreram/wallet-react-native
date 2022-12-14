@@ -15,6 +15,7 @@ import { setImage } from '../redux/slices/ImagesSlice';
 const LoansScreen = ({ navigation }: MyStackScreenProps) => {
   const { currencyFormat } = useAccount();
   const { account } = useSelector((state: RootState) => state.account);
+  const { client } = useSelector((state: RootState) => state.client);
   const { createMovement, getFullAccount } = useData();
   const [amountInput, setAmountInput] = useState('');
   const [reasonInput, setReasonInput] = useState('');
@@ -83,6 +84,88 @@ const LoansScreen = ({ navigation }: MyStackScreenProps) => {
       });
   };
 
+  const styles = StyleSheet.create({
+    mainContainer: {
+      backgroundColor: 'white',
+      marginBottom: 150,
+      padding: 12,
+      height: '100%',
+    },
+    containerLoan: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      margin: 8,
+      marginTop: 0,
+    },
+    lastInput: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      margin: 8,
+      marginVertical: 15,
+    },
+    balanceText: {
+      fontSize: 16,
+      color: 'rgba(0, 0, 0, 0.6)',
+    },
+    maxLoanAmountContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      margin: 8,
+    },
+    maxLoanAmountText: {
+      fontSize: 12,
+      color: 'rgba(0, 0, 0, 0.6)',
+    },
+    icon: {
+      height: 56,
+      width: 48,
+      justifyContent: 'flex-end',
+      padding: 10,
+    },
+
+    inputContainer: {
+      height: 56,
+      width: 330,
+      alignSelf: 'center',
+      borderBottomWidth: 1,
+      borderTopLeftRadius: 4,
+      borderTopRightRadius: 4,
+      borderStyle: 'solid',
+      backgroundColor: 'rgba(0, 0, 0, 0.04)',
+      borderColor: 'rgba(0, 0, 0, 0.38)',
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    input: {
+      textAlignVertical: 'center',
+      marginLeft: 12,
+      color: 'black',
+      fontSize: 16,
+      width: '82%',
+    },
+    button: {
+      width: '100%',
+      height: 48,
+      alignSelf: 'center',
+      alignItems: 'center',
+      backgroundColor: client.app.color,
+      marginVertical: 17,
+      borderRadius: 4,
+    },
+    buttonText: {
+      color: 'white',
+      height: 48,
+      textAlignVertical: 'center',
+      fontWeight: '500',
+    },
+    errorMessage: {
+      fontSize: 12,
+      fontWeight: '400',
+      color: 'rgba(255, 0, 0, 0.6)',
+      marginLeft: 72,
+    },
+  });
+
   return (
     <View style={styles.mainContainer}>
       <View style={styles.containerLoan}>
@@ -135,85 +218,3 @@ const LoansScreen = ({ navigation }: MyStackScreenProps) => {
 };
 
 export default LoansScreen;
-
-const styles = StyleSheet.create({
-  mainContainer: {
-    backgroundColor: 'white',
-    marginBottom: 150,
-    padding: 12,
-    height: '100%',
-  },
-  containerLoan: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    margin: 8,
-    marginTop: 0,
-  },
-  lastInput: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    margin: 8,
-    marginVertical: 15,
-  },
-  balanceText: {
-    fontSize: 16,
-    color: 'rgba(0, 0, 0, 0.6)',
-  },
-  maxLoanAmountContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    margin: 8,
-  },
-  maxLoanAmountText: {
-    fontSize: 12,
-    color: 'rgba(0, 0, 0, 0.6)',
-  },
-  icon: {
-    height: 56,
-    width: 48,
-    justifyContent: 'flex-end',
-    padding: 10,
-  },
-
-  inputContainer: {
-    height: 56,
-    width: 330,
-    alignSelf: 'center',
-    borderBottomWidth: 1,
-    borderTopLeftRadius: 4,
-    borderTopRightRadius: 4,
-    borderStyle: 'solid',
-    backgroundColor: 'rgba(0, 0, 0, 0.04)',
-    borderColor: 'rgba(0, 0, 0, 0.38)',
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  input: {
-    textAlignVertical: 'center',
-    marginLeft: 12,
-    color: 'black',
-    fontSize: 16,
-    width: '82%',
-  },
-  button: {
-    width: '100%',
-    height: 48,
-    alignSelf: 'center',
-    alignItems: 'center',
-    backgroundColor: '#1554f6',
-    marginVertical: 17,
-    borderRadius: 4,
-  },
-  buttonText: {
-    color: 'white',
-    height: 48,
-    textAlignVertical: 'center',
-    fontWeight: '500',
-  },
-  errorMessage: {
-    fontSize: 12,
-    fontWeight: '400',
-    color: 'rgba(255, 0, 0, 0.6)',
-    marginLeft: 72,
-  },
-});

@@ -6,17 +6,21 @@ import Icon3MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import AccountScreen from '../screens/AccountScreen';
 import LoansScreen from '../screens/LoansScreen';
 import PaymentScreen from '../screens/PaymentScreen';
+import { useSelector } from 'react-redux';
+import { RootState } from '../redux/storage/configStore';
 
 const Tab = createBottomTabNavigator();
 
 export const TabNavigator = () => {
+  const { client } = useSelector((state: RootState) => state.client);
+
   return (
     <Tab.Navigator
       initialRouteName="My App"
       screenOptions={{
         tabBarActiveTintColor: 'white',
         tabBarStyle: {
-          backgroundColor: '#1554f7',
+          backgroundColor: client.app.color,
           height: 52,
         },
         headerShown: false,

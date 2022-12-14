@@ -3,10 +3,11 @@ import { MovementInterface } from '../redux/interfaces/MovementInterface';
 import { AccountFullInterface } from './interfaces/accountFullInterface';
 import { ClientPostInterface } from './interfaces/clientPostInterface';
 import { MovementPostInterface } from './interfaces/movementPostInterface';
+import { AppInterface } from '../redux/interfaces/AppInterface';
 
 const useData = () => {
-  const localhost = '192.168.102.223'; //sofka
-  // const localhost = '192.168.1.3'; //casa
+  // const localhost = '192.168.102.223'; //sofka
+  const localhost = '192.168.1.3'; //casa
 
   const getClient = async (
     search: string,
@@ -93,12 +94,39 @@ const useData = () => {
     }
   };
 
+  const updateApp = async (
+    id: string,
+    data: AppInterface,
+    token: string,
+  ): Promise<AppInterface | undefined> => {
+    const requestOptions = {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    };
+    try {
+      const response: Response = await fetch(
+        `http://${localhost}:3000/api/app/${id}`,
+        requestOptions,
+      );
+      const app: AppInterface = await response.json();
+      return app;
+    } catch (error) {
+      console.log('error :>> ', error);
+    }
+  };
+
   return {
     getClient,
     postClient,
     getFullAccount,
     createMovement,
     getClientBySearch,
+    updateApp,
   };
 };
 

@@ -114,10 +114,10 @@ const AccountScreen = ({ navigation }: MyStackScreenProps) => {
   return (
     <View style={styles.container}>
       {refreshing ? <ActivityIndicator /> : null}
-      <View style={globalStyles.circle} />
-      <View style={globalStyles.balanceContainer}>
+      <View style={globalStyles({ color: client.app.color }).circle} />
+      <View style={globalStyles({ color: client.app.color }).balanceContainer}>
         <Text
-          style={globalStyles.balanceText}
+          style={globalStyles({ color: client.app.color }).balanceText}
           numberOfLines={1}
           adjustsFontSizeToFit={true}>
           {currencyFormat(Number(account.balance))}

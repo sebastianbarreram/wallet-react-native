@@ -109,6 +109,65 @@ const PaymentScreen = ({ navigation }: MyStackScreenProps) => {
       });
   };
 
+  const styles = StyleSheet.create({
+    mainContainer: {
+      backgroundColor: 'white',
+      padding: 12,
+      height: '100%',
+    },
+    maxLoanAmountContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      margin: 8,
+    },
+    inputTextAmount: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      margin: 8,
+      marginVertical: 15,
+    },
+    commentBalance: {
+      alignSelf: 'center',
+      fontSize: 23,
+      color: 'black',
+      fontWeight: '500',
+    },
+    button: {
+      width: '100%',
+      height: 48,
+      alignSelf: 'center',
+      alignItems: 'center',
+      backgroundColor: client.app.color,
+      marginVertical: 17,
+      borderRadius: 4,
+    },
+    buttonText: {
+      color: 'white',
+      height: 48,
+      textAlignVertical: 'center',
+      fontWeight: '500',
+    },
+    balanceText: {
+      fontSize: 40,
+      color: 'black',
+      textAlign: 'center',
+      textAlignVertical: 'center',
+      padding: 20,
+      paddingBottom: 0,
+      fontWeight: '400',
+    },
+    balanceContainer: {
+      height: 140,
+      alignItems: 'stretch',
+    },
+    errorMessage: {
+      fontSize: 12,
+      fontWeight: '400',
+      color: 'rgba(255, 0, 0, 0.6)',
+      marginLeft: 72,
+    },
+  });
+
   return (
     <View style={styles.mainContainer}>
       <View style={styles.balanceContainer}>
@@ -169,62 +228,3 @@ const PaymentScreen = ({ navigation }: MyStackScreenProps) => {
 };
 
 export default PaymentScreen;
-
-const styles = StyleSheet.create({
-  mainContainer: {
-    backgroundColor: 'white',
-    padding: 12,
-    height: '100%',
-  },
-  maxLoanAmountContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    margin: 8,
-  },
-  inputTextAmount: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    margin: 8,
-    marginVertical: 15,
-  },
-  commentBalance: {
-    alignSelf: 'center',
-    fontSize: 23,
-    color: 'black',
-    fontWeight: '500',
-  },
-  button: {
-    width: '100%',
-    height: 48,
-    alignSelf: 'center',
-    alignItems: 'center',
-    backgroundColor: '#1554f6',
-    marginVertical: 17,
-    borderRadius: 4,
-  },
-  buttonText: {
-    color: 'white',
-    height: 48,
-    textAlignVertical: 'center',
-    fontWeight: '500',
-  },
-  balanceText: {
-    fontSize: 40,
-    color: 'black',
-    textAlign: 'center',
-    textAlignVertical: 'center',
-    padding: 20,
-    paddingBottom: 0,
-    fontWeight: '400',
-  },
-  balanceContainer: {
-    height: 140,
-    alignItems: 'stretch',
-  },
-  errorMessage: {
-    fontSize: 12,
-    fontWeight: '400',
-    color: 'rgba(255, 0, 0, 0.6)',
-    marginLeft: 72,
-  },
-});
