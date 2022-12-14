@@ -152,7 +152,7 @@ const AuthContextProvider = (props: any) => {
         phone: '',
         photo: 'https://reactjs.org/logo-og.png',
         state: 1,
-        createdAt: new Date('December 2, 2022 03:24:00'),
+        createdAt: null,
         updatedAt: null,
         account: {
           id: '',
@@ -160,7 +160,7 @@ const AuthContextProvider = (props: any) => {
           balance: '',
           credit: '',
           state: 0,
-          createdAt: new Date('December 7, 1995 03:24:00'),
+          createdAt: null,
           updatedAt: null,
           deletedAt: null,
           movementsIncome: [],
@@ -170,7 +170,7 @@ const AuthContextProvider = (props: any) => {
           id: '',
           idClient: '',
           color: '',
-          createdAt: new Date('December 17, 1995 03:24:00'),
+          createdAt: null,
           updatedAt: null,
         },
       });

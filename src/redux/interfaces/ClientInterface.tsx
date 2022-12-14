@@ -7,7 +7,7 @@ export interface ClientInterface {
   phone: string;
   photo: string;
   state: number;
-  createdAt: Date;
+  createdAt: Date | null;
   updatedAt: Date | null;
   account: AccountInterface;
   app: AppInterface;
