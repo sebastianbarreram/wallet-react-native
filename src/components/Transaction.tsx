@@ -27,21 +27,35 @@ const Transaction = ({
   const { client } = useSelector((state: RootState) => state.client);
 
   return (
-    <View style={styles({ color: client.app.color }).transaction}>
+    <View style={styles({}).transaction}>
       <View>
         <Image
           source={{ uri: image }}
           // source={require('../assets/images/9E2.jpg')}
-          style={styles({ color: client.app.color }).image}
+          style={styles({}).image}
         />
       </View>
-      <View style={styles({ color: client.app.color }).textContainer}>
+      <View
+        style={
+          styles({
+            color: client.app.color === '' ? '#1554F7' : client.app.color,
+          }).textContainer
+        }>
         <Text
-          style={styles({ color: client.app.color }).reason}
+          style={
+            styles({
+              color: client.app.color === '' ? '#1554F7' : client.app.color,
+            }).reason
+          }
           numberOfLines={1}>
           {title}
         </Text>
-        <Text style={styles({ color: client.app.color }).date}>
+        <Text
+          style={
+            styles({
+              color: client.app.color === '' ? '#1554F7' : client.app.color,
+            }).date
+          }>
           {dateFormat(date)}
         </Text>
       </View>
@@ -49,8 +63,12 @@ const Transaction = ({
       <Text
         style={{
           ...(income === ''
-            ? styles({ color: client.app.color }).outcomeAmount
-            : styles({ color: client.app.color }).incomeAmount),
+            ? styles({
+                color: client.app.color === '' ? '#1554F7' : client.app.color,
+              }).outcomeAmount
+            : styles({
+                color: client.app.color === '' ? '#1554F7' : client.app.color,
+              }).incomeAmount),
         }}>
         {currencyFormat(Number(amount))}
       </Text>

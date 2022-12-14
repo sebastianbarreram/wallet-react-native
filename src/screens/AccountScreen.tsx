@@ -107,6 +107,23 @@ const AccountScreen = ({ navigation }: MyStackScreenProps) => {
   const { movements, loading } = useSelector(
     (state: RootState) => state.movements,
   );
+  const movementsFix = movements.map((movement): MovementInterface => {
+    const newMovement: MovementInterface = {
+      id: movement.id,
+      idIncome: movement.idIncome,
+      idOutcome: movement.idOutcome,
+      reason: movement.reason,
+      amount: movement.amount,
+      fees: movement.fees,
+      date: new Date(movement.date),
+    };
+    return newMovement;
+  });
+
+  const sortedMovements = movementsFix.sort(
+    (objA, objB) => objB.date.getTime() - objA.date.getTime(),
+  );
+
   if (loading && account.id === '' && client) {
     return <ActivityIndicator size="large" />;
   }
@@ -114,10 +131,30 @@ const AccountScreen = ({ navigation }: MyStackScreenProps) => {
   return (
     <View style={styles.container}>
       {refreshing ? <ActivityIndicator /> : null}
-      <View style={globalStyles({ color: client.app.color }).circle} />
-      <View style={globalStyles({ color: client.app.color }).balanceContainer}>
+      <View
+        style={
+          globalStyles({
+            color:
+              client && client.app.color === '' ? '#1554F7' : client.app.color,
+          }).circle
+        }
+      />
+      <View
+        style={
+          globalStyles({
+            color:
+              client && client.app.color === '' ? '#1554F7' : client.app.color,
+          }).balanceContainer
+        }>
         <Text
-          style={globalStyles({ color: client.app.color }).balanceText}
+          style={
+            globalStyles({
+              color:
+                client && client.app.color === ''
+                  ? '#1554F7'
+                  : client.app.color,
+            }).balanceText
+          }
           numberOfLines={1}
           adjustsFontSizeToFit={true}>
           {currencyFormat(Number(account.balance))}
@@ -126,7 +163,7 @@ const AccountScreen = ({ navigation }: MyStackScreenProps) => {
       </View>
       <View style={styles.containerMovements}>
         <FlatList
-          data={movements}
+          data={sortedMovements}
           renderItem={renderTransactions}
           keyExtractor={movement => movement.id}
           refreshControl={

@@ -22,7 +22,10 @@ export default function DrawerNavigator() {
         unmountOnBlur: true,
         headerTintColor: 'white',
         headerStyle: {
-          backgroundColor: client.app.color,
+          backgroundColor:
+            client.app && client.app.color !== ''
+              ? client.app.color
+              : '#1554F7',
           shadowColor: 'transparent',
         },
       }}>

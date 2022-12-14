@@ -46,7 +46,8 @@ const ThemeOptionsScreen = ({ navigation }: MyStackScreenProps) => {
       height: 43,
       alignSelf: 'center',
       alignItems: 'center',
-      backgroundColor: client.app.color,
+      backgroundColor:
+        client && client.app.color !== '' ? client.app.color : '#1554F7',
       marginTop: 17,
       borderRadius: 4,
     },
