@@ -13,7 +13,7 @@ const ThemeOptionsScreen = ({ navigation }: MyStackScreenProps) => {
   const [color, setColor] = useState('');
   const { client } = useSelector((state: RootState) => state.client);
   const { token } = useSelector((state: RootState) => state.token);
-  const { updateApp, getClient } = useData();
+  const { updateApp, getClientBySearch } = useData();
   const dispatch = useDispatch();
 
   const styles = StyleSheet.create({
@@ -96,10 +96,8 @@ const ThemeOptionsScreen = ({ navigation }: MyStackScreenProps) => {
       updatedAt: null,
     };
     const response = await updateApp(client.id, app, token);
-    const getClientResponse: ClientInterface | undefined = await getClient(
-      client.email,
-      token,
-    );
+    const getClientResponse: ClientInterface | undefined =
+      await getClientBySearch(client.email, token);
     if (getClientResponse) {
       dispatch(setClient(getClientResponse));
       navigation.navigate('Home');

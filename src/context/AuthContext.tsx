@@ -28,7 +28,7 @@ const AuthContextProvider = (props: any) => {
       }
     | undefined
   >();
-  const { getClient, getFullAccount } = useData();
+  const { getClientBySearch, getFullAccount } = useData();
   const { client } = useSelector((state: RootState) => state.client);
   const { token } = useSelector((state: RootState) => state.token);
   const dispatch = useDispatch();
@@ -93,10 +93,8 @@ const AuthContextProvider = (props: any) => {
     const data = jwtDecode<any>(idToken);
     dispatch(setToken(idToken));
 
-    let getClientResponse: ClientInterface | undefined = await getClient(
-      data.email,
-      idToken,
-    );
+    let getClientResponse: ClientInterface | undefined =
+      await getClientBySearch(data.email, idToken);
     if (getClientResponse) {
       dispatch(setClient(getClientResponse));
     }

@@ -9,22 +9,6 @@ const useData = () => {
   // const localhost = '192.168.102.223'; //sofka
   const localhost = '192.168.1.3'; //casa
 
-  const getClient = async (
-    search: string,
-    token: string,
-  ): Promise<ClientInterface | undefined> => {
-    try {
-      const response: Response = await fetch(
-        `http://${localhost}:3000/api/client/search/${search}`,
-        { headers: { Authorization: `Bearer ${token}` } },
-      );
-      const client: ClientInterface = await response.json();
-      return client;
-    } catch (error) {
-      console.log('error', error);
-    }
-  };
-
   const postClient = async (
     data: ClientPostInterface,
   ): Promise<ClientInterface | undefined> => {
@@ -128,7 +112,6 @@ const useData = () => {
   };
 
   return {
-    getClient,
     postClient,
     getFullAccount,
     createMovement,
