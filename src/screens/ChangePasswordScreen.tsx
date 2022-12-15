@@ -3,8 +3,94 @@ import { StyleSheet, TouchableOpacity } from 'react-native';
 import React from 'react';
 import InputTextContainer from '../components/InputTextContainer';
 import { MyStackScreenProps } from '../interfaces/MyStackScreenProps';
+import { useSelector } from 'react-redux';
+import { RootState } from '../redux/storage/configStore';
 
 const ChangePasswordScreen = ({ navigation }: MyStackScreenProps) => {
+  const { client } = useSelector((state: RootState) => state.client);
+
+  const styles = StyleSheet.create({
+    mainContainer: {
+      backgroundColor: 'white',
+      padding: 12,
+      marginTop: 0,
+      height: '100%',
+    },
+    maxLoanAmountContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      margin: 8,
+    },
+    icon: {
+      height: 56,
+      width: 48,
+      justifyContent: 'flex-end',
+      padding: 10,
+    },
+
+    inputContainer: {
+      height: 56,
+      width: 330,
+      alignSelf: 'center',
+      borderBottomWidth: 1,
+      borderTopLeftRadius: 4,
+      borderTopRightRadius: 4,
+      borderStyle: 'solid',
+      backgroundColor: 'rgba(0, 0, 0, 0.04)',
+      borderColor: 'rgba(0, 0, 0, 0.38)',
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    input: {
+      textAlignVertical: 'center',
+      marginLeft: 12,
+      color: 'black',
+      fontSize: 16,
+      width: '82%',
+    },
+    button: {
+      width: '100%',
+      height: 48,
+      alignSelf: 'center',
+      alignItems: 'center',
+      backgroundColor:
+        client && client.app.color !== '' ? client.app.color : '#1554F7',
+      marginTop: 17,
+      borderRadius: 4,
+    },
+    cancelbutton: {
+      shadowColor: '#000',
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 3.84,
+
+      elevation: 5,
+    },
+    buttonText: {
+      color: 'white',
+      height: 48,
+      textAlignVertical: 'center',
+      fontWeight: '500',
+    },
+    balanceText: {
+      fontSize: 40,
+      color: 'black',
+      textAlign: 'center',
+      textAlignVertical: 'center',
+      padding: 20,
+      paddingBottom: 0,
+      fontWeight: '400',
+    },
+    balanceContainer: {
+      height: 140,
+      alignItems: 'stretch',
+      // backgroundColor: 'green',
+    },
+  });
+
   return (
     <View style={styles.mainContainer}>
       <InputTextContainer
@@ -46,84 +132,3 @@ const ChangePasswordScreen = ({ navigation }: MyStackScreenProps) => {
 };
 
 export default ChangePasswordScreen;
-
-const styles = StyleSheet.create({
-  mainContainer: {
-    backgroundColor: 'white',
-    padding: 12,
-    marginTop: 0,
-    height: '100%',
-  },
-  maxLoanAmountContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    margin: 8,
-  },
-  icon: {
-    height: 56,
-    width: 48,
-    justifyContent: 'flex-end',
-    padding: 10,
-  },
-
-  inputContainer: {
-    height: 56,
-    width: 330,
-    alignSelf: 'center',
-    borderBottomWidth: 1,
-    borderTopLeftRadius: 4,
-    borderTopRightRadius: 4,
-    borderStyle: 'solid',
-    backgroundColor: 'rgba(0, 0, 0, 0.04)',
-    borderColor: 'rgba(0, 0, 0, 0.38)',
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  input: {
-    textAlignVertical: 'center',
-    marginLeft: 12,
-    color: 'black',
-    fontSize: 16,
-    width: '82%',
-  },
-  button: {
-    width: '100%',
-    height: 48,
-    alignSelf: 'center',
-    alignItems: 'center',
-    backgroundColor: '#1554f6',
-    marginTop: 17,
-    borderRadius: 4,
-  },
-  cancelbutton: {
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-
-    elevation: 5,
-  },
-  buttonText: {
-    color: 'white',
-    height: 48,
-    textAlignVertical: 'center',
-    fontWeight: '500',
-  },
-  balanceText: {
-    fontSize: 40,
-    color: 'black',
-    textAlign: 'center',
-    textAlignVertical: 'center',
-    padding: 20,
-    paddingBottom: 0,
-    fontWeight: '400',
-  },
-  balanceContainer: {
-    height: 140,
-    alignItems: 'stretch',
-    // backgroundColor: 'green',
-  },
-});

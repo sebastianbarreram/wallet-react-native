@@ -15,18 +15,20 @@ import { AuthContext } from '../context/AuthContext';
 import { useDispatch, useSelector } from 'react-redux';
 import useData from '../hooks/useData';
 import { MovementInterface } from '../redux/interfaces/MovementInterface';
-import { fetchMovements, setMovements } from '../redux/slices/MovementsSlice';
-import { AppDispatch } from '../redux/storage/configStore';
+import { setMovements } from '../redux/slices/MovementsSlice';
+import { AppDispatch, RootState } from '../redux/storage/configStore';
 import { setAccount } from '../redux/slices/AccountSlice';
 import { setImage } from '../redux/slices/ImagesSlice';
 import { AccountFullInterface } from '../hooks/interfaces/accountFullInterface';
+import { MyStackScreenProps } from '../interfaces/MyStackScreenProps';
 
-const AccountScreen = ({ navigation }: any) => {
+const AccountScreen = ({ navigation }: MyStackScreenProps) => {
   const dispatch = useDispatch<AppDispatch>();
 
-  const { client } = useSelector((state: any) => state.client);
-  const { account } = useSelector((state: any) => state.account);
-  const { images } = useSelector((state: any) => state.images);
+  const { client } = useSelector((state: RootState) => state.client);
+  const { account } = useSelector((state: RootState) => state.account);
+  const { images } = useSelector((state: RootState) => state.images);
+  const { token } = useSelector((state: RootState) => state.token);
   const { getFullAccount } = useData();
   const { loggedIn } = useContext(AuthContext);
   const [refreshing, setRefreshing] = useState(false);
@@ -38,14 +40,10 @@ const AccountScreen = ({ navigation }: any) => {
     }
   }, [loggedIn, navigation]);
 
-  useEffect(() => {
-    dispatch(fetchMovements(account.id));
-  }, [account.id, dispatch]);
-
   const onRefresh = React.useCallback(async () => {
     setRefreshing(true);
-    if (client.id !== '') {
-      getFullAccount(client.id).then(
+    if (client.id !== '' && movements) {
+      getFullAccount(client.id, token).then(
         (accountFull: AccountFullInterface | undefined) => {
           if (
             accountFull &&
@@ -62,8 +60,6 @@ const AccountScreen = ({ navigation }: any) => {
     }
     setRefreshing(false);
   }, []);
-
-  const getData = () => {};
 
   const renderTransactions = ({
     item,
@@ -82,7 +78,8 @@ const AccountScreen = ({ navigation }: any) => {
       }
     } else if (item.idIncome === item.idOutcome) {
       income = item.idIncome;
-      image = 'https://reactjs.org/logo-og.png';
+      // image = 'https://reactjs.org/logo-og.png';
+      image = 'https://i.postimg.cc/ryPFBkm1/Logo-Wallet.jpg';
     } else {
       income = item.idIncome;
       for (const element of images) {
@@ -105,7 +102,26 @@ const AccountScreen = ({ navigation }: any) => {
   };
 
   const { currencyFormat } = useAccount();
-  const { movements, loading } = useSelector((state: any) => state.movements);
+  const { movements, loading } = useSelector(
+    (state: RootState) => state.movements,
+  );
+  const movementsFix = movements.map((movement): MovementInterface => {
+    const newMovement: MovementInterface = {
+      id: movement.id,
+      idIncome: movement.idIncome,
+      idOutcome: movement.idOutcome,
+      reason: movement.reason,
+      amount: movement.amount,
+      fees: movement.fees,
+      date: new Date(movement.date),
+    };
+    return newMovement;
+  });
+
+  const sortedMovements = movementsFix.sort(
+    (objA, objB) => objB.date.getTime() - objA.date.getTime(),
+  );
+
   if (loading && account.id === '' && client) {
     return <ActivityIndicator size="large" />;
   }
@@ -113,10 +129,30 @@ const AccountScreen = ({ navigation }: any) => {
   return (
     <View style={styles.container}>
       {refreshing ? <ActivityIndicator /> : null}
-      <View style={globalStyles.circle} />
-      <View style={globalStyles.balanceContainer}>
+      <View
+        style={
+          globalStyles({
+            color:
+              client && client.app.color === '' ? '#1554F7' : client.app.color,
+          }).circle
+        }
+      />
+      <View
+        style={
+          globalStyles({
+            color:
+              client && client.app.color === '' ? '#1554F7' : client.app.color,
+          }).balanceContainer
+        }>
         <Text
-          style={globalStyles.balanceText}
+          style={
+            globalStyles({
+              color:
+                client && client.app.color === ''
+                  ? '#1554F7'
+                  : client.app.color,
+            }).balanceText
+          }
           numberOfLines={1}
           adjustsFontSizeToFit={true}>
           {currencyFormat(Number(account.balance))}
@@ -125,7 +161,7 @@ const AccountScreen = ({ navigation }: any) => {
       </View>
       <View style={styles.containerMovements}>
         <FlatList
-          data={movements}
+          data={sortedMovements}
           renderItem={renderTransactions}
           keyExtractor={movement => movement.id}
           refreshControl={
@@ -141,8 +177,8 @@ export default AccountScreen;
 
 const styles = StyleSheet.create({
   container: {
+    height: '100%',
     backgroundColor: 'white',
-    marginBottom: 170,
   },
   balanceText: {
     marginLeft: 55,
@@ -150,7 +186,7 @@ const styles = StyleSheet.create({
     color: 'rgba(255, 255, 255, 0.74)',
   },
   containerMovements: {
-    height: '80%',
+    flex: 1,
     backgroundColor: 'white',
   },
 });

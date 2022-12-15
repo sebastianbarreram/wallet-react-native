@@ -10,6 +10,8 @@ import { ClientInterface } from '../redux/interfaces/ClientInterface';
 import { setAccount } from '../redux/slices/AccountSlice';
 import { setImage } from '../redux/slices/ImagesSlice';
 import { setMovements } from '../redux/slices/MovementsSlice';
+import { RootState } from '../redux/storage/configStore';
+import { setToken } from '../redux/slices/TokenSlice';
 
 const auth0 = new Auth0({
   domain: 'dev-ekzvwhhuz1fzlqp0.us.auth0.com',
@@ -27,7 +29,8 @@ const AuthContextProvider = (props: any) => {
     | undefined
   >();
   const { getClient, getFullAccount } = useData();
-  const { client } = useSelector((state: any) => state.client);
+  const { client } = useSelector((state: RootState) => state.client);
+  const { token } = useSelector((state: RootState) => state.token);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -41,7 +44,10 @@ const AuthContextProvider = (props: any) => {
               client.id !== null &&
               client.id !== undefined
             ) {
-              const responseAccountFull = await getFullAccount(client.id);
+              const responseAccountFull = await getFullAccount(
+                client.id,
+                token,
+              );
               if (
                 responseAccountFull &&
                 responseAccountFull.account.id !== null &&
@@ -85,9 +91,11 @@ const AuthContextProvider = (props: any) => {
     // Decodifico el token (JWT)
     const { name, picture, exp, email } = jwtDecode<any>(idToken);
     const data = jwtDecode<any>(idToken);
+    dispatch(setToken(idToken));
 
     let getClientResponse: ClientInterface | undefined = await getClient(
       data.email,
+      idToken,
     );
     if (getClientResponse) {
       dispatch(setClient(getClientResponse));
@@ -149,7 +157,7 @@ const AuthContextProvider = (props: any) => {
         phone: '',
         photo: 'https://reactjs.org/logo-og.png',
         state: 1,
-        createdAt: new Date('December 2, 2022 03:24:00'),
+        createdAt: null,
         updatedAt: null,
         account: {
           id: '',
@@ -157,7 +165,7 @@ const AuthContextProvider = (props: any) => {
           balance: '',
           credit: '',
           state: 0,
-          createdAt: new Date('December 7, 1995 03:24:00'),
+          createdAt: null,
           updatedAt: null,
           deletedAt: null,
           movementsIncome: [],
@@ -167,7 +175,7 @@ const AuthContextProvider = (props: any) => {
           id: '',
           idClient: '',
           color: '',
-          createdAt: new Date('December 17, 1995 03:24:00'),
+          createdAt: null,
           updatedAt: null,
         },
       });

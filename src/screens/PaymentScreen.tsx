@@ -8,15 +8,16 @@ import useData from '../hooks/useData';
 import { setMovements } from '../redux/slices/MovementsSlice';
 import { setAccount } from '../redux/slices/AccountSlice';
 import { setImage } from '../redux/slices/ImagesSlice';
-import { AppDispatch } from '../redux/storage/configStore';
+import { AppDispatch, RootState } from '../redux/storage/configStore';
 import { AccountFullInterface } from '../hooks/interfaces/accountFullInterface';
 
 const PaymentScreen = ({ navigation }: MyStackScreenProps) => {
   const dispatch = useDispatch<AppDispatch>();
   const { createMovement, getFullAccount } = useData();
   const { currencyFormat } = useAccount();
-  const { account } = useSelector((state: any) => state.account);
-  const { client } = useSelector((state: any) => state.client);
+  const { account } = useSelector((state: RootState) => state.account);
+  const { client } = useSelector((state: RootState) => state.client);
+  const { token } = useSelector((state: RootState) => state.token);
   const { getClientBySearch } = useData();
   const [searchInput, setSearchInput] = useState('');
   const [amountInput, setAmountInput] = useState('');
@@ -29,7 +30,7 @@ const PaymentScreen = ({ navigation }: MyStackScreenProps) => {
   const [isValidReason, setIsValidReason] = useState(true);
 
   const handleValidClientBySearch = async (search: string) => {
-    const clientResponse = await getClientBySearch(search);
+    const clientResponse = await getClientBySearch(search, token);
     if (
       clientResponse &&
       (clientResponse.email === search || clientResponse.phone === search)
@@ -73,16 +74,19 @@ const PaymentScreen = ({ navigation }: MyStackScreenProps) => {
   };
 
   const handlePayment = (): void => {
-    createMovement({
-      idIncome: incomeAccountId,
-      idOutcome: account.id,
-      reason: reasonInput,
-      amount: Number(amountInput),
-      fees: 1,
-    })
+    createMovement(
+      {
+        idIncome: incomeAccountId,
+        idOutcome: account.id,
+        reason: reasonInput,
+        amount: Number(amountInput),
+        fees: 1,
+      },
+      token,
+    )
       .then(movementResponse => {
         if (movementResponse) {
-          getFullAccount(account.idClient).then(
+          getFullAccount(account.idClient, token).then(
             (accountFull: AccountFullInterface | undefined) => {
               if (
                 accountFull &&
@@ -108,6 +112,66 @@ const PaymentScreen = ({ navigation }: MyStackScreenProps) => {
         Alert.alert('We have problems applying for loan');
       });
   };
+
+  const styles = StyleSheet.create({
+    mainContainer: {
+      backgroundColor: 'white',
+      padding: 12,
+      height: '100%',
+    },
+    maxLoanAmountContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      margin: 8,
+    },
+    inputTextAmount: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      margin: 8,
+      marginVertical: 15,
+    },
+    commentBalance: {
+      alignSelf: 'center',
+      fontSize: 23,
+      color: 'black',
+      fontWeight: '500',
+    },
+    button: {
+      width: '100%',
+      height: 48,
+      alignSelf: 'center',
+      alignItems: 'center',
+      backgroundColor:
+        client && client.app.color !== '' ? client.app.color : '#1554F7',
+      marginVertical: 17,
+      borderRadius: 4,
+    },
+    buttonText: {
+      color: 'white',
+      height: 48,
+      textAlignVertical: 'center',
+      fontWeight: '500',
+    },
+    balanceText: {
+      fontSize: 40,
+      color: 'black',
+      textAlign: 'center',
+      textAlignVertical: 'center',
+      padding: 20,
+      paddingBottom: 0,
+      fontWeight: '400',
+    },
+    balanceContainer: {
+      height: 140,
+      alignItems: 'stretch',
+    },
+    errorMessage: {
+      fontSize: 12,
+      fontWeight: '400',
+      color: 'rgba(255, 0, 0, 0.6)',
+      marginLeft: 72,
+    },
+  });
 
   return (
     <View style={styles.mainContainer}>
@@ -169,62 +233,3 @@ const PaymentScreen = ({ navigation }: MyStackScreenProps) => {
 };
 
 export default PaymentScreen;
-
-const styles = StyleSheet.create({
-  mainContainer: {
-    backgroundColor: 'white',
-    padding: 12,
-    height: '100%',
-  },
-  maxLoanAmountContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    margin: 8,
-  },
-  inputTextAmount: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    margin: 8,
-    marginVertical: 15,
-  },
-  commentBalance: {
-    alignSelf: 'center',
-    fontSize: 23,
-    color: 'black',
-    fontWeight: '500',
-  },
-  button: {
-    width: '100%',
-    height: 48,
-    alignSelf: 'center',
-    alignItems: 'center',
-    backgroundColor: '#1554f6',
-    marginVertical: 17,
-    borderRadius: 4,
-  },
-  buttonText: {
-    color: 'white',
-    height: 48,
-    textAlignVertical: 'center',
-    fontWeight: '500',
-  },
-  balanceText: {
-    fontSize: 40,
-    color: 'black',
-    textAlign: 'center',
-    textAlignVertical: 'center',
-    padding: 20,
-    paddingBottom: 0,
-    fontWeight: '400',
-  },
-  balanceContainer: {
-    height: 140,
-    alignItems: 'stretch',
-  },
-  errorMessage: {
-    fontSize: 12,
-    fontWeight: '400',
-    color: 'rgba(255, 0, 0, 0.6)',
-    marginLeft: 72,
-  },
-});

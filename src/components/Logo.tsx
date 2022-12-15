@@ -1,4 +1,4 @@
-import { Image, StyleProp, ViewStyle } from 'react-native';
+import { Image } from 'react-native';
 import React from 'react';
 import { styles } from '../themes/WalletTheme';
 
@@ -10,7 +10,13 @@ const Logo = ({ size }: Props) => {
   return (
     <Image
       style={{
-        ...(size ? { ...styles.logo, width: size, height: size } : styles.logo),
+        ...(size
+          ? {
+              ...styles({}).logo,
+              width: size,
+              height: size,
+            }
+          : styles({}).logo),
       }}
       source={require('../assets/images/LogoWallet.png')}
     />

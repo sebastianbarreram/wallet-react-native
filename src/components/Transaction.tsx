@@ -2,6 +2,8 @@ import { View, Text, Image } from 'react-native';
 import React from 'react';
 import { styles } from '../themes/WalletTheme';
 import useAccount from '../hooks/useAccount';
+import { RootState } from '../redux/storage/configStore';
+import { useSelector } from 'react-redux';
 
 interface Props {
   id: string;
@@ -22,25 +24,47 @@ const Transaction = ({
   outcome,
 }: Props) => {
   const { currencyFormat, dateFormat } = useAccount();
+  const { client } = useSelector((state: RootState) => state.client);
+
   return (
-    <View style={styles.transaction}>
+    <View style={styles({}).transaction}>
       <View>
-        <Image
-          source={{ uri: image }}
-          // source={require('../assets/images/9E2.jpg')}
-          style={styles.image}
-        />
+        <Image source={{ uri: image }} style={styles({}).image} />
       </View>
-      <View style={styles.textContainer}>
-        <Text style={styles.reason} numberOfLines={1}>
+      <View
+        style={
+          styles({
+            color: client.app.color === '' ? '#1554F7' : client.app.color,
+          }).textContainer
+        }>
+        <Text
+          style={
+            styles({
+              color: client.app.color === '' ? '#1554F7' : client.app.color,
+            }).reason
+          }
+          numberOfLines={1}>
           {title}
         </Text>
-        <Text style={styles.date}>{dateFormat(date)}</Text>
+        <Text
+          style={
+            styles({
+              color: client.app.color === '' ? '#1554F7' : client.app.color,
+            }).date
+          }>
+          {dateFormat(date)}
+        </Text>
       </View>
 
       <Text
         style={{
-          ...(income === '' ? styles.outcomeAmount : styles.incomeAmount),
+          ...(income === ''
+            ? styles({
+                color: client.app.color === '' ? '#1554F7' : client.app.color,
+              }).outcomeAmount
+            : styles({
+                color: client.app.color === '' ? '#1554F7' : client.app.color,
+              }).incomeAmount),
         }}>
         {currencyFormat(Number(amount))}
       </Text>

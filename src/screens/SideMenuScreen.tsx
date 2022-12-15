@@ -4,11 +4,10 @@ import { MyDrawerScreenProps } from '../interfaces/MyDrawerScreenProps';
 import SideMenuButton from '../components/SideMenuButton';
 import { AuthContext } from '../context/AuthContext';
 import { useSelector } from 'react-redux';
+import { RootState } from '../redux/storage/configStore';
 
 export const SideMenuScreen = ({ navigation }: MyDrawerScreenProps) => {
-  const { client } = useSelector((state: any) => state.client);
-  const avatarImage = 'https://reactjs.org/logo-og.png';
-  const nombre = 'Sutanita Mejía';
+  const { client } = useSelector((state: RootState) => state.client);
   const { logout, userData } = useContext(AuthContext);
   return (
     <View style={styles.mainContainer}>
