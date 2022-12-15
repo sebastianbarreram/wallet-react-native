@@ -47,7 +47,7 @@ export const LoginAuthScreen = ({ navigation }: MyStackScreenProps) => {
     return () => backHandler.remove();
   }, [navigation]);
 
-  const { login, logout } = useContext(AuthContext);
+  const { login } = useContext(AuthContext);
   return (
     <View style={styles.mainContainer}>
       <View style={styles.logoContainer}>
@@ -59,9 +59,6 @@ export const LoginAuthScreen = ({ navigation }: MyStackScreenProps) => {
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.button} onPress={() => login()}>
           <Text style={styles.buttonText}>CONTINUE</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={() => logout()}>
-          <Text style={styles.buttonText}>logout</Text>
         </TouchableOpacity>
         <View style={styles.containerLine}>
           <View style={styles.line} />

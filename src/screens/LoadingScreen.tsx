@@ -91,7 +91,6 @@ export const LoadingScreen = ({ navigation }: MyStackScreenProps) => {
         }
       })
       .catch(error => {
-        console.log('error', error);
         Alert.alert('We have problems with the registration form');
       });
   };
@@ -101,11 +100,8 @@ export const LoadingScreen = ({ navigation }: MyStackScreenProps) => {
       {loading && !register && (
         <React.Fragment>
           <ActivityIndicator size="large" />
-          <View style={{ marginTop: 10 }}>
+          <View>
             <Text>Please wait...</Text>
-            <TouchableOpacity onPress={() => logout()}>
-              <Text>logout</Text>
-            </TouchableOpacity>
           </View>
         </React.Fragment>
       )}

@@ -122,8 +122,10 @@ const AuthContextProvider = (props: any) => {
       setLoggedIn(true);
       setUserData(user_data);
     } catch (err) {
-      console.log('err login :>> ', err);
-      Alert.alert('Error logging in: ' + err);
+      Alert.alert(
+        'Login error',
+        'An unexpected error ocurred. Please try logging in again',
+      );
     }
   };
 

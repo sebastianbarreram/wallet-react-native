@@ -121,7 +121,6 @@ const AccountScreen = ({ navigation }: MyStackScreenProps) => {
   const sortedMovements = movementsFix.sort(
     (objA, objB) => objB.date.getTime() - objA.date.getTime(),
   );
-
   if (loading && account.id === '' && client) {
     return <ActivityIndicator size="large" />;
   }

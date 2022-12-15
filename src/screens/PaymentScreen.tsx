@@ -108,7 +108,6 @@ const PaymentScreen = ({ navigation }: MyStackScreenProps) => {
         }
       })
       .catch((error: unknown) => {
-        console.log('error :>> ', error);
         Alert.alert('We have problems applying for loan');
       });
   };
