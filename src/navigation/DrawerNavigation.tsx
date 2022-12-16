@@ -29,7 +29,13 @@ export default function DrawerNavigator() {
           shadowColor: 'transparent',
         },
       }}>
-      <Drawer.Screen name="Home" component={TabNavigator} />
+      <Drawer.Screen
+        name="Home"
+        component={TabNavigator}
+        options={{
+          headerTitle: 'My App',
+        }}
+      />
       <Drawer.Screen
         name="Launch"
         component={LaunchScreen}

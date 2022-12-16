@@ -53,7 +53,7 @@ export const TabNavigator = () => {
           tabBarLabelStyle: {
             fontSize: 15,
           },
-          headerShown: true,
+          // headerShown: true,
         }}
       />
       <Tab.Screen
