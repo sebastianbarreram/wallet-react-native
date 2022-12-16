@@ -54,8 +54,20 @@ export default function DrawerNavigator() {
           swipeEnabled: false,
         }}
       />
-      <Drawer.Screen name="ChangePassword" component={ChangePasswordScreen} />
-      <Drawer.Screen name="ThemeOptions" component={ThemeOptionsScreen} />
+      <Drawer.Screen
+        name="ChangePassword"
+        component={ChangePasswordScreen}
+        options={{
+          headerTitle: 'Change Password',
+        }}
+      />
+      <Drawer.Screen
+        name="ThemeOptions"
+        component={ThemeOptionsScreen}
+        options={{
+          headerTitle: 'Theme Options',
+        }}
+      />
     </Drawer.Navigator>
   );
 }
